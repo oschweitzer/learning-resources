@@ -26,7 +26,7 @@ There are three types of execution contexts.
 
 ### Global execution context
 
-![Global execution context diagram][images/JS_global_execution_context.png]
+![Global execution context diagram](images/JS_global_execution_context.png)
 
 Like any execution context, the global one has two phases.
 
@@ -43,7 +43,7 @@ In this phase, the JS engine will run the code line by line and execute it. It w
 
 ### Functional execution context
 
-![Functional execution context diagram][images/JS_execution_context.png]
+![Functional execution context diagram](images/JS_execution_context.png)
 
 #### Creation phase
 
@@ -60,7 +60,7 @@ In this phase, the JS engine will run the code line by line and execute it. It w
 
 The execution contexts are pushed in an **Execution Stack** (also known as **Call Stack**). When a function is finished running through both the creation and execution phase, it gets popped off the Execution Stack.
 
-![Execution stack][images/execution_stack.png]
+![Execution stack](images/execution_stack.png)
 
 ### Outer environments
 
@@ -90,7 +90,7 @@ The **Event Loop** is a continuously running background task running at regular 
 
 When finding some task in the event queue, it picks up and executes the task and then so on with the next event.
 
-![Async diagram][images/js_async.png]
+![Async diagram](images/js_async.png)
 
 ## Types and operators
 
