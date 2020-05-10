@@ -52,7 +52,7 @@
 
 ### Syntax parser
 
-The syntax parser reads the code in order to transform it from human readable code to something understandable by the computer. Basically, it's a program that reads your code and deternmines what it does and if its grammar is valid.
+The syntax parser reads the code in order to transform it from human readable code to something understandable by the computer. Basically, it's a program that reads your code and determines what it does and if its grammar is valid.
 
 ### Lexical environment
 
@@ -118,7 +118,7 @@ For example, within a function, if a variable definition is not found, this defi
 
 ## Asynchronism
 
-JavaScript is a mono-threaded programming language. The JavaScript engine inside the browser executes the code synchronously (line by line). However, a web browser is not only constitued of a JavaScript engine, there is also a rendering engine and a module that handles HTTP requests. These interactions between the JavaScript engine and the other parts of the browser work asynchronously.
+JavaScript is a mono-threaded programming language. The JavaScript engine inside the browser executes the code synchronously (line by line). However, a web browser is not only constituted of a JavaScript engine, there is also a rendering engine and a module that handles HTTP requests. These interactions between the JavaScript engine and the other parts of the browser work asynchronously.
 
 These interactions (they can be events, actions, notifications, etc.) are placed in the **Event Queue** (function calls come from the **Event Table**). This queue is consulted periodically when the Execution Stack is empty (that's the role of the **Event Loop**).
 
@@ -163,17 +163,17 @@ Operators are simply [**functions with a precedence and an associativity**](http
 
 **Precedence** is a number (from 1 to 21) representing a priority associated to the operator. 21 is the highest priority (for the grouping operator `(...)`) and 1 is the lowest (for the comma `... , ...`).
 
-**Associativity** determines the order in which operators with the same precedence will be evaluated. This associativity can be from righ to left or left to right.
+**Associativity** determines the order in which operators with the same precedence will be evaluated. This associativity can be from right to left or left to right.
 
 #### Coercion
 
 **Coercion** means to convert a value from one type to another (it appends often in JavaScript because of the dynamic typing).
 
-In JavaScript, due to this coercion, there are some strange behaviours.
+In JavaScript, due to this coercion, there are some strange behaviors.
 
 - `null` is converted to 0 with some operators but not with the equality operator `==`. That means `null == 0` returns `false`.
 - Unlike `==`, the strict equality operator `===` doesn't do coercion. If two values to compare haven't the same type, it will return `false`.
-- the `||` operator will return the first element that coerce to `true`. It comes handy when defineing default values.
+- the `||` operator will return the first element that coerce to `true`. It comes handy when defining default values.
 
 ```javascript
 undefined || "hello" // returns "hello"
@@ -258,7 +258,7 @@ Be careful, if you declare a function in an object method, the `this` variable f
 ```javascript
 function a() {
   console.log(this); // window object
-  this.newvariable = 'hello';
+  this.newVariable = 'hello';
 }
 
 var b = function() {
@@ -266,7 +266,7 @@ var b = function() {
 }
 
 a();
-console.log(newvariable); // not good! 
+console.log(newVariable); // not good! 
 b();
 
 var c = {
@@ -275,11 +275,11 @@ var c = {
       var self = this;
       self.name = 'Updated c object';
       console.log(self); // c object, c.name = 'Updated c object'
-      var setname = function(newname) {
+      var setName = function(newName) {
 	// this references the global object, so we use the 'self' pattern
-          self.name = newname;   
+          self.name = newName;   
       }
-      setname('Updated again! The c object');
+      setName('Updated again! The c object');
       console.log(self); // c object, c.name = 'Updated again! The c object'
   }
 }
@@ -331,11 +331,11 @@ var firstname = 'John';
 Closure is  JavaScript feature. When a function `b` is created inside a function `a`, when the function `a` is finished (it is not in the execution stack anymore), its environment is still in memory. The function `b` has still a reference to this space in memory thanks to its outer environment. In this way, a value defined in the function `a` will still be available in the function `b` even if the function `a` is finished.
 
 ```javascript
-function greet(whattosay) {
+function greet(whatToSay) {
 
    return function(name) {
-       // whattosay is available thanks to closure
-       console.log(whattosay + ' ' + name);
+       // whatToSay is available thanks to closure
+       console.log(whatToSay + ' ' + name);
    }
 
 }
@@ -520,7 +520,7 @@ The prototype is hidden from the user, it is the JavaScript engine that will go 
 
 In JavaScript, all the types (except primitive types and the generic object `Object`) have a prototype. At the end, the prototype chain ends on the `Object` object.
 
-A JavaScript object has the capability to modify its own methods and properties, this is called **reflecion**.
+A JavaScript object has the capability to modify its own methods and properties, this is called **reflection**.
 
 ## Build objects
 
@@ -532,7 +532,7 @@ When `new` is called, an empty object is created and then, the function on the r
 
 When the function is finished, the `this` object is returned by the JavaScript engine unless the function returns something else.
 
-A function used to create objects is called a **function construcutor**.
+A function used to create objects is called a **function constructor**.
 
 All functions have a `prototype` property. This property is not used unless the function is a constructor (so only when using the `new` operator).
 This property `prototype` doesn't contain the value of the function prototype but the prototype of all objects that will created with this constructor function. This feature allows, when we create multiple objects from this constructor, to add a property or a method to the prototype so all objects will have it.
@@ -587,7 +587,7 @@ for (var prop in arr) {
 
 ### Object.create()
 
-The `create()` method from the generic object `Object` allows to do prototypal inheritance. It takes a prototype as a first argument and returns an empty object with the prototype passed as argument. Methods and properties of this object can be overriden thanks to the prototype chain.
+The `create()` method from the generic object `Object` allows to do prototypal inheritance. It takes a prototype as a first argument and returns an empty object with the prototype passed as argument. Methods and properties of this object can be overridden thanks to the prototype chain.
 
 `create()` is not available in older web browsers, so we implement what is called polyfills (code adding a feature that doesn't exist ona system).
 
@@ -623,7 +623,7 @@ console.log(john);
 
 ES6 (or ECMAScript 2015) adds the `class` notion to JavaScript. It allows to create objects and has function called `constructor()`.
 
-There is a difference between classes in JavaScript and classes in other programming languge. In other languages, a class is a template, a model representing what an object should be. In JavaScript, a class is already an object and we use it to create other object.
+There is a difference between classes in JavaScript and classes in other programming language. In other languages, a class is a template, a model representing what an object should be. In JavaScript, a class is already an object and we use it to create other object.
 
 In order to define a prototype of a class with this new syntax, you should use the keyword `extends`, then in the constructor, call the prototype constructor with the `super()` keyword.
 
@@ -753,7 +753,7 @@ function logArgs(...args) {
     console.log(args);
 } 
 
-logArgs('coucou', 3, 'Bob') // args == ['coucou', 3, 'Bob']
+logArgs('hi', 3, 'Bob') // args == ['hi', 3, 'Bob']
 ```
 
 ### Arrow function
