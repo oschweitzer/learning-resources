@@ -10,84 +10,133 @@ TypeScript allows to easily write better code.
 
 ## Basics & basic types
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-</style>
 <table class="tg">
-<thead>
-  <tr>
-    <th class="tg-0pky">Type</th>
-    <th class="tg-0pky">Description</th>
-    <th class="tg-0pky">Example</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-0pky">number</td>
-    <td class="tg-0pky">There is only one type for all numbers be it integers or floats. </td>
-    <td class="tg-0pky"><pre><code>const a = 0;<br>const b = 1.2;<br>const c = -86;</code></pre></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">string</td>
-    <td class="tg-0pky">Simple sequence of characters. There are no character type.</td>
-    <td class="tg-0pky"><pre><code>const a = 'Hello';<br>const b = "Hello";<br>const c = `Hello`;<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">boolean</td>
-    <td class="tg-0pky">Binary value, true or false.</td>
-    <td class="tg-0pky"><pre><code>const a = true;<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">object (or {})</td>
-    <td class="tg-0pky">Generic type for objects.</td>
-    <td class="tg-0pky"><pre><code>const a = {<br>&nbsp;&nbsp;age: 30<br>};<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">Array (or [])</td>
-    <td class="tg-0pky">Array of a single type or mixed type.</td>
-    <td class="tg-0pky"><pre><code>const a = [ 1, 5, 10];<br>const b = [ 1, 'hey', true];<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">Tuple</td>
-    <td class="tg-0pky">Array with fixed length and type.</td>
-    <td class="tg-0pky"><pre><code>// tuple with exactly 2 elements, first one is a number and second one is a string<br>const a: [ number, string ] = [ 1, 'hey'];<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">enum</td>
-    <td class="tg-0pky">Allows to define a set of constants.</td>
-    <td class="tg-0pky"><pre><code>enum Test { TEST1 ,TEST2, TEST3 };<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">any</td>
-    <td class="tg-0pky">Store any kind of type. Avoid using it though because it breaks the power of TypeScript.</td>
-    <td class="tg-0pky"></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">void</td>
-    <td class="tg-0pky">Mostly used as the return type of function that doesn't return anything.</td>
-    <td class="tg-0pky"><pre><code>function test(): void {<br>&nbsp;&nbsp;console.log('Test');<br>}<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">undefined</td>
-    <td class="tg-0pky">Type for absence of value.</td>
-    <td class="tg-0pky"></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">unknown</td>
-    <td class="tg-0pky">Allows to assign any value to a variable having this type (like any). But unlike any you must check the type first.</td>
-    <td class="tg-0pky"><pre><code>let a: unknown;<br>let b: string;<br>a = 5;<br>a = 'Hello'; <br>b = a; // Error, will work with ‘any’ type.<br>if (typeof a === 'string') {<br>  b = a; // Works!<br>}<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">never</td>
-    <td class="tg-0pky">Can be used as a function return type to functions that will never return anything (like functions with a single throw statement or with an infinite loop).</td>
-    <td class="tg-0pky"><pre><code>function generateError(message: string, code: number): never {<br>&nbsp;&nbsp;throw { message, code};<br>}<br><br>generateError('Oups', 500);<br></pre></code></td>
-  </tr>
-</tbody>
+    <thead>
+        <tr>
+            <th class="tg-0pky">Type</th>
+            <th class="tg-0pky">Description</th>
+            <th class="tg-0pky">Example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="tg-0pky">number</td>
+            <td class="tg-0pky">There is only one type for all numbers be it integers or floats. </td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = 0;
+                    const b = 1.2;
+                    const c = -86;
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">string</td>
+            <td class="tg-0pky">Simple sequence of characters. There are no character type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = 'Hello';
+                    const b = "Hello";
+                    const c = `Hello`;
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">boolean</td>
+            <td class="tg-0pky">Binary value, true or false.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = true;
+                </pre></code>
+</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">object (or {})</td>
+            <td class="tg-0pky">Generic type for objects.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = {
+                        &nbsp;&nbsp;age: 30
+                    };
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Array (or [])</td>
+            <td class="tg-0pky">Array of a single type or mixed type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = [ 1, 5, 10];
+                    const b = [ 1, 'hey', true];
+                </pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Tuple</td>
+            <td class="tg-0pky">Array with fixed length and type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    // tuple with exactly 2 elements, first one is a number and second one is a string
+                    const a: [ number, string ] = [ 1, 'hey'];
+                </pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">enum</td>
+            <td class="tg-0pky">Allows to define a set of constants.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    enum Test { TEST1 ,TEST2, TEST3 };
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">any</td>
+            <td class="tg-0pky">Store any kind of type. Avoid using it though because it breaks the power of TypeScript.
+            </td>
+            <td class="tg-0pky"></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">void</td>
+            <td class="tg-0pky">Mostly used as the return type of function that doesn't return anything.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    function test(): void {
+                        &nbsp;&nbsp;console.log('Test');
+                    }
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">undefined</td>
+            <td class="tg-0pky">Type for absence of value.</td>
+            <td class="tg-0pky"></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">unknown</td>
+            <td class="tg-0pky">Allows to assign any value to a variable having this type (like any). But unlike any you
+                must check the type first.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    let a: unknown;
+                    let b: string;
+                    a = 5;
+                    a = 'Hello'; 
+                    b = a; // Error, will work with ‘any’ type.
+
+                    if (typeof a === 'string') {
+                          b = a; // Works!
+                    }
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">never</td>
+            <td class="tg-0pky">Can be used as a function return type to functions that will never return anything (like
+                functions with a single throw statement or with an infinite loop).</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    function generateError(message: string, code: number): never {
+                        &nbsp;&nbsp;throw { message, code};
+                    }
+
+                    generateError('Oups', 500);
+</pre></code></td>
+        </tr>
+    </tbody>
 </table>
 
 When assigning a value to a variable, TypeScript will determine the variable type. This is called **type inference**.
