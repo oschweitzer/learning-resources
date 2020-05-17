@@ -157,7 +157,6 @@ TypeScript allows to easily write better code.
                     a = 5;
                     a = 'Hello'; 
                     b = a; // Error, will work with ‘any’ type.
-
                     if (typeof a === 'string') {
                           b = a; // Works!
                     }
@@ -172,7 +171,6 @@ TypeScript allows to easily write better code.
                     function generateError(message: string, code: number): never {
                         &nbsp;&nbsp;throw { message, code};
                     }
-
                     generateError('Oups', 500);
 </pre></code></td>
         </tr>
