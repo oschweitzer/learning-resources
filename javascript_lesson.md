@@ -33,6 +33,11 @@
   - [Build objects](#build-objects)
     - [new & constructors](#new--constructors)
     - [Object.create()](#objectcreate)
+    - [Property descriptor](#property-descriptor)
+      - [Writable](#writable)
+      - [Enumerable](#enumerable)
+      - [Configurable](#configurable)
+      - [get and set attributes](#get-and-set-attributes)
     - [ES6 & classes](#es6--classes)
   - [Miscellaneous](#miscellaneous)
     - [typeof & instanceof](#typeof--instanceof)
@@ -47,6 +52,18 @@
     - [Rest operator](#rest-operator)
     - [Arrow function](#arrow-function)
     - [Default parameter](#default-parameter)
+  - [Modules](#modules)
+    - [Modules before ES](#modules-before-es)
+      - [Module formats](#module-formats)
+        - [AMD](#amd)
+        - [CommonJS](#commonjs)
+        - [UMD](#umd)
+        - [System.register](#systemregister)
+        - [ES6 format](#es6-format)
+    - [Modules with ES6](#modules-with-es6)
+    - [Module loaders](#module-loaders)
+    - [Module bundlers](#module-bundlers)
+  - [Links & references](#links--references)
 
 ## Concepts
 
@@ -609,7 +626,7 @@ var person = {
     firstname: 'Default',
     lastname: 'Default',
     greet: function() {
-        return 'Hi ' + this.firstname;   
+        return 'Hi ' + this.firstname;
     }
 }
 
@@ -617,6 +634,184 @@ var john = Object.create(person);
 john.firstname = 'John';
 john.lastname = 'Doe';
 console.log(john);
+```
+
+### Property descriptor
+
+Every object property is more than just a name and value pair. We can see more metadata of a property by using a property descriptor.
+
+We can log this descriptor by using the `Object.getOwnPropertyDescriptor()` function.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating: '21/20'
+};
+
+console.log(Object.getOwnPropertyDescriptor(videoGame, 'rating'));
+//Output will be below object
+{
+  configurable: true,
+  enumerable: true,
+  value: "21/20",
+  writable: true
+}
+```
+
+We can see that in addition to the `value` property, we have three more properties. All of these properties are booleans. These properties can be changed by using the `Object.defineProperty()` function.
+
+#### Writable
+
+The `writable` attribute tells whether or not the value of this property can be changed.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating: '21/20'
+};
+
+Object.defineProperty(bike, 'rating', {writable: false});
+videoGame.rating = '0/20';
+// Throws error in strict mode
+// Uncaught TypeError: Cannot assign to read only property
+
+console.log(videoGame.rating);
+// Output will be 21/20 in non-strict mode
+```
+
+If a property as a `writable` attribute set to `false`, in strict mode you will have an error when trying to modify this value. In on strict mode, you won't have an error but the value will not be modified.
+
+An interesting thing happens if the property which will be non writable (`writable` set to `false`) is an object. In this scenario, you can't assign another value to this property (in other words replace the object), BUT you can modify the properties of this object.
+
+```javascript
+'use strict';
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating: {
+    value: '21/20',
+    year: '1998'
+  }
+};
+
+Object.defineProperty(videoGame, 'rating', {writable: false});
+videoGame.rating.value = '0/20';
+console.log(videoGame.rating);
+
+//Output will be
+{
+  value: "0/20",
+  year: "1998"
+}
+```
+
+If you still want to makes all these object properties non-writable, you can use the `Object.freeze()` function.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating:{value: '21/20', year: '1998'}
+};
+
+Object.defineProperty(videoGame, 'engine', {writable: false});
+Object.freeze(videoGame.rating);
+videoGame.rating.value = '0/20';
+// Throws error in strict mode
+
+console.log(videoGame.rating.value);
+// Output will be 21/20 in non-strict mode
+```
+
+#### Enumerable
+
+Enumerable properties means that you can loop over them. By default, properties of any object are enumerable (`enumerable: true`). You can set this attribute to `false` by using the `Object.defineProperty()` function.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating:{value: '21/20', year: '1998'}
+};
+
+Object.defineProperty(videoGame, 'maker', {enumerable: false});
+for(let propName in videoGame) {
+  console.log(propName);
+}
+// Output:   name rating  (property maker is missing)
+
+var keys = Object.keys(videoGame);
+console.log(keys);
+// Output:   ["name", "rating"] (property maker is missing)
+```
+
+#### Configurable
+
+By default, we can configure all the attributes of an object. If set to `false`, the `configurable` attribute will prevent certain attributes of the property to be changed as well as preventing the property deletion.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating:{value: '21/20', year: '1998'}
+};
+
+Object.defineProperty(videoGame, 'name', {configurable: false});
+
+Object.defineProperty(videoGame, 'name', {enumerable: false});
+// TypeError: Cannot redefine property: name
+
+Object.defineProperty(videoGame, 'name', {writable: false});
+// No error
+
+Object.defineProperty(videoGame, 'name', {configurable: true});
+// Throws error
+
+delete videoGame.name;
+// TypeError: Cannot delete property 'name' (strict mode only)
+```
+
+The `writable` attribute is not impacted by the `configurable` attribute.
+
+Of course, `Object.defineProperty()` can be used to modify all attributes at once.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating: '21/20'
+};
+
+Object.defineProperty(videoGame, 'name', {
+  configurable: false,
+  writable: false,
+  enumerable: false,
+  value: '0/20'
+});
+```
+
+#### get and set attributes
+
+`get` and `set` are attributes that can be defined using the `Object.defineProperty()` function. Both are functions working as getter and setter for the property.
+When a property is accessed, `get` function is called without any arguments. When a property is assign a value, `set` function is called with the value.
+
+```javascript
+var videoGame = {
+  name: 'Zelda OOT',
+  maker: 'Nintendo',
+  rating: '21/20'
+};
+
+Object.defineProperty(videoGame, 'details', {
+  get: function() {
+    return this.name + ' is a ' + this.maker + ' game rated ' + this.rating + '.';
+  },
+  set: function(details) {
+    this.name = details.split(' ')[0];
+  }
+});
 ```
 
 ### ES6 & classes
@@ -800,10 +995,184 @@ It is possible to assign a default value to function parameter.
 
 ```javascript
 function add(a=3, b=5) {
-    return a + b; 
+    return a + b;
 }
 
 add(4,2) // 6
 add(4) // 9
 add() // 8
 ```
+
+## Modules
+
+A module is a small unit of independent and reusable code. Originally, JavaScript had not this module concept, most JavaScript scripts were developed in a single file because it was not possible to reference another file in JavaScript.
+
+Code separation have a lot of advantages.
+
+- The code is more readable.
+- The code is reusable in the same application or in other applications.
+- Dependencies between modules are simplified. Each module shows its dependencies, so it's easier to identify a dependency issue.
+- It's easier to add one or several modules to the current code.
+- Modules promote encapsulation and hide complexity.
+
+Developers implemented different ways of creating modules.
+
+Keep in mind that these information about modules will be important when you work with TypeScript for example.
+
+### Modules before ES
+
+There are two main patterns used before ES6 to simulate modules.
+
+The first one is IIFE, that we already saw. It is used for most of the JavaScript libraries out there (like jQuery for example) to isolate code.
+
+The second one is called **Revealing module pattern**. It's quite similar to an IIFE, but we assign the return value to a variable.
+
+```javascript
+// Expose module as global variable
+var singleton = function(){
+
+  // Inner logic
+  function sayHello(){
+    console.log('Hello');
+  }
+
+  // Expose API
+  return {
+    sayHello: sayHello
+  }
+}()
+
+// Access module functionality
+singleton.sayHello();
+```
+
+A module can also expose a constructor function.
+
+```javascript
+// Expose module as global variable
+var Module = function(){
+
+  // Inner logic
+  function sayHello(){
+    console.log('Hello');
+  }
+
+  // Expose API
+  return {
+    sayHello: sayHello
+  }
+}
+
+var module = new Module();
+module.sayHello();
+```
+
+#### Module formats
+
+Many different syntaxes were invented for defining modules.
+
+- Asynchronous Module Definition (AMD)
+- CommonJS
+- Universal Module Definition (UMD)
+- System.register
+- ES6 modules
+
+##### AMD
+
+The [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) format is used in browsers and uses a `define` function to defined modules.
+
+##### CommonJS
+
+The [CommonJS](http://www.commonjs.org/) format is used in Node.js and uses `require` and `module.exports` to define dependencies and modules.
+
+##### UMD
+
+The [UMD](https://github.com/umdjs/umd) format can be used both in the browser and in Node.js.
+
+##### System.register
+
+The [System.register](https://github.com/ModuleLoader/es-module-loader/blob/master/docs/system-register.md) format was designed to support the ES6 module syntax in ES5.
+
+##### ES6 format
+
+With ECMAScript2015, Javascript now supports a native module format.
+
+### Modules with ES6
+
+ES6 modules uses an `export` keyword to export a module's public API and an `import` keyword to import parts that a module exports.
+
+```javascript
+// lib.js
+
+// Export the function
+export function sayHello(){  
+  console.log('Hello');
+}
+
+// Do not export the function
+function somePrivateFunction(){  
+  // ...
+}
+
+/* in another file */
+
+import { sayHello } from './lib';
+
+sayHello();  
+```
+
+We can use aliases for imports, load an entire module at once or even use default exports.
+
+```javascript
+// Alias
+import { sayHello as say } from './lib';
+
+say();  
+
+// import the whole module
+import * as lib from './lib';
+
+lib.sayHello();  
+
+// lib.js
+// Export default function
+export default function sayHello(){  
+  console.log('Hello');
+}
+
+// Export non-default function
+export function sayGoodbye(){  
+  console.log('Goodbye');
+}
+
+/* in another file */
+import sayHello, { sayGoodbye } from './lib';
+
+sayHello();  
+sayGoodbye();  
+```
+
+### Module loaders
+
+A module loader interprets and loads a module written in a certain module format. A **loader runs at runtime**.
+
+Most popular module loaders are:
+
+- [RequireJS](https://requirejs.org/): loader for modules in AMD format
+- [SystemJS](https://github.com/systemjs/systemjs): loader for modules in AMD, CommonJS, UMD or System.register format
+
+### Module bundlers
+
+A module bundler replace a module loader. Unlike a module loader, a **module bundler runs at build time**.
+
+Most popular module bundlers are:
+
+- [Browserify](http://browserify.org/): bundler for CommonJS modules
+- [Webpack](https://webpack.github.io/): bundler for AMD, CommonJS, ES6 modules
+
+## Links & references
+
+- https://github.com/leonardomso/33-js-concepts: A list of free articles and videos about JavaScript main concepts.
+- https://www.udemy.com/course/understand-javascript/learn/lecture/2237612#overview: A course about how JavaScript works.
+- https://codeburst.io/javascript-object-property-attributes-ac012be317e2 : Article on property descriptor.
+- https://www.jvandemo.com/a-10-minute-primer-to-javascript-modules-module-formats-module-loaders-and-module-bundlers/ : Article on JavaScript modules.
