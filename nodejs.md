@@ -7,6 +7,7 @@
     - [Request](#request)
     - [Response](#response)
     - [Routing](#routing)
+    - [Node.js streams](#nodejs-streams)
     - [Parsing request bodies](#parsing-request-bodies)
     - [Blocking and non-blocking code](#blocking-and-non-blocking-code)
     - [Behind the scene](#behind-the-scene)
@@ -18,6 +19,9 @@
     - [Cookies](#cookies)
     - [Session](#session)
   - [Authentication](#authentication)
+  - [Links & references](#links--references)
+    - [Streams](#streams)
+    - [Event Loop](#event-loop)
 
 ## Basics
 
@@ -101,11 +105,26 @@ const server = http.createServer((req, res) => {
 server.listen(3000);
 ```
 
+### Node.js streams
+
+In Node.js, data from network or file are put in a special data structure called **streams** which are widely used in Node.js. There are mainly used for reading/writing files and network communications.
+
+Streams are used to avoid the issue to have a file (or a big amount of data) into memory all at once.  Streams read chunks of data, piece by piece, processing its content without keeping it all in memory. Streams allow to process data as soon has we have it, we don't have to wait for the whole data to be received to start processing it. These are the two main advantages of streams.
+
+Node.js has 4 types of stream:
+
+- `Writable`: streams to which we can write data (for example to write a file on the filesystem).
+- `Readable`: streams from which we can read data (for example to read a file from the filesystem).
+- `Duplex`: streams that are both Readable and Writable.
+- `Transform`: streams that can modify the data as it is written or read.
+
+You already encountered two of these stream types. `Request` is a `Readable` stream and `Response` is a `Writable` stream.
+
+Internally, streams are working on buffers. A **buffer** is a temporary memory that a stream takes to hold some data until it is consumed. In Node.js, by default, a buffer memory works on `String` and `Buffer` (it is possible to work with object with the `objectMode` property). When pushing data into a stream, the data will be pushed into the stream buffer. It this buffer is full, the push will return false.
+
 ### Parsing request bodies
 
-Incoming data are put in a special data structure called **streams**. Streams are widely used in Node.js. Incoming request body is split into data chunks. This concept allows the server to start working with data early. We are not directly working with these chunks, but we are using **buffers** that are structure holding multiple chunks.
-
-To listen to a stream, we will use an event listener on the request. This listener is available through the `on('data', ())` function. In order to know when we have received all the data, we will use the `on('end', ())` listener.
+Incoming data are handled by Node.js with streams. To listen to a stream, we will use an event listener on the request (because Node.js streams extend the `EventEmitter` class). This listener is available through the `on('data', ())` function. In order to know when we have received all the data, we will use the `on('end', ())` listener.
 
 ```javascript
 const http = require('http');
@@ -199,21 +218,39 @@ server.listen(3000);
 
 ### Behind the scene
 
-Node.js is single threaded but has some mechanisms to handle multiple incoming requests and long running tasks. The first element is the **Event Loop**. The event loop is started by Node.js and will handle callback functions of called when events occur. The event loop will only handle fast callback functions.
+Node.js is single threaded but has some mechanisms to handle multiple incoming requests, blocking and long running tasks. One major element is the **Event Loop**. The event loop is started by Node.js and will handle callback functions called when events occur. The event loop will only handle fast callback functions. The event loop runs on a single thread and it runs until there is no more work to do (resulting in the program exiting).
 
-For long-running tasks, there is a second mechanism called **Worker**. Workers are created in a worker pool. This worker pool is totally detached of your JavaScript code and can run in different threads. It is responsible for doing all the heavy lifting. There is one connection between the event loop and the worker pool, when a worker is done, it will trigger the callback of the operation it just did. For example, the worker will read a file and when it's done, it will trigger the callback of the read event.
+In the real world it is difficult to support all the different types of I/O (file I/O, network I/O,DNS, etc.). Some I/O can be performed using native hardware implementation and then be completely asynchronous (network I/O use [epoll](https://en.wikipedia.org/wiki/Epoll), [kqueue](https://en.wikipedia.org/wiki/Kqueue), [IOCP](https://en.wikipedia.org/wiki/Input/output_completion_port) and a few others). But certain I/O types can't be performed using these implementations (file I/O for example), so they can't be completely asynchronous. TO solve that, a thread pool has been introduced to handle these complex tasks.
+
+This **thread pool** also known as **worker pool** is totally detached of your JavaScript code and, by default, will contain 4 threads. This pool is responsible for doing all the heavy lifting. There is one connection between the event loop and the thread pool, when a worker is done, it will trigger the callback of the operation it just did. For example, the worker will read a file and when it's done, it will trigger the callback of the read event.
+
+> Keep in mind that Node.js doesn't perform all the I/O in the thread pool. 
+
+In order to handle this entire complex process, Node.js uses [libuv](https://libuv.org/), a library initially developed for Node.js with a focus on asynchronous I/O.
 
 #### Event loop phases
 
-The event loop is a loop that will, at the beginning of each new iteration, check if there are any timer (`setTimeout` and `setInterval`) callbacks it should execute. Then, the event loop will check any other open callbacks (I/O operations for example). Then, the event loop will enter a poll phase. That means it will look for new IO events and execute the callbacks immediately if possible. If that's not possible, it will defer the execution and register this as a pending callback. Then, the event loop will check and execute `setImmediate()` callbacks. Then,, Node.js will execute all close event callbacks (`on('close', ...)`).
+The event loop will, at each iteration, run through a series of different phases (four phases actually). Each phase has a FIFO (First In First Out) queue of callbacks (an event queue) to execute. When a phase is finished, the event loop will check two intermediate queues (process.nextTick callbacks and Microtasks aka Promise callbacks) for any available items.
+
+1. During the first phase, the event loop will check if there are any timer (from `setTimeout` and `setInterval` functions) callbacks it should execute.
+
+2. Then, the event loop will check for I/O callbacks. Then, it will enter a poll phase. That means it will look for new I/O events and execute the callbacks immediately if possible. If that's not possible, it will defer the execution and register this as a pending callback.
+
+3. Then, the event loop will check and execute `setImmediate()` callbacks.
+
+4. Node.js will then execute all close event callbacks (`on('close', ...)`).
+
+Finally, if there are no more callbacks to run, Node.js will exit the loop. Otherwise, the loop will run a new iteration.
+
+![Node.js event loop diagram](https://miro.medium.com/max/2000/1*2yXbhvpf1kj5YT-m_fXgEQ.png)
 
 ### Node.js modules
 
-To import modules in Node.js, we already saw the `require(...)` keyword. 
+To import modules in Node.js, we already saw the `require(...)` keyword.
 
-To export code in Node.js, there are a few ways. 
+To export code in Node.js, there are a few ways.
 
-One way is to use the `module.exports` global object or keyword. 
+One way is to use the `module.exports` global object or keyword.
 
 ```javascript
 // routes.js
@@ -325,3 +362,14 @@ req.session.isLoggedIn = true;
 
 ## Authentication
 
+## Links & references
+
+### Streams 
+
+- https://jscomplete.com/learn/node-beyond-basics/node-streams
+- https://medium.com/developers-arena/streams-and-buffers-in-nodejs-30ff53edd50f
+
+### Event Loop
+
+- https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
+- https://blog.insiderattack.net/event-loop-and-the-big-picture-nodejs-event-loop-part-1-1cb67a182810
