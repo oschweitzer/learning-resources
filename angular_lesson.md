@@ -6,22 +6,16 @@
   - [Basics](#basics)
     - [Bootstrap](#bootstrap)
     - [Modules](#modules)
-    - [Components](#components)
-      - [Template](#template)
-      - [Databinding](#databinding)
-        - [String interpolation](#string-interpolation)
-        - [Property binding](#property-binding)
-        - [Event binding](#event-binding)
+  - [Components](#components)
+    - [Template](#template)
+    - [Databinding](#databinding)
+      - [String interpolation](#string-interpolation)
+      - [Property binding](#property-binding)
+      - [Event binding](#event-binding)
       - [Two-way-databinding](#two-way-databinding)
-    - [Directives](#directives)
-      - [Built-in directives](#built-in-directives)
-      - [*ngIf](#ngif)
-        - [ngFor](#ngfor)
-        - [ngClass](#ngclass)
-      - [Custom directives](#custom-directives)
-  - [Components & databinding](#components--databinding)
-    - [Input](#input)
-    - [Output](#output)
+    - [Components & databinding](#components--databinding)
+      - [Input](#input)
+      - [Output](#output)
       - [Lifecycle hooks](#lifecycle-hooks)
     - [Views](#views)
       - [View encapsulation](#view-encapsulation)
@@ -29,6 +23,17 @@
       - [ViewChild](#viewchild)
       - [Component projection](#component-projection)
       - [ContentChild](#contentchild)
+  - [Directives](#directives)
+    - [Built-in directives](#built-in-directives)
+      - [*ngIf](#ngif)
+      - [*ngFor](#ngfor)
+      - [ngClass](#ngclass)
+    - [Custom directives](#custom-directives)
+      - [Renderer](#renderer)
+      - [Host events](#host-events)
+      - [Host binding](#host-binding)
+      - [Custom structural directive](#custom-structural-directive)
+    - [Directives & Input](#directives--input)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
     - [Documentation](#documentation)
@@ -139,7 +144,7 @@ An Angular module is a class decorated with the `@NgModule` decorator. This deco
 
 > :warning: An Angular module is **not** a JavaScript ES6 module !
 
-### Components
+## Components
 
 Components are probably the key concept of the Angular framework. An Angular component contains data and logic associated with an HTML template, and it is used to build the User Interface (UI). It allows to structure your UI and your code. A **component** is represented by a class decorated with the `@Component` decorator.
 
@@ -154,7 +159,7 @@ This `@Component` decorator needs some configuration in order for Angular to und
 
 > Each component should have its own directory, named with the component name, and the TypeScript file should respect the naming convention `<your_component_name>.component.ts`.
 
-#### Template
+### Template
 
 Each component has an **HTML template** used to structure and display content, at the end, the HTML code is the only thing the user will see. This template looks like regular HTML but it also contain some Angular template syntax which can modify the HTML.
 
@@ -164,7 +169,7 @@ Each component has an **HTML template** used to structure and display content, a
 <form #heroForm (ngSubmit)="onSubmit(heroForm)"> ... </form>
 ```
 
-#### Databinding
+### Databinding
 
 **Databinding** is another key concept in Angular. It basically allows communication between your component TypeScript code and your component HTML template. There a few way of communicating between these two entities.
 
@@ -174,7 +179,7 @@ But we might want to communicate in the other way, from the template ot the Type
 
 Finally, we also might want to communicate in both ways at the same time. To do that, we will use the **[two-way-binding](#two-way-databinding)**.
 
-##### String interpolation
+#### String interpolation
 
 String interpolation is an Angular syntax allowing to display data in string format. Angular uses the double curly braces syntax to do that `{{ myVariable }}`. Inside those curly braces, you can only write expressions resolving in a string, so block expressions or multi-line expressions are not accepted. Note that you can use something that can easily converted to a string (a number for example).
 
@@ -199,7 +204,7 @@ export class TestComponent {
 <p>My name is {{ name }}</p>
 ```
 
-##### Property binding
+#### Property binding
 
 **Property binding** allows to bind a HTML tag property to a variable or function defined in your TypeScript code. This is done by adding square brackets `[]` to the HTML property we want to bind and assign it a value/function (we assign TypeScript code).
 
@@ -222,7 +227,7 @@ export class TestComponent {
 }
 ```
 
-##### Event binding
+#### Event binding
 
 **Event binding** allows to bind to [DOM events](https://developer.mozilla.org/en-US/docs/Web/Events). This is done by adding DOM events  between parenthesis on the targeted HTML elements. You can pass the payload of DOM events to the bind function by using the `$event` argument.
 
@@ -271,110 +276,9 @@ export class TestComponent {
 }
 ```
 
-### Directives
+### Components & databinding
 
-**Directives** are instructions in the DOM. We could say that components are a kind of directives, directives with a template. There are also directives without templates. Angular provides some built-in directives but you can build your own directives too.
-
-#### Built-in directives
-
-#### *ngIf
-
-One of the most used built-in directive is the `*ngIf` directive. This directive is used to add conditions to say if we want an HTML element to be displayed or not. `*ngIf` has a `*` in its name because it's a structural directive, it changes the structure of the DOM. 
-
-```html
-<p *ngIf="isOk">OK</p>
-```
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.css']
-})
-export class TestComponent {
-    isOk = true;
-}
-```
-
-You can use the `else` condition to display something when your condition is false. To do that, you must add a local reference on a `ng-template` tag and then use this local reference after the `else` expression.
-
-```html
-<p *ngIf="isOk; else notOk">OK</p>
-<ng-template #notOk>
-  <p>Not OK</p>
-</ng-template>
-```
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.css']
-})
-export class TestComponent {
-    isOk = true;
-}
-```
-
-##### ngFor
-
-`*ngFor` is a structural directive too. It allows to loop over a collection and stamp out one element (the element in which the directive lays) per item in the collection.
-
-```html
-<ul>
-    <li *ngFor="let name of names">{{ name }}</li>
-</ul>
-```
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.css']
-})
-export class TestComponent {
-    names: string[] = ['Gandalf', 'Frodo', 'Sam'];
-}
-```
-
-##### ngClass
-
-`ngClass` allows us to dynamically add or remove CSS classes. This directive only works with property binding, we have to put `[]` around this directive. To apply CSS classes on an element, the syntax is an object with properties. The key of each property will be the CSS class name and the value will be a condition (resolving to a boolean) saying whether to apply the class CSS code or not.
-
-```html
-<p [ngClass]="{ redText: counter < 0 }">{{ counter }}</p>
-```
-
-```css
-.redText {
-    color: red;
-}
-```
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.css']
-})
-export class TestComponent {
-    counter = -1;
-}
-```
-
-#### Custom directives
-
-## Components & databinding
-
-### Input
+#### Input
 
 We saw earlier how we can do property binding inside a component. But what if I need to pass some data from one component to another component property ?  To do that, simply use the `@Input` decorator on the property to bind and assign the data in the parent component using property binding.
 
@@ -401,11 +305,11 @@ export class ChildComponent {
     @Input() name: string; // value will come from the parent component
     // You can specify as argument of the Input decorator an alias for the property to bind.
     // @Input('customName') name: string;
-    // Then, in the parent component => <app-child [customName]="A name"></app-child>
+    // Then, in the parent component => <app-child [customName]="'A name'"></app-child>
 }
 ```
 
-### Output
+#### Output
 
 We saw how to send data from a parent component to a child component, but what if we want to do the opposite, send data from the child to the parent ? We can do that by using the `@Output` decorator and the event binding. What we want is the parent to listen to an event and the child to send an event to communicate and send data.
 
@@ -598,6 +502,285 @@ export class ChildComponent implements OnInit {
 ```
 
 > ContentChild property will not be accessible in lifecycle hooks until the ngAfterContentInit hook.
+
+## Directives
+
+**Directives** are instructions in the DOM. We could say that components are a kind of directives, directives with a template. There are also directives without templates. Angular provides some built-in directives but you can build your own directives too.
+
+In Angular there are three kinds of directives:
+
+- Components: a component is a directive with a template.
+- Structural directives: a structural directive changes the DOM by adding or removing elements.
+- Attribute directives: an attribute directive changes the appearance or behavior of an element, component or another directive.
+
+### Built-in directives
+
+#### *ngIf
+
+One of the most used built-in directive is the `*ngIf` directive. This directive is used to add conditions to say if we want an HTML element to be displayed or not. `*ngIf` has a `*` in its name because it's a structural directive, it changes the structure of the DOM.
+
+```html
+<p *ngIf="isOk">OK</p>
+```
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.css']
+})
+export class TestComponent {
+    isOk = true;
+}
+```
+
+You can use the `else` condition to display something when your condition is false. To do that, you must add a local reference on a `ng-template` tag and then use this local reference after the `else` expression.
+
+```html
+<p *ngIf="isOk; else notOk">OK</p>
+<ng-template #notOk>
+  <p>Not OK</p>
+</ng-template>
+```
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.css']
+})
+export class TestComponent {
+    isOk = true;
+}
+```
+
+> The `*` before ngIf will actually be transform into something like: 
+
+```html
+<ng-template [ngIf]="isOk">
+  <p>OK</p>
+</ng-template>
+```
+
+#### *ngFor
+
+`*ngFor` is a structural directive too (notice the `*` before the name). It allows to loop over a collection and stamp out one element (the element in which the directive lays) per item in the collection.
+
+```html
+<ul>
+    <li *ngFor="let name of names">{{ name }}</li>
+</ul>
+```
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.css']
+})
+export class TestComponent {
+    names: string[] = ['Gandalf', 'Frodo', 'Sam'];
+}
+```
+
+#### ngClass
+
+`ngClass` allows us to dynamically add or remove CSS classes. This directive only works with property binding, we have to put `[]` around this directive. To apply CSS classes on an element, the syntax is an object with properties. The key of each property will be the CSS class name and the value will be a condition (resolving to a boolean) saying whether to apply the class CSS code or not.
+
+```html
+<p [ngClass]="{ redText: counter < 0 }">{{ counter }}</p>
+```
+
+```css
+.redText {
+    color: red;
+}
+```
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.css']
+})
+export class TestComponent {
+    counter = -1;
+}
+```
+
+### Custom directives
+
+A custom directive is a class decorated with the `@Directive` decorator. Like components (remember a component is a directive), a directive needs configuration, and one of the most important argument is the selector.
+
+The selector works the same way as for components, it's a string that will be used on HTML elements. A selector can use the [CSS attribute syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) if you want your directive to be placed on a HTML element. If that's the case, you can then use Angular injection system to get access to the element your directive sits on.
+
+```typescript
+import {Directive, ElementRef, OnInit} from '@angular/core';
+
+@Directive({
+  selector: '[testDirective]' // CSS attribute selector
+})
+export class MyComponentDirective implements OnInit {
+  // By putting the element in the directive constructor, Angular will inject the ElementRef for you
+  constructor(private elementRef: ElementRef) {}
+
+  ngOnInit() {
+    console.log(this.elementRef);
+  }
+}
+```
+
+```html
+<!-- We can use our directive as an HTML attribute on any HTML element -->
+<div testDirective></div>
+```
+
+> You can omit the `[]` on the selector and use the directive as an independent HTML element (in the same way we do with a component)
+
+#### Renderer
+
+You can access your element properties directly in a directive (style properties for example), but it's not always the best practice to do so. You might have some use cases where you have no DOM, because Angular is not running only in browsers, it can run on [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) for example. Angular provides a class, a service that allows us to manipulate elements without having to touch the DOM directly. This service is the Angular Renderer, called `Renderer2` (`Renderer` has been deprecated and removed since Angular 9).
+
+```typescript
+import {Directive, ElementRef, OnInit, Renderer2} from '@angular/core';
+
+@Directive({
+  selector: '[testDirective]'
+})
+export class MyComponentDirective implements  OnInit {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit(): void {
+    this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'blue');
+  }
+}
+```
+
+```html
+<p testDirective>My test</p>
+```
+
+#### Host events
+
+We might want to make our directives a little bit more interactive, maybe we would want to react to events occurring on the element a directive sits on for example.
+
+To do that, we will use a decorator called `@HostListener` on a method of the directive. This decorator needs a [DOM event](https://developer.mozilla.org/en-US/docs/Web/Events) name as an argument.
+
+```typescript
+import {Directive, ElementRef, HostListener, OnInit, Renderer2} from '@angular/core';
+
+@Directive({
+  selector: '[testDirective]'
+})
+export class MyComponentDirective implements  OnInit {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit(): void {}
+
+  // argument of @HostListener must be a valid DOM event
+  @HostListener('mouseenter') onMouseEnter(eventData: Event) {
+    // When the mouse pointer will enter on the HTML element, the text color of this element will become blue.
+    this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'blue');
+  }
+}
+```
+
+#### Host binding
+
+Angular also provides a decorator to bind a DOM element property to a property of the directive. This decorator is called `@HostBinding`. This decorator replaces the renderer in a way. You can access any DOM element attributes with `@HostBinding`, simply write the attribute name as an argument of the decorator. Please note that attributes with dashes in their name should be written in camel case when passed as a decorator argument.
+
+```typescript
+import {Directive, ElementRef, HostBinding, HostListener, OnInit, Renderer2} from '@angular/core';
+
+@Directive({
+  selector: '[testDirective]'
+})
+export class MyComponentDirective implements  OnInit {
+
+  // You can
+  @HostBinding('style.color') textColor: string = 'black';
+
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit(): void {}
+
+  @HostListener('mouseenter') onMouseEnter(eventData: Event) {
+    // this.renderer.setStyle(this.elementRef.nativeElement, 'color', 'blue');
+    this.textColor = 'blue';
+  }
+}
+```
+
+#### Custom structural directive
+
+We can also create some custom structural directive. To do that, and because the `*` before the directive will transform it to a `ng-template`, we will need access to the template code inside `ng-template`. This is done by injecting the template (of type `TemplateRef`) in the directive constructor. The other thing we might want is an access to the view to know where to render the template for example. This is done by injecting a reference to the view container (of type `ViewContainerRef`).
+
+```typescript
+import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+
+  // This directive is the opposite of ngIf.
+@Directive({
+  selector: '[appUnless]'
+})
+export class UnlessDirective implements  OnInit {
+
+  // here we are using a setter with the same name as the directive (this is very important!)
+  @Input() set appUnless(condition: boolean) {
+    if (!condition) {
+      this.vcRef.createEmbeddedView(this.templateRef); // display the template in the newly created view
+    } else {
+      this.vcRef.clear(); // remove the view
+    }
+  }
+
+  constructor(private templateRef: TemplateRef<any>, private vcRef: ViewContainerRef) {}
+
+  ngOnInit(): void {}
+}
+
+```
+
+```html
+<p *appUnless="counter < 0">My test</p>
+```
+
+### Directives & Input
+
+With property binding and the `@Input` decorator, you can pass data to a directive as well.
+
+```typescript
+import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
+
+@Directive({
+    selector: '[testDirective]'
+  })
+  export class MyComponentDirective implements  OnInit {
+
+    @Input() textColor: string;
+
+    constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+    ngOnInit(): void {}
+
+    @HostListener('mouseenter') onMouseEnter(eventData: Event) {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'color', this.textColor);
+    }
+  }
+```
+
+```html
+<!-- Note that the '' are important since we are passing a string. -->
+<!-- A shortcut to avoid using '' is:  textColor="yellow" -->
+<p testDirective [textColor]="'yellow'">My test</p>
+```
 
 ## Links and references
 
