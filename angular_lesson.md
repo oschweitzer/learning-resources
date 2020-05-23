@@ -34,6 +34,12 @@
       - [Host binding](#host-binding)
       - [Custom structural directive](#custom-structural-directive)
     - [Directives & Input](#directives--input)
+  - [Services](#services)
+    - [Dependency injector](#dependency-injector)
+  - [Routing](#routing)
+  - [Observables](#observables)
+  - [Pipes](#pipes)
+  - [Authentication](#authentication)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
     - [Documentation](#documentation)
@@ -781,6 +787,85 @@ import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@an
 <!-- A shortcut to avoid using '' is:  textColor="yellow" -->
 <p testDirective [textColor]="'yellow'">My test</p>
 ```
+
+## Services
+
+Services act as central business unit,somewhere where can centralize your code in. They are often used to handle data whereas components are use to display data basically.
+
+Services in Angular are classes decorated with the `@Injectable` decorator. This decorator tells Angular that this class will be injected somewhere using **dependency injection**. Dependency injection is a design pattern, a specific form of **[inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)** where basically a client doesn't want to know how to construct a service, it just want to use it so it will delegate the creation of this service to an injector.
+
+```typescript
+import {Injectable} from '@angular/core';
+
+@Injectable()
+export class MyService {
+
+  doSomething() { /* ... */ }
+}
+```
+
+### Dependency injector
+
+In Angular, a dependency is something a class of ours will depend on, a service is a dependency of a component for example.
+
+The dependency injector will inject an instance of this dependency into our component automatically. What we need to do is to inform Angular that we need this dependency. To do that, you simply need to pass the dependency in your constructor and specify the proper type. Once done that, the last step is to provide the wanted dependency. To do that, you can add it to the component or to the module.
+
+> We can also inject a service in an another service.
+
+The Angular dependency injector is a hierarchical injector, that means if we provide a service in some place in our application, in a component for example, Angular knows how to create an instance of that service for **this component and all its child components**. This component and all its child components will receive **the same instance of the service**.
+
+There are other places where we can provide a service.
+
+- AppModule: The same instance of the service will be available application wide.
+- AppComponent: The same instance of the service will be available for all components (but not for other services).
+- Any other component: The same instance of the service will be available this component and all its child components.
+
+> Remember that this service propagation goes only down.
+
+**Custom component level**
+
+```typescript
+import {Component} from '@angular/core';
+import {MyService} from './my-service.service';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+  styleUrls: ['./my-component.component.css'],
+  providers: [MyService], // we provide the service here
+})
+export class MyComponent {
+
+  constructor(private myService: MyService) {} // we inject the service here
+}
+```
+
+**Module level**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {MyService} from '../services/my-service.service';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule
+  ],
+  providers: [MyService] // service is available for all elements of the module (components, services, other modules)
+})
+export class MyModule { }
+```
+
+> For the AppModule level, you can put your service in the `providers` array but, you can also put an argument to the `@Injectable` decorator: `@Injectable({ providedIn: 'root' })`. It's the same thing, except that the last syntax will allow the service to be lazy loaded and will lead to better performances.
+
+## Routing
+
+## Observables
+
+## Pipes
+
+## Authentication
 
 ## Links and references
 
