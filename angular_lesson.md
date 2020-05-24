@@ -47,6 +47,8 @@
     - [Redirection & wildcard](#redirection--wildcard)
     - [Guards](#guards)
   - [Observables](#observables)
+    - [Operators](#operators)
+    - [Subjects](#subjects)
   - [Pipes](#pipes)
   - [Authentication](#authentication)
   - [Links and references](#links-and-references)
@@ -1272,6 +1274,60 @@ export class AppModule { }
 > If you want to preload data before accessing a route (in order to avoid displaying an empty view for example), you can use the [`Resolve` guard](https://angular.io/guide/router#resolve-pre-fetching-component-data).
 
 ## Observables
+
+An **Observable is a data source** and one of the element of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern). We have an Observable and an **Observer** and between them a **timeline**. On this timeline (a data stream) will transit events, data packages we could say. The Observer is your code, the `subscribe` method that will listen to this data stream and get data.
+
+There are three way of handling data: handling normal data, handling errors and handling the observable completion (note that some observable never completes). An Observable will handle asynchronous tasks like a Promise or a callback will. The main advantages of an Observable is that they come with a lot of operators that makes it easier to perform operation on data.
+
+In Angular, Observables are implemented in a library called [RxJS](https://rxjs-dev.firebaseapp.com/). Remember this library as nothing to do with Angular, Angular simply uses this library and its Observables. Angular will handle its own Observables, that means it will do the unsubscribing process for you for example. Of course, you can create and use your own Observables but you will be responsible of unsubscribing them.
+
+**Custom Observable example**
+
+```typescript
+import { Observable } from 'rxjs';
+const observable = Observable.create((observer:any) => {
+    observer.next('Hello World!'); // next() is the function used to emit data.
+    observer.error('I am number 3'); // error() will send an exception. An error will cancel the Observable and that's different from a completion (even if no data will be emitted in both cases)
+    observer.complete(); // complete() will tell that nothing else will be send.
+    observer.next('I am number 4'); // this will never be send.
+})
+observable.subscribe(
+  (message: string) => console.log(message)
+  error => console.error(error),
+  () => console.log('Done.')
+);
+
+// This will print
+/*
+  Hello World!
+  I am number 3
+*/
+```
+
+### Operators
+
+RxJS comes with a lot operators that will act on Observables. Operators will act between the Observable and the subscription.
+
+```typescript
+const observable = Observable.create((observer:any) => {
+    observer.next('Hello World!');
+    observer.error('I am number 3');
+})
+
+
+observable
+  .pipe( // we use pipe to then apply one or more operators
+    map((data: string) => data.toUpperCase()) // map operator
+  )
+  .subscribe((data: string) => console.log(data)
+);
+```
+
+### Subjects
+
+An RxJS Subject is a special kind of Observable, you can subscribe on it but unlike a normal Observable, you can also call `next()` on it from outside.
+
+> It is recommended to use a Subject instead of an `EventEmitter` to emit data across components in your Angular application through a service for example. Basically if you need to manually emit data, use a Subject and if you're not subscribing to an event emitter, then it probably is an output, so use an EventEmitter.
 
 ## Pipes
 
