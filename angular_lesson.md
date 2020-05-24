@@ -37,6 +37,15 @@
   - [Services](#services)
     - [Dependency injector](#dependency-injector)
   - [Routing](#routing)
+    - [Navigation](#navigation)
+      - [Navigating programmatically](#navigating-programmatically)
+    - [Route parameters](#route-parameters)
+      - [Query parameters and fragments](#query-parameters-and-fragments)
+        - [Passing the parameters](#passing-the-parameters)
+        - [Fetching the parameters](#fetching-the-parameters)
+    - [Child routes](#child-routes)
+    - [Redirection & wildcard](#redirection--wildcard)
+    - [Guards](#guards)
   - [Observables](#observables)
   - [Pipes](#pipes)
   - [Authentication](#authentication)
@@ -860,6 +869,407 @@ export class MyModule { }
 > For the AppModule level, you can put your service in the `providers` array but, you can also put an argument to the `@Injectable` decorator: `@Injectable({ providedIn: 'root' })`. It's the same thing, except that the last syntax will allow the service to be lazy loaded and will lead to better performances.
 
 ## Routing
+
+Angular provides a router allowing to change the URL of your application, but with still keep the SPA aspect. It will change a lot of parts of this single page to make it look like another page.
+
+To create such routes, first we need to declare them. Angular provides a `Routes` type that is an array of object describing the routes.
+Then, to tell Angular that we want these routes, import the `RouterModule` and add the routes as an argument to the `forRoot` function.
+FInally, in the template where you want to use the routes (usually in the `app.component.html` file), add the `router-outlet` directive.
+
+**app.module.ts**
+
+```typescript
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'test',
+    component: MyComponent
+  }
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MyComponent,
+    HomeComponent,
+  ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(appRoutes), // we tell Angular which routes we want
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+**app.component.html**
+
+```html
+<router-outlet></router-outlet>
+```
+
+### Navigation
+
+Accessing view through the URL bar is nice but not very useful. What we would want is to be able to navigate through our application with links.
+To do that, Angular provides a special directive `routerLink`. It's an attribute directive that you can put on an anchor HTML element `<a></a>`.
+
+We will then use property binding to pass the route we want to access with this link.
+
+> Calling the routes with a simple `href` on anchor element will work but it will also reload the page at each click (this is not a good way to do navigation).
+
+```html
+<h1>Navigation</h1>
+<ul>
+  <li><a routerLink="/">Home</a></li>
+  <li><a routerLink="/test">My component</a></li>
+</ul>
+<router-outlet></router-outlet>
+```
+
+Here we are using the shortcut for passing strings with property binding. but we could have also written `<li><a [routerLink]="'/test'">My component</a></li>` or use an array `<li><a [routerLink]="['/test']">My component</a></li>`.
+
+> Beginning slashes `/` tells the router that this path is an absolute path (it will start after `<http://hostname:port>`). If you omit the beginning slash that means you want a relative path (which is the case for nested routes for example).
+
+#### Navigating programmatically
+
+Navigating with links is quite common, but what if we want to navigate with our code (in a button click event handler for example) ? To do that, first inject the `Router` object in your component/service/directive constructor. Then, in your handler, you can use the `navigate` method of the `Router` object and pass the wanted path as an argument.
+
+```typescript
+import { Component } from '@angular/core';
+import {Router} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(private router: Router) {}
+
+  onGoToComponentClick() {
+    this.router.navigate(['/test']); // navigate method takes an array
+  }
+}
+```
+
+```html
+<button (click)="onGoToComponentClick()">Go to my component</button>
+```
+
+The `navigate` method doesn't know where we are, so to handle relative path, you will have to use the second argument of this method, which is an object with a few options. The option we are looking ofr is the `relativeTo` property. Here we want to tell Angular that the path passed as the first argument is relative to the current path. To get the current path, you can inject the `ActivatedRoute` object which is the currently active route when the component is loaded.
+
+```typescript
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  onGoToComponentClick() {
+    this.router.navigate(['myNestedRoute'], {
+      relativeTo: this.activatedRoute
+    }); // this will allow to navigate to a path like /test/myNestedRoute if the AppComponent is accessed through the /test route.
+  }
+}
+```
+
+### Route parameters
+
+There might be cases where you want to add dynamic parameter to your routes. To do that, just add a `:` and the name of your dynamic parameter in the route path definition
+
+```typescript
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'test/:id', // here we are adding a dynamic parameter named id to our route
+    component: MyComponent
+  }
+];
+```
+
+To fetch such a parameter, again inject the `ActivatedRoute`. It will allow us to get the parameter from the URL.
+
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+  styleUrls: ['./my-component.component.css'],
+})
+export class MyComponent implements OnInit {
+
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    console.log(this.activatedRoute.snapshot.params['id']); // we assume that the route parameter was named 'id'
+  }
+}
+```
+
+The issue with this code is that it will work well when the component is initialized, but it will not update if the component already exists. This would be the case if in your component you have a link to itself but with other parameters for example. To solve this issue, we will use the `params` property of the `ActivatedRoute` which is an [Observable](#observables). So, by subscribing to this Observable you will get the updated parameters of the route.
+
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+  styleUrls: ['./my-component.component.css'],
+})
+export class MyComponent implements OnInit {
+
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    console.log(this.activatedRoute.snapshot.params['id']);
+    this.activatedRoute.params.subscribe((params: Params) => {
+      console.log(params['id']);
+    });
+  }
+}
+```
+
+#### Query parameters and fragments
+
+##### Passing the parameters
+
+You may want to pass **[query parameters](https://en.wikipedia.org/wiki/Query_string)** in your URL. Again, you can do that in the HTML template if you want the user to navigate, or in the TypeSCript code if you want to navigate programmatically.
+
+In the HTML file, you can use property binding on `[queryParams]` (`[queryParams]` is an input of the `routerLink` directive, it's not a directive by itself). This input accepts JavaScript object, key-value pairs for each query parameter.
+
+In the Typescript code, we will use the injected `Router` again. In the same way as we saw with the `relativeTo` property, we are going to us the second argument of the `navigate()` method and use the property `queryParams`.
+
+If you want to use **[fragments](https://en.wikipedia.org/wiki/Fragment_identifier)** in your URL, it's the same thing as for the query parameters, use the `[fragment]` property binding in HTML and `fragment` property for the `navigate()` method.
+
+**Example with user interaction navigation**
+
+```html
+<h1>Navigation</h1>
+<ul>
+  <li><a routerLink="/">Home</a></li>
+  <li><a [routerLink]="['test', 5]" [queryParams]="{ myParam: 'nice param' }" [fragment]="'section'">My component</a></li>
+  <!-- The route will be '/test/5?myParam=nice%20param#section'. %20 is the code for a space -->
+</ul>
+<router-outlet></router-outlet>
+```
+
+**Example with programmatic navigation**
+
+```typescript
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(
+    private router: Router,
+  ) {}
+
+  onGoToComponentClick() {
+    this.router.navigate(['/test', 5], {
+    queryParams: {
+      myParam: 'nice param'
+    },
+      fragment: 'section'
+    });
+  }
+}
+```
+
+##### Fetching the parameters
+
+Again to retrieve these parameters, we will use the `ActivatedRoute` and whether the `snapshot.queryParams` and `snapshot.fragment` properties or the `queryParams` and `fragment` Observables.
+
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+  styleUrls: ['./my-component.component.css'],
+})
+export class MyComponent implements OnInit {
+
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    console.log(this.activatedRoute.snapshot.queryParams);
+    console.log(this.activatedRoute.snapshot.fragment);
+
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      console.log(params);
+    });
+    this.activatedRoute.fragment.subscribe((params: Params) => {
+      console.log(params);
+    });
+  }
+}
+```
+
+### Child routes
+
+Sometimes you would want to have nested routes, child routes. To do that, in the routes definition, simply use the `children` property which is an array of `Routes`.
+
+```typescript
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'test',
+    component: MyComponent,
+    children: [
+      {
+        path: ':id',
+        component: MyComponent
+      },
+      {
+        path: ':id/edit',
+        component: EditMyComponent
+      }
+    ]
+  }
+];
+```
+
+### Redirection & wildcard
+
+On most application, if a user wants to access a route that doesn't exist, it will be redirected or a 404 error view will be displayed.
+
+To redirect a route to another, simply use the `redirectTo` property instead of the `component` property in the routes definition. To catch all the non wanted routes, you can use the `**` (wildcard) as a path. :warning: Be careful of the routes order, the wildcard path should be the last route in the routes array, because otherwise, all the routes below the wildcard will be ignored and you will always be redirected.
+
+```typescript
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'test',
+    component: MyComponent,
+    children: [
+      {
+        path: ':id',
+        component: MyComponent
+      },
+      {
+        path: ':id/edit',
+        component: EditMyComponent
+      }
+    ]
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent
+  },
+  {
+    path: '**', // Must be the last route
+    redirectTo: '/not-found'
+  }
+];
+```
+
+### Guards
+
+A **route guard** is code, logic that you want to execute before a component is loaded or before you leave a component. Guards are often used to protect some routes with authentication. A guard is basically a service that will be provided in a module. The Angular router provides  multiple guards interfaces like `CanActivate`, `CanActivateChild` or `CanDeactivate`.
+
+**auth-guard.service.ts**
+
+```typescript
+import { Injectable } from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+
+  constructor() { }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    /* do some logic here */
+  }
+}
+```
+
+**app.module.ts**
+
+```typescript
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule, Routes} from '@angular/router';
+import {AppComponent} from './app.component';
+import {AuthGuard} from './auth-guard.service';
+import {HomeComponent} from './home/home.component';
+import {MyComponent} from './my-component/my-component.component';
+
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'test',
+    canActivate: [AuthGuard], // this wall apply the guard on this route and all its children
+    component: MyComponent,
+    children: [
+      {
+        path: ':id',
+        component: MyComponent
+      },
+      {
+        path: ':id/edit',
+        component: EditMyComponent
+      }
+    ]
+  },
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MyComponent,
+    HomeComponent,
+  ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(appRoutes),
+  ],
+  providers: [AuthGuard], // don't forget to provide the guard, it's a service
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+> If you want to preload data before accessing a route (in order to avoid displaying an empty view for example), you can use the [`Resolve` guard](https://angular.io/guide/router#resolve-pre-fetching-component-data).
 
 ## Observables
 
