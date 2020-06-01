@@ -50,7 +50,13 @@
     - [Operators](#operators)
     - [Subjects](#subjects)
   - [Pipes](#pipes)
+    - [Parametrizing pipes](#parametrizing-pipes)
+    - [Chaining pipes](#chaining-pipes)
+    - [Custom pipe](#custom-pipe)
+    - [Async pipe](#async-pipe)
   - [Authentication](#authentication)
+  - [Dynamic components](#dynamic-components)
+  - [Modules (advanced)](#modules-advanced)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
     - [Documentation](#documentation)
@@ -1331,7 +1337,117 @@ An RxJS Subject is a special kind of Observable, you can subscribe on it but unl
 
 ## Pipes
 
+In Angular, a `Pipe` is a feature allowing to transform output in your templates. A Pipe is used in the template through the `|` operator. Angular provides some built-in pipes and you can of course write your own pipes.
+
+```html
+<p>{{ myVariable | uppercase }}</p>
+```
+
+In the example above, assuming `myVariable` is a string, its value will be displayed as an uppercase string in your browser without changing the variable value in the rest of your code.
+
+### Parametrizing pipes
+
+Some pipes can take parameters, for example the built-in `date` pipe accepts parameters, the first one being the data format. To send parameters, use the `:` operator after the pipe name. If you need to pass more than parameters, simply add them one after another and separate them with a `:`.
+
+```html
+<p>{{ myDate | data:'fullDate' }}</p>
+```
+
+### Chaining pipes
+
+In Angular, you can combine pipes. TO do that, simply add your pipes by separating them with `|`. Keep in mind that the order might be important, generally Angular will parse the pipes from the left ot the right.
+
+```html
+<p>{{ myDate | data:'fullDate' | uppercase }}</p>
+```
+
+### Custom pipe
+
+You might need to write your own pipe, if the ones provided by Angular don't meet your needs. To do that, create a new class that will implement the `PipeTransform` interface and will be decorated with the `@Pipe` decorator. The PipeTransform will force your class to implement the `tranform()` method where your pipe logic will be defined. This method takes the value to transform as a first parameter, and you can add any other arguments representing your pipe parameters (if you need them).
+
+**my-pipe.pipe.ts**
+
+```typescript
+import { PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'myPipe'
+})
+export class MyPipe implements PipeTransform {
+  transform(value: any, myPipeParameter: any) {
+    return /* your pipe logic here */;
+  }
+}
+```
+
+**app.module.ts**
+
+```typescript
+@NgModule({
+  declarations: [
+    AppComponent,
+    MyPipe // pipes should be added here
+  ],
+  imports: [
+    BrowserModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+In your template file
+
+```html
+<p>{{ myVariable | myPipe }}</p>
+```
+
+### Async pipe
+
+The built-in `async` pipe allows to handle asynchronous data (data coming from an HTTP request for example). This pipe will recognize Promises and Observables (the pipe will subscribe automatically to this Observable) and will get the values from them.
+
+component code
+
+```typescript
+myVariable = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Async data');
+  }, 2000);
+});
+```
+
+template code
+
+```html
+<p>{{ myVariable | async }}</p>
+```
+
 ## Authentication
+
+For Angular based web applications, a standard authentication workflow would be:
+
+- The client sends its auth data to a server.
+- The server validates these data and sends a response to the client, a [JSON Web Token aka JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) (an encoded string).
+- This token will be stored in the client and will be send alongside for each requests the client will make.
+- The server is the only one who knows how the JWT has been created (with a private key and a specific algorithm) and therefore is the only one to know if it's valid or not.
+
+> Session can't be used for Angular apps because Single Page Application are designed to separate the frontend from the backend, so the server API with be a RESTful API which is stateless, it doesn't know its clients.
+
+The signup/signin process is commonly done through a form component and with an authentication service that will handle HTTP requests to the server.
+
+To add the JWT to the client requests, you can use an `HTTPInterceptor` (interface provided by the HTTP module of Angular) that will intercept outgoing requests and add the JWT in those requests.
+
+To store the JWT in the client and keep the authentication status even after reloading the application, we can use the [`LocalStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). LocalStorage is a web API (it is not provided by Angular but by your web browser) that allows to store key-value pairs in your web browser.
+
+The client needs to handle the JWT expiration time. A token is only valid during a certain time (one hour for example), after that the token is invalid and the client needs to authenticate again.
+
+To protect your application routes, you can use a Route Guard that will handle authentication.
+protect routes
+
+## Dynamic components
+
+## Modules (advanced)
 
 ## Links and references
 
