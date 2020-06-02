@@ -23,6 +23,7 @@
       - [ViewChild](#viewchild)
       - [Component projection](#component-projection)
       - [ContentChild](#contentchild)
+    - [Dynamic components](#dynamic-components)
   - [Directives](#directives)
     - [Built-in directives](#built-in-directives)
       - [*ngIf](#ngif)
@@ -55,7 +56,6 @@
     - [Custom pipe](#custom-pipe)
     - [Async pipe](#async-pipe)
   - [Authentication](#authentication)
-  - [Dynamic components](#dynamic-components)
   - [Modules (advanced)](#modules-advanced)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
@@ -525,6 +525,76 @@ export class ChildComponent implements OnInit {
 ```
 
 > ContentChild property will not be accessible in lifecycle hooks until the ngAfterContentInit hook.
+
+### Dynamic components
+
+Dynamic components are components that are created dynamically at runtime. For example, if you want to show a modal you could do it with a dynamic component. To make a component dynamic, you will have to load this component dynamically, to do that you can use two approaches, one with `*ngIf` and the second with the dynamic component loader.
+
+The first approach means that the component is added to a template with its selector and that the `*ngIf` controls whether it should be added to the DOM or not ([see Directive section for details about `*ngIf`](#directives)).
+
+In the second approach, it's the developer that will handle the component by creating and adding it to the DOM through imperative code. To do that you will need to use the Angular component factory by using the `ComponentFactoryResolver` (which can be injected).
+
+Then you will have to find a way to tell Angular where to add this component in the template. The trick here is to create a directive that we will use as a placeholder. And in the directive, make sure you are injecting the `ViewContainerRef` object because this will allow us to have an access to the DOM and be able to inject our component in there.
+
+**placeholder.directive.ts**
+
+```typescript
+import { Directive, ViewContainerRef } from '@angular/core';
+
+@Directive({
+  selector: '[appPlaceholder]' // HTML element attribute
+})
+export class PlaceholderDirective {
+  constructor(public viewContainerRef: ViewContainerRef) {}
+}
+```
+
+some template
+
+```html
+<ng-template appPlaceholder></ng-template>
+```
+
+some component
+
+```typescript
+import {
+  Component,
+  ComponentFactoryResolver,
+  ViewChild
+} from '@angular/core';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
+import { MyDynamicComponent } from '../my-dynamic.component';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html'
+})
+export class MyComponent {
+
+  @ViewChild(PlaceholderDirective) dynCompHost: PlaceholderDirective;
+
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
+
+  private showDynamicComponent(message: string) {
+    const dynCmpFactory = this.componentFactoryResolver.resolveComponentFactory(
+      MyDynamicComponent
+    );
+    const hostViewContainerRef = this.dynCompHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(dynCmpFactory);
+
+    componentRef.instance.message = message; // data binding, in this example MyDynamicComponent has a '@Input() message: string' property.
+    
+    // you can also do event binding by subscribing to an @Output event of the dynamic component. It is one the rare case where you will have to handle subscription and unsubscription yourself and not let Angular do it.
+  }
+}
+```
+
+> The component you want to add dynamically might throw an error for Angular versions < 9, to solve it you should add the component in the `entryComponents` array in the `app.module.ts` file.
 
 ## Directives
 
@@ -1443,9 +1513,6 @@ To store the JWT in the client and keep the authentication status even after rel
 The client needs to handle the JWT expiration time. A token is only valid during a certain time (one hour for example), after that the token is invalid and the client needs to authenticate again.
 
 To protect your application routes, you can use a Route Guard that will handle authentication.
-protect routes
-
-## Dynamic components
 
 ## Modules (advanced)
 
