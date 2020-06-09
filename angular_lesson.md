@@ -57,6 +57,11 @@
     - [Async pipe](#async-pipe)
   - [Authentication](#authentication)
   - [Modules (advanced)](#modules-advanced)
+    - [Shared modules](#shared-modules)
+    - [Core module](#core-module)
+    - [Lazy loading](#lazy-loading)
+    - [Modules and services](#modules-and-services)
+  - [AoT & JiT](#aot--jit)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
     - [Documentation](#documentation)
@@ -1515,6 +1520,85 @@ The client needs to handle the JWT expiration time. A token is only valid during
 To protect your application routes, you can use a Route Guard that will handle authentication.
 
 ## Modules (advanced)
+
+Angular modules are bundling blocks containing components, directives, services... and tell Angular what it should analyze because Angular will not scan all your code files.
+
+To sum up:
+
+- Angular analyzes NgModules to "understand" your application and its features.
+- Angular modules define all building blocks your app uses (components, directives, services...).
+- An application requires at least one module (AppModule) but may be split into multiple modules.
+- Core Angular features are included in ANgular modules (FormsModule for example) to load them only when needed.
+- You can't use a feature / building block without including it in a module.
+
+### Shared modules
+
+Shared modules are simply modules containing building blocks that are common to several modules. For example, if you have a module A and a module B, and if both modules use the FormsModule, a modal component and the CommonModule for example, create a shared module with those building blocks and then import this shared module in module A and B.
+
+### Core module
+
+A core module is pattern that allows to make the AppModule a bit more leaner by moving services into a separate module. An alternative to that is to use the `providedIn` property of `@Injectable` on the services to not have to provide these services in the `providers` array of the AppModule. But in the case where you still use the `providers` array, you can use this core module pattern.
+
+This pattern is purely optional and using `providedIn` is still the recommended way to provide services.
+
+### Lazy loading
+
+By default, when you have an Angular application with routing, if you visit a page, all the other routes/modules/components are also loaded even if you are not using these elements on the current page you are visiting. The idea behind **lazy loading** is to load only what is necessary.
+
+It very useful to improve the application performances and of course it will shrink the scripts size and therefore allow slow internet connection to access your site.
+
+In order to implement lazy loading on your routes, you will have to add the `loadChildren` property for routes where we want lazy loading.
+
+```typescript
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { HomeViewComponent } from '@app-views/home/home-view.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'rooms',
+    loadChildren: () =>
+      import('./views/rooms/rooms.module').then((m) => m.RoomsModule), // lazy loading
+  },
+  {
+    path: 'home',
+    component: HomeViewComponent,
+  },
+  { path: '**', redirectTo: '/home' },
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules, // tells Angular to preload all modules not at the initial loading but when navigating subsequent web pages of your site.
+    }),
+  ],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+### Modules and services
+
+Services can be provided in different ways and in different location.
+
+- In the AppModule, so the service is available application wide and all elements will access this single service instance. Angular uses the **root injector** to inject the service.
+- In a component, so the service is only available in this component tree and will share the same service instance. Angular uses the **component-specific injector** to inject the service.
+- In non lazy loaded modules (eager-loaded), so the is service **is available application wide** (and not only in this module !). Angular uses the **root injector** to inject the service.
+- In lazy loaded modules, os the service is only available in the module and it gets its own instance. If you provide a service both in the AppModule and in the lazy loaded module, the service is available application-wide but the lazy loaded module will have a separate instance of this service. Angular uses a separate **child injector** to inject the service.
+
+The default way to inject services should still be to inject them in the AppModule (or use `providedIn: 'root'` in the `@Injectable` of the service). Component-wide service are to use only if it's relevant (it's still rare). Services in lazy-loaded module should be used if you really need a service to be module-wide. Finally, avoid providing services in eager-loaded module, because they will be available application-wide and it's confusing, provide them directly in the AppModule.
+
+## AoT & JiT
+
+Once your code is written and the TypeScript compiler compiled your code into JavaScript code, there is still another compilation step that Angular performs. Angular comes with a compiler that will compile template syntax into JavaScript DOM instructions. By default, this compilation is done in the browser (at runtime) and that is why it is called **Just in Time (JiT) compilation**. This compilation may take some time and that's why it is possible to tell Angular to compile before the application is deployed (during the build process), this is called **Ahead of Time (AoT) compilation**. AoT compilation does some extra optimization steps so you may see errors that didn't appear in JiT compilation.
+
+> AoT compilation can be done by using the `ng build --prod` command.
 
 ## Links and references
 
