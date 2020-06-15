@@ -10,6 +10,8 @@
     - [State](#state)
       - [useState() hook](#usestate-hook)
     - [Events handling](#events-handling)
+    - [Conditional rendering](#conditional-rendering)
+    - [Data lists](#data-lists)
   - [Styling](#styling)
   - [HTTP requests](#http-requests)
   - [Routing](#routing)
@@ -48,7 +50,7 @@ class App extends Component {
           <h1>Waouh! nice app</h1>
         </div>
     );
-    
+
     // Without JSX, we would have to write the following code in order to have the same result:
 
     // return React.createElement(
@@ -328,6 +330,163 @@ export default App;
 
 > :warning: Do not put parenthesis when associating your event handler function to the HTML element. If you do, your function will be called immediately and not when the event is triggered.
 
+### Conditional rendering
+
+Like in other frontend frameworks (Angular and VueJS for example), it is possible to display display content under some conditions. In React, we are not going to use directives (like *ngIf in Angular) but since in JSX everything is JavaScript, we can simply use single curly brackets and ternary expression.
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+import Person from './Person/Person';
+
+class App extends Component {
+
+  state = {
+    persons: [
+      {
+        name: 'Olivier',
+        age: 28
+      },
+      {
+        name: 'Marc',
+        age: 32
+      },
+
+    ],
+    showPersons: false
+  };
+
+  togglePersonHandler = () => {
+    this.setState({showPersons: !this.state.showPersons});
+  }
+
+  render() {
+    return (
+        <div className="App">
+          <button onClick={this.togglePersonHandler}>Toggle persons</button>
+          {
+            // here you can't use an "if" block
+              this.state.showPersons ?
+                  <div>
+                    <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+                    <Person name={this.state.persons[1].name} age={this.state.persons[1].age} />
+                  </div>
+               : null
+          }
+        </div>
+    );
+  }
+}
+
+export default App;
+```
+
+This syntax could be a little confusing, so another way to do that, a more JavaScript way we could say, would be to define a variable containing the HTML code and to use an "if" statement to check the value of the boolean.
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+import Person from './Person/Person';
+
+class App extends Component {
+
+  state = {
+    persons: [
+      {
+        name: 'Olivier',
+        age: 28
+      },
+      {
+        name: 'Marc',
+        age: 32
+      },
+
+    ],
+    showPersons: false
+  };
+
+  togglePersonHandler = () => {
+    this.setState({showPersons: !this.state.showPersons});
+  }
+
+  render() {
+    let persons = null;
+    if(this.state.showPersons) {
+      persons = (<div>
+        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+        <Person name={this.state.persons[1].name} age={this.state.persons[1].age} />
+      </div>);
+    }
+
+
+    return (
+        <div className="App">
+          <button onClick={this.togglePersonHandler}>Toggle persons</button>
+          {persons} // nothing will be displayed if persons is "null"
+        </div>
+    );
+  }
+}
+
+export default App;
+```
+
+### Data lists
+
+In the same way as for the conditional rendering, other frameworks propose directives to render lists/arrays (*ngFor in Angular for example). In React, again, everything is JavaScript, so what we need to do is to loop over our list and return valid JSX code.
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+import Person from './Person/Person';
+
+class App extends Component {
+
+  state = {
+    persons: [
+      {
+        name: 'Olivier',
+        age: 28
+      },
+      {
+        name: 'Marc',
+        age: 32
+      },
+
+    ],
+    showPersons: false
+  };
+
+  togglePersonHandler = () => {
+    this.setState({showPersons: !this.state.showPersons});
+  }
+
+  render() {
+    let persons = null;
+    if(this.state.showPersons) {
+      persons = (<div>
+        {this.state.persons.map((person) => {
+          return <Person name={person.name} age={person.age} />
+        })}
+      </div>);
+    }
+    return (
+        <div className="App">
+          <button onClick={this.togglePersonHandler}>Toggle persons</button>
+          {persons}
+        </div>
+    );
+  }
+}
+
+export default App;
+```
+
+> You may see in the web console that there is a warning mentioning the "key"property. This key will allow React to keep track of the individual elements of the list. Therefore, React will know which element changed and which didn't, so it will not have to re-render the whole list (which can lead to bad performances with long lists). The value of key should be unique among siblings not globally. Typically, the key will be the id of your data. For the example, we are going to use the person's name as the key.
+> ```javascript
+> <Person name={person.name} age={person.age} key={person.name}/>
+> ```
+
 ## Styling
 
 If you want your components to have CSS styling, there are two ways to do that.
@@ -379,6 +538,10 @@ const person = (props) => {
 
 export default person;
 ```
+
+> If you want to use pseudo-selectors in inline styling, you can install third-party libraries like the [styled-components package](https://styled-components.com/).
+
+> If you want to use separate CSS files but don't want your styles to be global, you can use [CSS modules](https://css-tricks.com/css-modules-part-1-need/).
 
 ## HTTP requests
 
