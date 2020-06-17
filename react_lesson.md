@@ -13,6 +13,12 @@
     - [Conditional rendering](#conditional-rendering)
     - [Data lists](#data-lists)
   - [Styling](#styling)
+  - [Advanced components](#advanced-components)
+    - [Class-based components](#class-based-components)
+    - [Functional components](#functional-components)
+    - [Component lifecycle](#component-lifecycle)
+    - [Component creation lifecycle](#component-creation-lifecycle)
+    - [Component update lifecycle](#component-update-lifecycle)
   - [HTTP requests](#http-requests)
   - [Routing](#routing)
   - [Forms & validation](#forms--validation)
@@ -96,7 +102,7 @@ A component needs to return JSX code to tell React which HTML code it should ren
 
 There are two different ways of creating components.
 
-- `Functional components`: also called `presnetational`, `dumb` or `stateless` components.
+- `Functional components`: also called `presentational`, `dumb` or `stateless` components.
 - `Class-based components`: also called `containers`, `smart` or `stateful` components.
 
 **Functional component**
@@ -542,6 +548,35 @@ export default person;
 > If you want to use pseudo-selectors in inline styling, you can install third-party libraries like the [styled-components package](https://styled-components.com/).
 
 > If you want to use separate CSS files but don't want your styles to be global, you can use [CSS modules](https://css-tricks.com/css-modules-part-1-need/).
+
+## Advanced components
+
+### Class-based components
+
+Class-based components are Javascript classes that extends the `Component` class. They can access state and they can update it with the `setState` function. They can also use **lifecycle hooks**. Because we are in a class, properties (such as `state` and `props`) will be accessed with the `this` keyword.
+
+### Functional components
+
+Functional components are represented by JavaScript function (mostly using ES6 arrow function notation) assigned to constant (that will be exported in order to use them as component). In the past (before React 16.8 and React Hooks), they couldn't manage state. But, since React hooks were introduced, they can with the `useState` hook. However, lifecycle hooks are not available with function components. Unlike a class-based component, in a functional component, you will get all your properties by the `props` variable.
+
+> Keep in mind, that you could be working on older React project where functional components can't handle state.
+
+### Component lifecycle
+
+The component lifecycle is only available in class-based components. This lifecycle is represented by lifecycle hooks (lifecycle hooks has nothing to do with React hooks!). There are two different lifecycle we could say, one for the component creation and one when a component is updated (because props or state changed).
+
+### Component creation lifecycle
+
+- `constructor(props)` => this is an ES6 feature and by default it is done for you. If you want to define the constructor, remember to always call `super(props)` as the first instruction in the constructor function.
+- `getDerivedStateFromProps(props, state)` => this hook exists for the are case where the state depends on props changes during time. It is a static method that should return the updated state. Keep in mind that is very rarely used.
+- `render()` => this hook will prepare and structure your JSX code. Don't execute code that can blocked the rendering process in this function. Every child component you included in your rendered component here will then be rendered as well.
+- `componentDidMount()` => this hook will be called once all child component of this component have finished their lifecycle. Here you can make your HTTP requests to get data from servers. Don't update the state synchronously (you can do it in a promise for example) in this hook because it will trigger a re-render process that is bad for performances.
+
+> They are still historic lifecycle hooks that you can use, for example `componentWillMount()`, but since they are very rarely used and could lead to side effects, they might be removed in the future.
+
+### Component update lifecycle
+
+
 
 ## HTTP requests
 
