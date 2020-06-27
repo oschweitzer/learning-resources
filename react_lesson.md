@@ -30,6 +30,13 @@
       - [useContext()](#usecontext)
   - [HTTP requests](#http-requests)
   - [Routing](#routing)
+    - [Router props](#router-props)
+    - [Absolute vs Relative paths](#absolute-vs-relative-paths)
+    - [Route parameters](#route-parameters)
+    - [Navigating programmatically](#navigating-programmatically)
+    - [Redirection](#redirection)
+    - [Guards](#guards)
+    - [Lazy loading](#lazy-loading)
   - [Forms & validation](#forms--validation)
   - [Redux](#redux)
   - [Authentication](#authentication)
@@ -986,6 +993,386 @@ export default Blog;
 ```
 
 ## Routing
+
+If you want to make your single page application more like an multi-pages application, you can use routing. Routing allows to keep an SPA architecture while improving the navigation and the user experience.
+
+React (unlike Angular for example) doesn't provide built in features for routing. Most React developers use the [react-router](https://github.com/ReactTraining/react-router/tree/master/packages/react-router) package to handle routing (which is the core package, but you may also need to install [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom) for DOM bindings).
+
+> Note that technically, only the `react-router-dom` it necessary because it already contains the `react-router` package, but keep in mind that if you search for information, search for `react-router`.
+
+This package will parse the URL, the path, then read our configuration to know which path correspond to which component.
+
+First, you have to wrap your routing component (in the `App.js` file of the `index.js` file for example) between the `BrowserRouter` component from the `react-router-dom` package to activate routing capabilities.
+
+Then in your component, in your JSX code, use the `Route` component to tell the path and the JSX code (or component reference) you want to render when accessing this path.
+
+**App.js**
+
+```javascript
+import React, { Component } from 'react';
+import Blog from './containers/Blog/Blog';
+import {BrowserRouter} from 'react-router-dom';
+
+class App extends Component {
+  render() {
+    return (
+        <div className="App">
+          <BrowserRouter>
+            <Blog />
+          </BrowserRouter>
+        </div>
+    );
+  }
+}
+
+export default App;
+```
+
+**Blog.js**
+
+```javascript
+import React, {Component} from 'react';
+import './Blog.css';
+import {Posts} from './Posts/Posts';
+import { Route } from 'react-router-dom';
+import NewPost from './NewPost/NewPost';
+
+class Blog extends Component {
+  render () {
+    return (
+        <div>
+          <header className={"Navigation"}>
+            <nav>
+              <ul>
+                <li><a href={"/"}>Home</a></li>
+                <li><a href={"/new-post"}>New Post</a></li>
+              </ul>
+            </nav>
+          </header>
+          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+           comparison */}
+          <Route exact path={"/"} component={Posts}/>
+          <Route exact path={"/new-post"} component={NewPost}/>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
+This code is working well but there is an issue. Each time you will click on the navigation items, the whole page will reload. This can be an issue because the different states you may have will be reset. What you want is to tell React to only re-render some parts of the page. 
+
+To do that, you will have to replace the `<a></a>` elements with `<Link></Link>` components (from `react-router-dom`).
+
+**Blog.js**
+
+```javascript
+import React, {Component} from 'react';
+import './Blog.css';
+import {Posts} from './Posts/Posts';
+import {Link, Route} from 'react-router-dom';
+import NewPost from './NewPost/NewPost';
+
+class Blog extends Component {
+  render () {
+    return (
+        <div>
+          <header className={"Navigation"}>
+            <nav>
+              <ul>
+                <li><Link to={"/"}>Home</Link></li>
+                <li><Link to={"/new-post"}>New Post</Link></li>
+              </ul>
+            </nav>
+          </header>
+          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+           comparison */}
+          <Route exact path={"/"} component={Posts}/>
+          <Route exact path={"/new-post"} component={NewPost}/>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
+> The `to` properties can also take an object allowing to add hashes or query parameters.
+
+> If you want to style your links, use the `<NavLink></NavLink>` component instead of `<Link></Link>`.
+
+### Router props
+
+When using the `Route` component, some additional props are passed to the child component. But these props are not passed down the all component tree, they only are passed to the child component. If you need to get access to these props in the child component children, you can use two different methods.
+
+The first way is to pass the props from the component to its children (with the spread operator `{...props}`).
+
+**Example in Posts.js**
+
+```javascript
+<Post
+              key={post.id}
+              title={post.title}
+              body={post.body}
+              clicked={() => this.postSelectedHandler(post.id)}
+              {...this.props} // passing all the Posts props (including Route props) to the Post component
+          />);
+```
+
+The second solution is to use an HOC (Higher Order Component) named `withRouter`. To use it, simply wrap the component that needs to have the Route props with the `withRouter()` function.
+
+**Post.js**
+
+```javascript
+import React from 'react';
+import './Post.css';
+import {withRouter} from 'react-router';
+
+const post = (props) => {
+  console.log(props);
+  return (
+      <article className="Post" onClick={props.clicked}>
+        <h1>{props.title}</h1>
+        <div className="Info">
+          <p>{props.body}</p>
+        </div>
+      </article>
+  );
+}
+
+export default withRouter(post); // wrapping component between withRouter HOC
+```
+
+### Absolute vs Relative paths
+
+With the `to` property on the Link component, keep in mind that paths are always treated as absolute paths. That means, the provided path will always be appended to your root domain.
+
+If you want relative paths, you can use the `props.match` object and its `url` property. This property is the current path you're on. So simply concatenate this current path with the new path to obtain relative paths.
+
+```javascript
+<Link to={props.match.url + '/new'}>
+```
+
+### Route parameters
+
+You can use route parameters to have use dynamic parameters and so created multiple routes. For example in our example, we might want to access a path like '/<postId>' where postId is dynamic because we are not going to write a route for each post ids.
+
+To do that, simply add a `Route` and, in this route path, use the ':' operator followed by the name of your dynamic parameter.
+
+**Blog.js**
+
+```javascript
+import React, {Component} from 'react';
+import './Blog.css';
+import {Posts} from './Posts/Posts';
+import {NavLink, Route, Switch} from 'react-router-dom';
+import NewPost from './NewPost/NewPost';
+import FullPost from './FullPost/FullPost';
+
+class Blog extends Component {
+  render () {
+    return (
+        <div>
+          <header className={"Navigation"}>
+            <nav>
+              <ul>
+                <li><NavLink exact to={"/"}>Home</NavLink></li>
+                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
+              </ul>
+            </nav>
+          </header>
+           <Switch>
+            {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+           comparison */}
+             <Route exact path={"/"} component={Posts}/>
+             <Route exact path={"/new-post"} component={NewPost}/>
+             <Route exact path={"/:postId"} component={FullPost}/>
+           </Switch>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
+Routes order is important, here /:postId should be placed after /new-post in order to avoid new-post to be interpreted as an postId. But this will not resolve it all, because by default the router will render all routes if they match the path. In this our case, when going on the `/new-post` path, it will render both `NewPost` and `FullPost` components. To solve that, simply wrap your routes between a `Switch` component (provided by `react-router-dom`). This `Switch` component will only render the first component when the route math the path.
+
+Then in your child component, you can get this dynamic parameter by using the `props.match` object and its `params` property which contains the parameters list.
+
+> For query/search parameters (delimited by a `?`) and fragments (delimited by `#`) you can access them with the `props.location` object and respectively with the `search` and `hash` properties.
+
+### Navigating programmatically
+
+You may want to navigate between pages using code instead `<Link></Link>` component. To do that ,simply use the functions provided by the `props.history` object. For example, to navigate to a specific page, use the `push()` function, or if you simply want to go back (like you do with the button on your browser), use the `goBack()` function.
+
+### Redirection
+
+The `react-router-dom` provides a `Redirect` component that allows to redirect users to another path. This component has two properties, `from`, which tell on which path it should trigger and `to`, to tell to which path it should redirect the user.
+
+It is also possible to use this component conditionally by using an if statement in your JSX code. For example when a Post is send to the server, you may want to display the Redirect component meaning redirecting the user to the home page.
+
+> Of course, you can redirect by using the `props.history` object and the `push` or `replace` functions. Basically the `replace` function is doing the same thing as `Redirect` whereas the `push` function allows the user to get back to the previous page after the redirection.
+
+### Guards
+
+Navigation guard are typically used to allow or not a user to access certain routes. In React, with the react router, you can see guard as conditionally display components or not.
+
+```javascript
+import React, {Component} from 'react';
+import './Blog.css';
+import {Posts} from './Posts/Posts';
+import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import NewPost from './NewPost/NewPost';
+
+class Blog extends Component {
+
+  state = {
+    auth: true
+  }
+
+  render () {
+    return (
+        <div>
+          <header className={"Navigation"}>
+            <nav>
+              <ul>
+                <li><NavLink exact to={"/"}>Home</NavLink></li>
+                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
+              </ul>
+            </nav>
+          </header>
+          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+           comparison */}
+           <Switch>
+             { /* Guard */ }
+             { this.state.auth ? <Route exact path={'/new-post'} component={NewPost}/> : null}
+             <Route path={"/posts"} component={Posts}/>
+             <Redirect from={"/"} to={"/posts"} />
+           </Switch>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
+### Lazy loading
+
+Lazy loading is a pattern where you only load components when the user really need them. For example if a user never clicks on one of your navigation item, you will still have loaded the associated component for nothing.
+
+To do that, we will have to implement a HOC that will load the provided component.
+
+**HOC AsyncComponent**
+
+```javascript
+import React, {Component} from 'react';
+
+const asyncComponent = (importComponent) => {
+  return class extends Component {
+
+    state = {
+      component: null
+    }
+
+    async componentDidMount() {
+      const cmp = await importComponent();
+      this.setState({component: cmp.default});
+    }
+
+    render() {
+      const C = this.state.component;
+      return C ? <C {...this.props} /> : null;
+    }
+  }
+}
+
+export default asyncComponent;
+```
+
+**Blog.js**
+
+```javascript
+import React, {Component} from 'react';
+import './Blog.css';
+import {Posts} from './Posts/Posts';
+import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import asyncComponent from '../../hoc/asyncComponent';
+// This will import the NewPost component only when the function passed as a parameter is called (when the user will click on the New Post menu)
+const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'));
+
+class Blog extends Component {
+
+  state = {
+    auth: true
+  }
+
+  render () {
+    return (
+        <div>
+          <header className={"Navigation"}>
+            <nav>
+              <ul>
+                <li><NavLink exact to={"/"}>Home</NavLink></li>
+                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
+              </ul>
+            </nav>
+          </header>
+           <Switch>
+             { this.state.auth ? <Route exact path={'/new-post'} component={AsyncNewPost}/> : null}
+             <Route path={"/posts"} component={Posts}/>
+             <Redirect from={"/"} to={"/posts"} />
+           </Switch>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
+> This setup works for React application created with the [create-react-app](https://github.com/facebook/create-react-app) package, because it a [webpack](https://webpack.js.org/) configuration allowing to do lazy loading.
+
+**Since React 16.6, there is a new way to use lazy loading.** This new version provides the `lazy()` method where you pass a function that will import the wanted component only when needed. Then use the `Suspense` component that will asynchronously load your component and allow you to specify a `fallback`, a message or a loading spinner to be displayed when waiting for the component to be loaded.
+
+This lazy loading is not only to be used for routing, you can use it on button event for example.
+
+**Example with App.js that just loads a Post on button onClick event**
+
+```javascript
+import React, {Component, Suspense} from 'react';
+import User from './containers/User';
+const Posts = React.lazy(() => import('./containers/Posts'));
+
+class App extends Component {
+  state = { showPosts: false };
+
+  modeHandler = () => {
+    this.setState(prevState => {
+      return { showPosts: !prevState.showPosts };
+    });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <button onClick={this.modeHandler}>Toggle Mode</button>
+        {this.state.showPosts ? (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Posts />
+          </Suspense>
+        ) : (
+          <User />
+        )}
+      </React.Fragment>
+    );
+  }
+}
+
+export default App;
+```
 
 ## Forms & validation
 
