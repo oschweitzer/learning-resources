@@ -921,6 +921,70 @@ export default Cockpit;
 
 ## HTTP requests
 
+If you want your React application to get/send data from/to a server, you will probably use HTTP requests.
+
+Like mentioned in the component lifecycle, the best place to do HTTP requests (and especially to get data when our component is created) is in the `componentDidMount()` lifecycle hook, because side effects are authorized there.
+
+It is recommended to use the [axios](https://github.com/axios/axios) library since it's one of the most popular HTTP library and it's available for frontend code as well as backend code.
+
+For example, if I have an application that simulate a blog with posts.
+
+**Post.js**
+
+```javascript
+import React from 'react';
+
+import './Post.css';
+
+const post = (props) => (
+    <article className="Post">
+        <h1>{props.title}</h1>
+        <div className="Info">
+            <p>{props.body}</p>
+        </div>
+    </article>
+);
+
+export default post;
+```
+
+**Blog.js**
+
+```javascript
+import React, { Component } from 'react';
+import Post from '../../components/Post/Post';
+import './Blog.css';
+import axios from 'axios';
+
+class Blog extends Component {
+
+  state = {
+    posts: []
+  }
+
+  // Here it is very important to note that an HTTP request is an asynchronous task ! So the Promise should be handled correctly
+  async componentDidMount() {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    this.setState({posts: response.data})
+  }
+
+  render () {
+    const posts = this.state.posts.map(
+        (post) => <Post key={post.id} title={post.title} body={post.body}/>
+    )
+    return (
+        <div>
+          <section className="Posts">
+            {posts}
+          </section>
+        </div>
+    );
+  }
+}
+
+export default Blog;
+```
+
 ## Routing
 
 ## Forms & validation
