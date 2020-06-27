@@ -1,22 +1,33 @@
 # List of learning resources
 
-## JavaScript
+## Lessons
+
+- [JavaScript](javascript_lesson.md)
+- [TypeScript](typescript_lesson.md)
+- [Nodejs](nodejs_lesson.md)
+- [Angular](angular_lesson.md)
+- [Nestjs](nestjs_lesson.md)
+- [React](react_lesson.md)
+
+## External resources
+
+### JavaScript
 
 - [33 concepts every JavaScript developer should know](https://github.com/leonardomso/33-js-concepts)
 - [JS algorithms](https://github.com/trekhleb/javascript-algorithms)
 
-## TypeScript
+### TypeScript
 
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/ )
 - [TypeScript Tutorial For Beginners: The Missing Guide](https://www.valentinog.com/blog/typescript/)
 - [Video Typescript Tutorial (12min)](https://www.youtube.com/watch?v=ahCwqrYpIuM )
 - [Video Object-Oriented vs Functional Programming with TypeScript (12min)](https://angularfirebase.com/lessons/object-oriented-programming-with-typescript/)
 
-## Nodejs
+### Nodejs
 
 - [Node JS API Development for Beginners (FREE)](https://www.udemy.com/course/node-js-api-tutorial/?LSNPUBID=JVFxdTr9V80&ranEAID=JVFxdTr9V80&ranMID=39197&ranSiteID=JVFxdTr9V80-NQviZbmj8Nccy782ecG_yQ)
 
-## Angular
+### Angular
 
 - [Getting started official tutorial](https://angular.io/tutorial)
 - [Official Docs](https://angular.io)
@@ -37,7 +48,7 @@
 - [Creating Angular libraries with Angular CLI](https://blog.angulartraining.com/create-your-own-libraries-with-angular-cli-7b434600bbb7)
 - [Publishing Angular component libraries](https://medium.com/@faxemaxee/building-and-publishing-angular-libraries-using-angular-cli-140057d21101)
 
-## NestJS
+### NestJS
 
 - [Introduction to modern Node.js framework](https://kamilmysliwiec.com/nest-release-canditate-is-here-introduction-modern-node-js-framework)
 - [NestJS Node Express](https://auth0.com/blog/nestjs-brings-typescript-to-nodejs-and-express) - Teach how to use NestJS step by step
@@ -56,7 +67,7 @@
 - [Video Tutorials - Building a full-stack blog with NestJs, Angular and Angular Material](https://www.youtube.com/watch?v=nz6yFTyLbAQ&list=PLq1kZ5GbKd4qyDcK3IHGSi4FDAL6fRZeL)
 - [Dev.to NestJS articles](https://dev.to/nestjs)
 
-## Reactive programming - RxJS
+### Reactive programming - RxJS
 
 - [Introduction to RxJS - RxJS Primer](https://www.learnrxjs.io/concepts/rxjs-primer.html)
 - [The introduction to reactive programming with RxJS](https://www.learnrxjs.io/)
@@ -65,7 +76,7 @@
 - [RxMarbles: Interactive diagrams of Rx Observables](http://rxmarbles.com/)
 - [RxJS Docs](https://rxjs-dev.firebaseapp.com/)
 
-## State management
+### State management
 
 - [Simple and powerful state management with only Services and RxJS (for 90% of cases, this method of state management is more than enough)](https://dev.to/avatsaev/simple-state-management-in-angular-with-only-services-and-rxjs-41p8)
 - [NGRX - Angular state management library](https://github.com/ngrx/platform)
@@ -74,7 +85,7 @@
 - [In depth introduction to NGRX/Redux state management](https://medium.com/@bencabanes/redux-introduction-with-ngrx-part-1-store-application-state-2c47c35376ea)
 - [NGRX advanced patterns & techniques](https://blog.nrwl.io/ngrx-patterns-and-techniques-f46126e2b1e5)
 
-## Misc
+### Misc
 
 - [Some laws about development](https://github.com/dwmkerr/hacker-laws)
 - [Software architect roadmap](https://github.com/AlaaAttya/software-architect-roadmap)
