@@ -37,12 +37,18 @@
     - [Redirection](#redirection)
     - [Guards](#guards)
     - [Lazy loading](#lazy-loading)
-  - [Forms & validation](#forms--validation)
   - [Redux](#redux)
-  - [Authentication](#authentication)
-  - [Testing](#testing)
-  - [Deployment](#deployment)
-  - [Bonus](#bonus)
+    - [Definition](#definition)
+    - [Redux & React](#redux--react)
+      - [Connecting components](#connecting-components)
+      - [Dispatching actions](#dispatching-actions)
+      - [Passing and retrieving data with Action](#passing-and-retrieving-data-with-action)
+      - [Combining reducers](#combining-reducers)
+    - [State types](#state-types)
+    - [Advanced concepts](#advanced-concepts)
+      - [Middlewares](#middlewares)
+      - [Action creators](#action-creators)
+      - [Async code](#async-code)
   - [Links and references](#links-and-references)
     - [Videos](#videos)
     - [Websites](#websites)
@@ -944,12 +950,12 @@ import React from 'react';
 import './Post.css';
 
 const post = (props) => (
-    <article className="Post">
-        <h1>{props.title}</h1>
-        <div className="Info">
-            <p>{props.body}</p>
-        </div>
-    </article>
+  <article className='Post'>
+    <h1>{props.title}</h1>
+    <div className='Info'>
+      <p>{props.body}</p>
+    </div>
+  </article>
 );
 
 export default post;
@@ -964,27 +970,26 @@ import './Blog.css';
 import axios from 'axios';
 
 class Blog extends Component {
-
   state = {
-    posts: []
-  }
+    posts: [],
+  };
 
   // Here it is very important to note that an HTTP request is an asynchronous task ! So the Promise should be handled correctly
   async componentDidMount() {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    this.setState({posts: response.data})
+    const response = await axios.get(
+      'https://jsonplaceholder.typicode.com/posts'
+    );
+    this.setState({ posts: response.data });
   }
 
-  render () {
-    const posts = this.state.posts.map(
-        (post) => <Post key={post.id} title={post.title} body={post.body}/>
-    )
+  render() {
+    const posts = this.state.posts.map((post) => (
+      <Post key={post.id} title={post.title} body={post.body} />
+    ));
     return (
-        <div>
-          <section className="Posts">
-            {posts}
-          </section>
-        </div>
+      <div>
+        <section className='Posts'>{posts}</section>
+      </div>
     );
   }
 }
@@ -1011,16 +1016,16 @@ Then in your component, in your JSX code, use the `Route` component to tell the 
 ```javascript
 import React, { Component } from 'react';
 import Blog from './containers/Blog/Blog';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return (
-        <div className="App">
-          <BrowserRouter>
-            <Blog />
-          </BrowserRouter>
-        </div>
+      <div className='App'>
+        <BrowserRouter>
+          <Blog />
+        </BrowserRouter>
+      </div>
     );
   }
 }
@@ -1031,29 +1036,33 @@ export default App;
 **Blog.js**
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Blog.css';
-import {Posts} from './Posts/Posts';
+import { Posts } from './Posts/Posts';
 import { Route } from 'react-router-dom';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
-  render () {
+  render() {
     return (
-        <div>
-          <header className={"Navigation"}>
-            <nav>
-              <ul>
-                <li><a href={"/"}>Home</a></li>
-                <li><a href={"/new-post"}>New Post</a></li>
-              </ul>
-            </nav>
-          </header>
-          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+      <div>
+        <header className={'Navigation'}>
+          <nav>
+            <ul>
+              <li>
+                <a href={'/'}>Home</a>
+              </li>
+              <li>
+                <a href={'/new-post'}>New Post</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
            comparison */}
-          <Route exact path={"/"} component={Posts}/>
-          <Route exact path={"/new-post"} component={NewPost}/>
-        </div>
+        <Route exact path={'/'} component={Posts} />
+        <Route exact path={'/new-post'} component={NewPost} />
+      </div>
     );
   }
 }
@@ -1061,36 +1070,40 @@ class Blog extends Component {
 export default Blog;
 ```
 
-This code is working well but there is an issue. Each time you will click on the navigation items, the whole page will reload. This can be an issue because the different states you may have will be reset. What you want is to tell React to only re-render some parts of the page. 
+This code is working well but there is an issue. Each time you will click on the navigation items, the whole page will reload. This can be an issue because the different states you may have will be reset. What you want is to tell React to only re-render some parts of the page.
 
 To do that, you will have to replace the `<a></a>` elements with `<Link></Link>` components (from `react-router-dom`).
 
 **Blog.js**
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Blog.css';
-import {Posts} from './Posts/Posts';
-import {Link, Route} from 'react-router-dom';
+import { Posts } from './Posts/Posts';
+import { Link, Route } from 'react-router-dom';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
-  render () {
+  render() {
     return (
-        <div>
-          <header className={"Navigation"}>
-            <nav>
-              <ul>
-                <li><Link to={"/"}>Home</Link></li>
-                <li><Link to={"/new-post"}>New Post</Link></li>
-              </ul>
-            </nav>
-          </header>
-          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+      <div>
+        <header className={'Navigation'}>
+          <nav>
+            <ul>
+              <li>
+                <Link to={'/'}>Home</Link>
+              </li>
+              <li>
+                <Link to={'/new-post'}>New Post</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
            comparison */}
-          <Route exact path={"/"} component={Posts}/>
-          <Route exact path={"/new-post"} component={NewPost}/>
-        </div>
+        <Route exact path={'/'} component={Posts} />
+        <Route exact path={'/new-post'} component={NewPost} />
+      </div>
     );
   }
 }
@@ -1127,19 +1140,19 @@ The second solution is to use an HOC (Higher Order Component) named `withRouter`
 ```javascript
 import React from 'react';
 import './Post.css';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 
 const post = (props) => {
   console.log(props);
   return (
-      <article className="Post" onClick={props.clicked}>
-        <h1>{props.title}</h1>
-        <div className="Info">
-          <p>{props.body}</p>
-        </div>
-      </article>
+    <article className='Post' onClick={props.clicked}>
+      <h1>{props.title}</h1>
+      <div className='Info'>
+        <p>{props.body}</p>
+      </div>
+    </article>
   );
-}
+};
 
 export default withRouter(post); // wrapping component between withRouter HOC
 ```
@@ -1163,33 +1176,39 @@ To do that, simply add a `Route` and, in this route path, use the ':' operator f
 **Blog.js**
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Blog.css';
-import {Posts} from './Posts/Posts';
-import {NavLink, Route, Switch} from 'react-router-dom';
+import { Posts } from './Posts/Posts';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import NewPost from './NewPost/NewPost';
 import FullPost from './FullPost/FullPost';
 
 class Blog extends Component {
-  render () {
+  render() {
     return (
-        <div>
-          <header className={"Navigation"}>
-            <nav>
-              <ul>
-                <li><NavLink exact to={"/"}>Home</NavLink></li>
-                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
-              </ul>
-            </nav>
-          </header>
-           <Switch>
-            {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+      <div>
+        <header className={'Navigation'}>
+          <nav>
+            <ul>
+              <li>
+                <NavLink exact to={'/'}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={'/new-post'}>New Post</NavLink>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <Switch>
+          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
            comparison */}
-             <Route exact path={"/"} component={Posts}/>
-             <Route exact path={"/new-post"} component={NewPost}/>
-             <Route exact path={"/:postId"} component={FullPost}/>
-           </Switch>
-        </div>
+          <Route exact path={'/'} component={Posts} />
+          <Route exact path={'/new-post'} component={NewPost} />
+          <Route exact path={'/:postId'} component={FullPost} />
+        </Switch>
+      </div>
     );
   }
 }
@@ -1220,38 +1239,45 @@ It is also possible to use this component conditionally by using an if statement
 Navigation guard are typically used to allow or not a user to access certain routes. In React, with the react router, you can see guard as conditionally display components or not.
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Blog.css';
-import {Posts} from './Posts/Posts';
-import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import { Posts } from './Posts/Posts';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
-
   state = {
-    auth: true
-  }
+    auth: true,
+  };
 
-  render () {
+  render() {
     return (
-        <div>
-          <header className={"Navigation"}>
-            <nav>
-              <ul>
-                <li><NavLink exact to={"/"}>Home</NavLink></li>
-                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
-              </ul>
-            </nav>
-          </header>
-          {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
+      <div>
+        <header className={'Navigation'}>
+          <nav>
+            <ul>
+              <li>
+                <NavLink exact to={'/'}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={'/new-post'}>New Post</NavLink>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        {/* exact means that the path should exactly correspond, otherwise the router just do a startWith
            comparison */}
-           <Switch>
-             { /* Guard */ }
-             { this.state.auth ? <Route exact path={'/new-post'} component={NewPost}/> : null}
-             <Route path={"/posts"} component={Posts}/>
-             <Redirect from={"/"} to={"/posts"} />
-           </Switch>
-        </div>
+        <Switch>
+          {/* Guard */}
+          {this.state.auth ? (
+            <Route exact path={'/new-post'} component={NewPost} />
+          ) : null}
+          <Route path={'/posts'} component={Posts} />
+          <Redirect from={'/'} to={'/posts'} />
+        </Switch>
+      </div>
     );
   }
 }
@@ -1268,26 +1294,25 @@ To do that, we will have to implement a HOC that will load the provided componen
 **HOC AsyncComponent**
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 const asyncComponent = (importComponent) => {
   return class extends Component {
-
     state = {
-      component: null
-    }
+      component: null,
+    };
 
     async componentDidMount() {
       const cmp = await importComponent();
-      this.setState({component: cmp.default});
+      this.setState({ component: cmp.default });
     }
 
     render() {
       const C = this.state.component;
       return C ? <C {...this.props} /> : null;
     }
-  }
-}
+  };
+};
 
 export default asyncComponent;
 ```
@@ -1295,37 +1320,44 @@ export default asyncComponent;
 **Blog.js**
 
 ```javascript
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Blog.css';
-import {Posts} from './Posts/Posts';
-import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import { Posts } from './Posts/Posts';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import asyncComponent from '../../hoc/asyncComponent';
 // This will import the NewPost component only when the function passed as a parameter is called (when the user will click on the New Post menu)
 const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'));
 
 class Blog extends Component {
-
   state = {
-    auth: true
-  }
+    auth: true,
+  };
 
-  render () {
+  render() {
     return (
-        <div>
-          <header className={"Navigation"}>
-            <nav>
-              <ul>
-                <li><NavLink exact to={"/"}>Home</NavLink></li>
-                <li><NavLink to={"/new-post"}>New Post</NavLink></li>
-              </ul>
-            </nav>
-          </header>
-           <Switch>
-             { this.state.auth ? <Route exact path={'/new-post'} component={AsyncNewPost}/> : null}
-             <Route path={"/posts"} component={Posts}/>
-             <Redirect from={"/"} to={"/posts"} />
-           </Switch>
-        </div>
+      <div>
+        <header className={'Navigation'}>
+          <nav>
+            <ul>
+              <li>
+                <NavLink exact to={'/'}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={'/new-post'}>New Post</NavLink>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <Switch>
+          {this.state.auth ? (
+            <Route exact path={'/new-post'} component={AsyncNewPost} />
+          ) : null}
+          <Route path={'/posts'} component={Posts} />
+          <Redirect from={'/'} to={'/posts'} />
+        </Switch>
+      </div>
     );
   }
 }
@@ -1342,7 +1374,7 @@ This lazy loading is not only to be used for routing, you can use it on button e
 **Example with App.js that just loads a Post on button onClick event**
 
 ```javascript
-import React, {Component, Suspense} from 'react';
+import React, { Component, Suspense } from 'react';
 import User from './containers/User';
 const Posts = React.lazy(() => import('./containers/Posts'));
 
@@ -1350,7 +1382,7 @@ class App extends Component {
   state = { showPosts: false };
 
   modeHandler = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return { showPosts: !prevState.showPosts };
     });
   };
@@ -1374,17 +1406,500 @@ class App extends Component {
 export default App;
 ```
 
-## Forms & validation
-
 ## Redux
 
-## Authentication
+### Definition
 
-## Testing
+Redux is a JavaScript library used to manage states in web application (it's totally independent from React). Basically, states determine what should rendered on the screen. There are application-wide states or local states, for example, user authentication or just is a modal window open or not. Managing states is a complex task especially as our application grows. React offers ways to manage states but it can be very complex to pass states from components to components and that's why Redux has been developed to make states management easier.
 
-## Deployment
+Redux provides a **central store**, a giant JavaScript object that stores the entire application state. When a React component for example, wants to manipulate this application state, it will not do it directly because it will make this state pretty unpredictable. Redux is all about having a clearly defined process of how your state may change.
 
-## Bonus
+Besides the central store, Redux provides a building block named **actions**. Actions a re dispatched from your JavaScript code (from within your React component for example). These actions are pre-defined information package, descriptions we could say, like "addUser" or "removeUser" for example. These actions can also hold payloads, like which User should be added. Actions don't directly reach the store, they are not containing any logic, they don't know how to update the store, it's just a messenger. The building block that is changing the store is a **reducer**.
+
+Reducers can be combined but in the end you will have one root reducer that will reach the store. The reducer will receive actions, check the type of this action and run some code. A reducer is [pure function](https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/) which will receive an action and the old state as inputs and return an updated state. The updated state is then replacing the old state on the store. This has to be done in a immutable way, the updated is based on the old one but it's a new JavaScript object. A reducer has to execute synchronous code only.
+
+Components can subscribe to the store, so when the store receives a new state, it will trigger all subscriptions and components will get notified that the state has been updated.
+
+**Basic Redux example, not linked to React**
+
+```javascript
+const redux = require('redux');
+
+const initialState = {
+  counter: 0,
+};
+
+// Reducer
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'INC_COUNTER':
+      return {
+        ...state,
+        counter: state.counter + 1,
+      };
+    case 'ADD_COUNTER':
+      return {
+        ...state,
+        counter: state.counter + action.value,
+      };
+  }
+  return state;
+};
+
+// Store
+const store = redux.createStore(rootReducer);
+console.log(store.getState()); // { counter: 0 }
+
+// Subscription
+store.subscribe(() => {
+  console.log('Subscription', store.getState());
+});
+
+// Action
+store.dispatch({
+  // convention is to name action type in uppercase
+  type: 'INC_COUNTER',
+});
+console.log(store.getState()); // { counter: 1 }
+
+store.dispatch({
+  type: 'ADD_COUNTER', // only type property is mandatory, the other properties can be named like you want
+  value: 10,
+});
+
+console.log(store.getState()); // { counter: 11 }
+```
+
+> When returning a new state in a reducer, keep in mind that this is not like `setState` in React, the state will not be merged with the old one, it will replace the old state.
+
+### Redux & React
+
+To use Redux in a React application, first install the `react-redux` package. Then to provide a store to your application, wrap your `App` component between the `Provider` component from `react-redux`. Then, pass your store to the `store` property of this `Provider` component.
+
+**index.js**
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
+import { createStore } from 'redux';
+import reducer from './store/reducer';
+import { Provider } from 'react-redux';
+
+const store = createStore(reducer);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+registerServiceWorker();
+```
+
+**reducer.js**
+
+```javascript
+const initialState = {
+  counter: 0,
+};
+
+const reducer = (state, action) => {
+  return state;
+};
+
+export default reducer;
+```
+
+#### Connecting components
+
+In order to connect Redux to your React application, the first thing to do is to use the `connect` HOC from `react-redux` package. This HOC has to wrap the component you want to connect to the store.
+
+The first argument of this `connect` function is `mapStateToProps` which is a function too. Like its name suggests it, `mapStateToProps` is used to select the data from the store that the connected component needs. This function is called every time the store state changes and it will receive the entire state from the store. The goal of th is function is to return an object, a part of the state the component needs.
+
+#### Dispatching actions
+
+By default, if you don't specify another argument to `connect`, your component will receive the `dispatch` function through its props. This function may be used to dispatch actions to the store.
+
+But you can also use the second argument of the `connect` HOC. This argument is the `mapDispatchToProps` function. It is also used for dispatching actions to the store. This method lets you provide action dispatching functions as props. The benefits from this function is that it makes the dispatch logic implementation more declarative. For example, instead of calling `props.dispatch(() => increment())`, you will call `props.increment()`. The second benefit is that this method allows you to pass down action dispatching logic to child components that are not directly connected to the store (see an example above).
+
+**Pass Down Action Dispatching Logic to ( Unconnected ) Child Components**
+
+```javascript
+// pass down bookClickHandler to child component
+// making Book able to dispatch the bookClickHandler action
+const Library = ({ books, bookClickHandler }) => (
+  <div>
+    {books.map(book => (
+      <Book book={book} onClick={bookClickHandler} />
+    ))}
+  </div>
+)
+```
+
+#### Passing and retrieving data with Action
+
+Of course, just like in the Redux example, it is possible to pass data in an action. To do that, simply add a property (the name is up to you) in the object passed in the `dispatch` function.
+
+**Full example of connecting a component and dispatching actions**
+
+**reducer.js**
+
+```javascript
+const initialState = {
+  counter: 0
+};
+
+const reducer = (state = initialState, action) => {
+  let newState = null;
+  switch (action.type) {
+    case 'INCREMENT':
+      newState = {
+        counter: state.counter + 1
+      };
+      break;
+    case 'DECREMENT':
+      newState = {
+        counter: state.counter - 1
+      };
+      break;
+    case 'ADD':
+      newState = {
+        counter: state.counter + action.value
+      };
+      break;
+    case 'SUBTRACT':
+      newState = {
+        counter: state.counter - action.value
+      };
+      break;
+    default:
+      newState = {
+        ...state
+      };
+  }
+
+  return newState;
+};
+
+export default reducer;
+```
+
+**Counter.js**
+
+```javascript
+import React, { Component } from 'react';
+
+import CounterControl from '../../components/CounterControl/CounterControl';
+import CounterOutput from '../../components/CounterOutput/CounterOutput';
+import {connect} from 'react-redux';
+
+class Counter extends Component {
+    state = {
+        counter: 0
+    }
+
+    render () {
+        return (
+            <div>
+                <CounterOutput value={this.props.ctr} />
+                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
+                <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
+                <CounterControl label="Add" clicked={this.props.onAddCounter}  />
+                <CounterControl label="Subtract" clicked={this.props.onSubtractCounter}  />
+            </div>
+        );
+    }
+}
+
+const mapStateToProps = state => {
+  return {
+    ctr: state.counter
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onIncrementCounter: () => dispatch({ type: 'INCREMENT'}),
+    onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
+    onAddCounter: () => dispatch({
+      type: 'ADD',
+      value: 5
+    }),
+    onSubtractCounter: () => dispatch({type: 'SUBTRACT',
+    value: 5}),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+```
+
+> For eliminating the danger of mistyping action types, it is always a good practice to outsource these action types into constants.
+
+#### Combining reducers
+
+Redux allows to combine reducers into one. To do that in React, simply use the `combineReducers` function. This function will take a JS object as an argument, and each property of this object is one the your reducers. The state produced by `combineReducers()` namespaces the states of each reducer under their keys as passed to combineReducers().
+
+**Counter reducer**
+
+```javascript
+import * as actionTypes from '../actions';
+
+const initialState = {
+  counter: 0,
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.INCREMENT:
+      return {
+        ...state,
+        counter: state.counter + 1
+      };
+    case actionTypes.DECREMENT:
+      return {
+        ...state,
+        counter: state.counter - 1
+      };
+    case actionTypes.ADD:
+      return {
+        ...state,
+        counter: state.counter + action.value
+      };
+    case actionTypes.SUBTRACT:
+      return {
+        ...state,
+        counter: state.counter - action.value
+      };
+  }
+  return state;
+};
+
+export default reducer;
+```
+
+**Result reducer**
+
+```javascript
+import * as actionTypes from '../actions';
+
+const initialState = {
+  results: []
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.STORE_RESULT:
+      console.log(state)
+      return {
+        ...state,
+        results: state.results.concat({id: new Date(), // concat returns a new Array
+          value: action.counter}) // here we need to get the value through an action payload because the state
+        // doesn't contain the counter anymore
+      }
+    case actionTypes.DELETE_RESULT:
+      return {
+        ...state,
+        results: state.results.filter((result) => result.id !== action.resultElId)
+      };
+  }
+  return state;
+};
+
+export default reducer;
+```
+
+**index.js**
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
+import {combineReducers, createStore} from 'redux';
+import counterReducer from './store/reducers/counter';
+import resultReducer from './store/reducers/result';
+import {Provider} from 'react-redux';
+
+const rootReducer = combineReducers({
+  ctr: counterReducer,
+  res: resultReducer
+});
+const store = createStore(rootReducer);
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+registerServiceWorker();
+```
+
+**Counter.js**
+
+```javascript
+import React, { Component } from 'react';
+import CounterControl from '../../components/CounterControl/CounterControl';
+import CounterOutput from '../../components/CounterOutput/CounterOutput';
+import {connect} from 'react-redux';
+import * as actionTypes from '../../store/actions';
+
+class Counter extends Component {
+    state = {
+        counter: 0
+    }
+
+    render () {
+        return (
+            <div>
+                <CounterOutput value={this.props.ctr} />
+                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
+                <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
+                <CounterControl label="Add" clicked={this.props.onAddCounter}  />
+                <CounterControl label="Subtract" clicked={this.props.onSubtractCounter}  />
+                <hr />
+                <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store result</button>
+              <ul>
+                {this.props.storedResults.map(storedResult => (
+                    <li key={storedResult.id} onClick={() => this.props.onDeleteResult(storedResult.id)}>{storedResult.value}</li>
+                ))}
+              </ul>
+            </div>
+        );
+    }
+}
+
+const mapStateToProps = state => {
+  return {
+    // state object will have two properties ctr and res corresponding to the properties you defined in the combineReducers argument
+    ctr: state.ctr.counter, 
+    storedResults: state.res.results
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT}),
+    onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
+    onAddCounter: () => dispatch({
+      type: actionTypes.ADD,
+      value: 5
+    }),
+    onSubtractCounter: () => dispatch({type: actionTypes.SUBTRACT,
+    value: 5}),
+    onStoreResult: (val) => dispatch({type: actionTypes.STORE_RESULT, counter: val}),
+    onDeleteResult:  (id) => dispatch({type: actionTypes.DELETE_RESULT,
+    resultElId: id}),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+```
+
+### State types
+
+There are different types of states, and knowing them will allow you to decide whether or not it is worth using Redux.
+
+- Local UI State: state that is local to a component and doesn't concern the entire application, for example, the selected tab in a navigation bar. For these cases, it is mostly handled within components and Redux is not really necessary.
+- Persistent state: things also stored in your server-side database. You can use Redux to only get and manage relevant slice of data. Remember that the state are removed if you refresh your page, so, do not consider the state as a database.
+- Client state: things like "is the user authenticated?" or filter settings of a user. These are things you can definitely managed with Redux.
+
+### Advanced concepts
+
+#### Middlewares
+
+A Redux middleware is a piece of code, a function that will be executed before the action arrives in the reducer. It allows to run some logic, for example, logging, reporting crash, talking to an asynchronous API... You can use multiple middlewares by chaining them.
+
+In Redux, middleware have access to a limited subset of the API, you can only call `dispatch` and `getState`. Another important function that will be called by Redux is `next`. This function needs the action as an argument as it will pass it to the next middleware in the chain (or to the reducer if you are in the last middleware). Please note that, `dispatch` is different from `next` because it will send the action back to the first middleware in the chain.
+
+To add a middleware to the store, simply use the `applyMiddleware` function and add the result of this function as a parameter to the `createStore` function.
+
+**Example with a logger middleware**
+
+```javascript
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+
+const logger = store => {
+  return next => {
+    return action => {
+      console.log('[Middleware] Dispatching', action);
+      const result = next(action); // allow the action to go to the reducer. Very important!
+      console.log('[Middleware] newt state', store.getState());
+      return result;
+    }
+  }
+}
+
+const store = createStore(rootReducer, applyMiddleware(logger));
+```
+
+> To help you debug a Redux application, use the [ReduxDevTools](https://github.com/zalmoxisus/redux-devtools-extension).
+
+#### Action creators
+
+An action can also be created with an **action creator**. An action creator is just a function that creates an action. So instead of creating actions with an object, we will just creating actions through a function.
+
+**Example with STORE_RESULT action**
+
+```javascript
+export const storeResult = (value) => {
+  return {
+    type: 'STORE_RESULT',
+    counter: value
+  };
+};
+```
+
+The perk of action creators is that it will allow us to do asynchronous code.
+
+#### Async code
+
+Remember that a reducer can't run asynchronous code because it is a pure function.
+
+To run asynchronous code, e are going to use actions and to do that, we need a third party library called [`redux-thunk`](https://github.com/reduxjs/redux-thunk). This library provides a thunk middleware. "thunk" means a function that is returned by another function, and the thunk middleware will just look at every action that passes through the system and, if it's a function, it will just call it.
+
+**actions.js**
+
+```javascript
+// Synchronous action creator
+export const saveResult = value => {
+  return {
+    type: 'STORE_RESULT',
+    counter: value
+  };
+}
+
+// Asynchronous action creator
+export const storeResult = (value) => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(saveResult(value)); // after timer is out, we execute the synchronous action creator
+    }, 2000);
+  }
+};
+```
+
+**index.js**
+
+```javascript
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import thunk from 'redux-thunk';
+
+const logger = store => {
+  return next => {
+    return action => {
+      console.log('[Middleware] Dispatching', action);
+      const result = next(action); // allow the action to go to the reducer. Very important!
+      console.log('[Middleware] newt state', store.getState());
+      return result;
+    }
+  }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // for ReduxDevTools extension
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk))); // simply add the thunk middleware
+```
+
+> You can now apply data transforming login in action creators, but you may ask yourself, where to put that logic? in the action creator or in the reducer? First, if you have asynchronous logic, you can only put it in the action creator. The reducer is the core concept and it's its role to update the state. But there is a difference between returning a new state (reducer) and updating the data that will go to a state (could be done in an action creator). It is still recommended that if you have clean data (after getting it from a server for example) to pass it to the reducer and to limit logic in the action creators.
+
+> `react-thunk` can also pass the getState function as well as the dispatch function. This will allow you to have access to the state within an action creator.
 
 ## Links and references
 
