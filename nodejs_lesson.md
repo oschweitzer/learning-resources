@@ -167,8 +167,10 @@ const server = http.createServer((req, res) => {
       body.push(chunk);
     });
     req.on('end', () => {
-      const parsedBody = Buffer.concat(body).toString(); // we know that the incoming data will be text with the following format: "message=yourText"
-      const message = parsedBody.split('=')[1]; // we only need the text after the '='.
+      // we know that the incoming data will be text with the following format: "message=yourText"
+      const parsedBody = Buffer.concat(body).toString();
+      // we only need the text after the '='.
+      const message = parsedBody.split('=')[1];
       fs.writeFileSync('message.txt', message);
     });
     res.statusCode = 302;
@@ -240,9 +242,9 @@ server.listen(3000);
 
 Node.js is single threaded but has some mechanisms to handle multiple incoming requests, blocking and long running tasks. One major element is the **Event Loop**. The event loop is started by Node.js and will handle callback functions called when events occur. The event loop will only handle fast callback functions. The event loop runs on a single thread and it runs until there is no more work to do (resulting in the program exiting).
 
-In the real world it is difficult to support all the different types of I/O (file I/O, network I/O,DNS, etc.). Some I/O can be performed using native hardware implementation and then be completely asynchronous (network I/O use [epoll](https://en.wikipedia.org/wiki/Epoll), [kqueue](https://en.wikipedia.org/wiki/Kqueue), [IOCP](https://en.wikipedia.org/wiki/Input/output_completion_port) and a few others). But certain I/O types can't be performed using these implementations (file I/O for example), so they can't be completely asynchronous. TO solve that, a thread pool has been introduced to handle these complex tasks.
+In the real world it is difficult to support all the different types of I/O (file I/O, network I/O,DNS, etc.). Some I/O can be performed using native hardware implementation and then be completely asynchronous (network I/O use [epoll](https://en.wikipedia.org/wiki/Epoll), [kqueue](https://en.wikipedia.org/wiki/Kqueue), [IOCP](https://en.wikipedia.org/wiki/Input/output_completion_port) and a few others). But certain I/O types can't be performed using these implementations (file I/O for example), so they can't be completely asynchronous. To solve that, a thread pool has been introduced to handle these complex tasks.
 
-This **thread pool** also known as **worker pool** is totally detached of your JavaScript code and, by default, will contain 4 threads. This pool is responsible for doing all the heavy lifting. There is one connection between the event loop and the thread pool, when a worker is done, it will trigger the callback of the operation it just did. For example, the worker will read a file and when it's done, it will trigger the callback of the read event.
+This **thread pool**, also known as **worker pool**, is totally detached of your JavaScript code and, by default, will contain 4 threads. This pool is responsible for doing all the heavy lifting. There is one connection between the event loop and the thread pool, when a worker is done, it will trigger the callback of the operation it just did. For example, the worker will read a file and when it's done, it will trigger the callback of the read event.
 
 > Keep in mind that Node.js doesn't perform all the I/O in the thread pool.
 
@@ -328,7 +330,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   console.log('In another middleware!');
-  res.send('<h1>Hello from Express!</h1>'); // we are not calling next() because this is the last middleware in line
+  res.send('<h1>Hello from Express!</h1>');
+  // we are not calling next() because this is the last middleware in line
 });
 
 const server = http.createServer(app);
@@ -418,7 +421,7 @@ Using Express.js, there is a npm package called [csurf](https://github.com/expre
 
 ## REST API
 
-REST (Representational State Transfer) is way of building API. Node.js can be used to build servers that will serve or render their own user interface (using [EJS](https://ejs.co/) for example). Nowadays, it is most common to avoid reloading entire web pages, but instead we try to get data from servers in order to update part of web pages or even having only one page (something we called SPA for Single Page Application). Getting data instead of full HTML pages, allows to decouple frontend and backend. That is why we need REST API, but keep in mind that the server logic (validation, authentication, databases...) stays the same between servers using REST and those who don't.
+REST (Representational State Transfer) is a way of building API. Node.js can be used to build servers that will serve or render their own user interface (using [EJS](https://ejs.co/) for example). Nowadays, it is most common to avoid reloading entire web pages, but instead we try to get data from servers in order to update part of web pages or even having only one page (something we called SPA for Single Page Application). Getting data instead of full HTML pages, allows to decouple frontend and backend. That is why we need REST API, but keep in mind that the server logic (validation, authentication, databases...) stays the same between servers using REST and those who don't.
 
 ### Routes
 
