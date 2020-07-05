@@ -57,7 +57,7 @@
 
 [React](https://reactjs.org/) is a JavaScript library (developed by Facebook) allowing to build User Interfaces (UI). Since it's written in JavaScript, React runs in the browser not in servers.
 
-A React user interface is split into components, for example, we could have component for the web page header, one ofr a sidebar and another one for the web page content (where articles are displayed). Components are building blocks that makes your application more manageable and reusable.
+A React user interface is split into components, for example, we could have component for the web page header, one for a sidebar and another one for the web page content (where articles are displayed). Components are building blocks that makes your application more manageable and reusable.
 
 ## React basics
 
@@ -277,13 +277,17 @@ class App extends Component {
 export default App;
 ```
 
-If you change (mutate) the state directly by directly updating the `state` property, React will issue a warning in your web browser console, and your update will not work. To mutate a state, React provides a function called `setState()` that will update the state and tell React that it was updated, so it can re-render the DOM.
+If you change (mutate) the state by directly updating the `state` property, React will issue a warning in your web browser console, and your update will not work. To mutate a state, React provides a function called `setState()` that will update the state and tell React that it was updated, so it can re-render the DOM.
 
 `setState` takes an object as an argument and will merge this object with the current `state` object value.
 
 #### useState() hook
 
-Since React version 16.8, there is a way to manage states in non class-based component by using **React Hooks**. The hook we can use to manage states, is the `useState()` hook. This function takes the initial state asa value and returns two values. The first one is the current state represented by an object and the second one is a function that allows us update the state.
+Since React version 16.8, there is a way to manage states in non class-based
+component by using **React Hooks**. The hook we can use to manage states, is the
+`useState()` hook. This function takes the initial state as a value and returns
+two values. The first one is the current state represented by an object and the
+second one is a function that allows us update the state.
 
 ```javascript
 import React, { Component, useState } from 'react';
@@ -328,7 +332,7 @@ export default app;
 
 > The state setter function returned by the `useState` hook, will not merge states, but it will replace the old state with the new one. You can have multiple `useState` calls and so have multiple state objects.
 
-> If you need to update the state but you depend on the previous state value, it's a best practice to pass a function instead of passing an object as the first argument of the `userState` method. This function takes two parameters, the previous state and the current props and you will have to return the new state.
+> If you need to update the state but you depend on the previous state value, it's a best practice to pass a function instead of passing an object as the first argument of the `useState` method. This function takes two parameters, the previous state and the current props and you will have to return the new state.
 
 ### Events handling
 
@@ -594,20 +598,33 @@ Class-based components are Javascript classes that extends the `Component` class
 
 ### Functional components
 
-Functional components are represented by JavaScript function (mostly using ES6 arrow function notation) assigned to constant (that will be exported in order to use them as component). In the past (before React 16.8 and React Hooks), they couldn't manage state. But, since React hooks were introduced, they can with the `useState` hook. However, lifecycle hooks are not available with function components. Unlike a class-based component, in a functional component, you will get all your properties by the `props` variable.
+Functional components are represented by JavaScript function (mostly using ES6
+arrow function notation) assigned to constant (that will be exported in order to
+use them as component). In the past (before React 16.8 and React Hooks), they
+couldn't manage state. But, since React hooks were introduced, they can with the
+`useState` hook. However, lifecycle hooks are not available with functional
+components (event though the `useEffect` React Hook allows to do side effects). In a functional component, you will get all your properties by the
+`props` variable.
 
 > Keep in mind, that you could be working on older React project where functional components can't handle state.
 
 ### Component lifecycle
 
-The component lifecycle is only available in class-based components. This lifecycle is represented by lifecycle hooks (lifecycle hooks has nothing to do with React hooks!). There are two different lifecycle we could say, one for the component creation and one when a component is updated (because props or state changed).
+The component lifecycle is only available in class-based components. This lifecycle is represented by lifecycle hooks (**lifecycle hooks have nothing to do with React hooks!**). There are two different lifecycles we could say, one for the component creation and one when a component is updated (because props or state changed).
 
 #### Component creation lifecycle
 
 - `constructor(props)` => this is an ES6 feature and by default it is done for you. If you want to define the constructor, remember to always call `super(props)` as the first instruction in the constructor function.
-- `getDerivedStateFromProps(props, state)` => this hook exists for the are case where the state depends on props changes during time. It is a static method that should return the updated state. Keep in mind that is very rarely used.
+- `getDerivedStateFromProps(props, state)` => this hook exists for the case
+  where the state depends on props changes during time. It is a static method
+  that should return the updated state. Keep in mind that it is very rarely
+  used.
 - `render()` => this hook will prepare and structure your JSX code. Don't execute code that can blocked the rendering process in this function. Every child component you included in your rendered component here will then be rendered as well.
-- `componentDidMount()` => this hook will be called once all child component of this component have finished their lifecycle. Here you can make your HTTP requests to get data from servers. Don't update the state synchronously (you can do it in a promise for example) in this hook because it will trigger a re-render process that is bad for performances.
+- `componentDidMount()` => this hook will be called once all child components of
+  this component have finished their lifecycle. Here you can make your HTTP
+  requests to get data from servers for example. Don't update the state synchronously
+  (you can do it in a promise for example) in this hook because it will trigger
+  a re-render process that is bad for performances.
 
 > They are still historic lifecycle hooks that you can use, for example `componentWillMount()`, but since they are very rarely used and could lead to side effects, they might be removed in the future.
 
@@ -625,15 +642,18 @@ Since React Hooks, it is possible to handle state in functional components. The 
 
 The first argument of this function is the effect, the function that will be executed on changes or creation. The second argument is an array of data. With this array you cas restrict the hook to only trigger on changes on these data. If this array is empty, the effect will only run one time, on the component creation (like the `componentDidMount()` function).
 
-You can return a function in the effect function, this allows to do some cleanup work for example because this function will be called right before the next lifecycle or when the component is destroyed (be sure to pass an empty array to `useEffect()` to run it only one time).
+You can return a function in the effect function, this allows to do some cleanup
+work for example because this function will be called right before the next
+lifecycle or when the component is destroyed (be sure to pass an empty array to
+`useEffect()` to only run it one time).
 
-You can have more than one `useEffect()` in a single component.
+You can have more than one `useEffect()` hook in a single component.
 
 ### Optimization
 
 To optimize functional component, meaning not re-rendering it when its props don't change, you can wrap it using the `React.memo` function. Of course, if your component will always change with its parent component, don't use this function because you will execute useless code.
 
-If you need to check all the properties of a component in the `shouldComponentUpdate` hook, meaning you know that your component will renders the same result given the same props ans state, you can extends this component from `PureComponent` instead of `Component`. `PureComponent` will implement the shouldComponentUpdate for you and do a shallow prop and state comparison (be careful if you have complex data structure because it can lead to false positive).
+If you need to check all the properties of a component in the `shouldComponentUpdate` hook, meaning you know that your component will render the same result given the same props ans state, you can extends this component from `PureComponent` instead of `Component`. `PureComponent` will implement the shouldComponentUpdate for you and do a shallow prop and state comparison (be careful if you have complex data structure because it can lead to false positive).
 
 ### DOM updates
 
@@ -689,7 +709,7 @@ HOC can be used to do whatever you want, it's not really a React feature but a d
 
 You may wonder how to avoid that a developer uses your components in the wrong way, for example passing unused data or wrong data type to your components props. There is a npm package that will help you do that, it's called [prop-types](https://www.npmjs.com/package/prop-types).
 
-Once installed, in your component just import the PropTypes object and use it like in the example below.
+Once installed, in your component, simply import the PropTypes object and use it like in the example below.
 
 ```javascript
 import React from 'react';
@@ -723,7 +743,7 @@ If the data type is wrong, you will see an error in your web console.
 
 ### Refs
 
-React provides a special attribute that you can attach to any component, called `ref` (for reference). Refs are are objects of functions created by the `React.createRef()` function. These refs allow to have a direct access to a DOM element or component instance.
+React provides a special attribute that you can attach to any component, called `ref` (for reference). Refs are objects of functions created by the `React.createRef()` function. These refs allow to have a direct access to a DOM element or component instance.
 
 **Example on managing the focus on input elements**
 
@@ -827,7 +847,7 @@ class App extends Component {
     let persons = null;
     if (this.state.showPersons) {
       persons = (
-        // here we are defining our data (default value of the context is doesn't really matter then)
+        // here we are defining our data (default value of the context doesn't really matter then)
         <MyContext.Provider value={{ data: 'my data' }}>
           <Persons
             persons={this.state.persons}
@@ -909,7 +929,11 @@ export class Person extends Component {
 
 #### useContext()
 
-For functional components, it is also possible to have this context feature thanks to React Hooks. The hook for contexts is named `useContext()`. Just pass your context object as a parameter to this hook.
+For functional components, it is also possible to have this context feature
+thanks to React Hooks. The hook for contexts is named `useContext()`. Just pass
+your context object as a parameter to this hook. `useContext()` is the
+equivalent of the `contextType` property or the `Context.Consumer`. You still
+have to use the `Context.Provider` component on your parent component.
 
 ```javascript
 import React, { useContext } from 'react';
@@ -938,9 +962,11 @@ If you want your React application to get/send data from/to a server, you will p
 
 Like mentioned in the component lifecycle, the best place to do HTTP requests (and especially to get data when our component is created) is in the `componentDidMount()` lifecycle hook, because side effects are authorized there.
 
-It is recommended to use the [axios](https://github.com/axios/axios) library since it's one of the most popular HTTP library and it's available for frontend code as well as backend code.
+It is recommended to use the [axios](https://github.com/axios/axios) library
+since it's one of the most popular HTTP library and it's available for frontend
+code as well as for backend code.
 
-For example, if I have an application that simulate a blog with posts.
+For example, if I have an application that simulates a blog with posts.
 
 **Post.js**
 
@@ -999,13 +1025,13 @@ export default Blog;
 
 ## Routing
 
-If you want to make your single page application more like an multi-pages application, you can use routing. Routing allows to keep an SPA architecture while improving the navigation and the user experience.
+If you want to make your single page application more like a multi-pages application, you can use routing. Routing allows to keep an SPA architecture while improving the navigation and the user experience.
 
 React (unlike Angular for example) doesn't provide built in features for routing. Most React developers use the [react-router](https://github.com/ReactTraining/react-router/tree/master/packages/react-router) package to handle routing (which is the core package, but you may also need to install [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom) for DOM bindings).
 
 > Note that technically, only the `react-router-dom` it necessary because it already contains the `react-router` package, but keep in mind that if you search for information, search for `react-router`.
 
-This package will parse the URL, the path, then read our configuration to know which path correspond to which component.
+This package will parse the URL (the path), then read our configuration to know which path correspond to which component.
 
 First, you have to wrap your routing component (in the `App.js` file of the `index.js` file for example) between the `BrowserRouter` component from the `react-router-dom` package to activate routing capabilities.
 
@@ -1169,7 +1195,7 @@ If you want relative paths, you can use the `props.match` object and its `url` p
 
 ### Route parameters
 
-You can use route parameters to have use dynamic parameters and so created multiple routes. For example in our example, we might want to access a path like '/<postId>' where postId is dynamic because we are not going to write a route for each post ids.
+You can use route parameters to use dynamic parameters and created multiple routes. For example in our example, we might want to access a path like '/<postId>' where `postId` is dynamic because we are not going to write a route for each post id.
 
 To do that, simply add a `Route` and, in this route path, use the ':' operator followed by the name of your dynamic parameter.
 
@@ -1216,7 +1242,7 @@ class Blog extends Component {
 export default Blog;
 ```
 
-Routes order is important, here /:postId should be placed after /new-post in order to avoid new-post to be interpreted as an postId. But this will not resolve it all, because by default the router will render all routes if they match the path. In this our case, when going on the `/new-post` path, it will render both `NewPost` and `FullPost` components. To solve that, simply wrap your routes between a `Switch` component (provided by `react-router-dom`). This `Switch` component will only render the first component when the route math the path.
+Routes order is important, here `/:postId` should be placed after `/new-post` in order to avoid `new-post` to be interpreted as an `postId`. But this will not resolve it all, because by default the router will render all routes if they match the path. In our case, when going on the `/new-post` path, it will render both `NewPost` and `FullPost` components. To solve that, simply wrap your routes between a `Switch` component (provided by `react-router-dom`). This `Switch` component will only render the first component when the route matches the path.
 
 Then in your child component, you can get this dynamic parameter by using the `props.match` object and its `params` property which contains the parameters list.
 
@@ -1224,11 +1250,15 @@ Then in your child component, you can get this dynamic parameter by using the `p
 
 ### Navigating programmatically
 
-You may want to navigate between pages using code instead `<Link></Link>` component. To do that ,simply use the functions provided by the `props.history` object. For example, to navigate to a specific page, use the `push()` function, or if you simply want to go back (like you do with the button on your browser), use the `goBack()` function.
+You may want to navigate between pages using code instead of `<Link></Link>`
+component. To do that, simply use the functions provided by the `props.history`
+object. For example, to navigate to a specific page, use the `push()` function,
+or if you simply want to go back (like you do with the button on your browser),
+use the `goBack()` function.
 
 ### Redirection
 
-The `react-router-dom` provides a `Redirect` component that allows to redirect users to another path. This component has two properties, `from`, which tell on which path it should trigger and `to`, to tell to which path it should redirect the user.
+The `react-router-dom` provides a `Redirect` component that allows to redirect users to another path. This component has two properties, `from`, which tells on which path it should trigger and `to`, to tell to which path it should redirect the user.
 
 It is also possible to use this component conditionally by using an if statement in your JSX code. For example when a Post is send to the server, you may want to display the Redirect component meaning redirecting the user to the home page.
 
@@ -1236,7 +1266,7 @@ It is also possible to use this component conditionally by using an if statement
 
 ### Guards
 
-Navigation guard are typically used to allow or not a user to access certain routes. In React, with the react router, you can see guard as conditionally display components or not.
+Navigation guard are typically used to allow or not a user to access certain routes. In React, with the react router, you can see guard as conditionally displaying components or not.
 
 ```javascript
 import React, { Component } from 'react';
@@ -1365,7 +1395,10 @@ class Blog extends Component {
 export default Blog;
 ```
 
-> This setup works for React application created with the [create-react-app](https://github.com/facebook/create-react-app) package, because it a [webpack](https://webpack.js.org/) configuration allowing to do lazy loading.
+> This setup works for React application created with the
+> [create-react-app](https://github.com/facebook/create-react-app) package,
+> because it uses a [webpack](https://webpack.js.org/) configuration allowing to
+> do lazy loading.
 
 **Since React 16.6, there is a new way to use lazy loading.** This new version provides the `lazy()` method where you pass a function that will import the wanted component only when needed. Then use the `Suspense` component that will asynchronously load your component and allow you to specify a `fallback`, a message or a loading spinner to be displayed when waiting for the component to be loaded.
 
@@ -1414,7 +1447,7 @@ Redux is a JavaScript library used to manage states in web application (it's tot
 
 Redux provides a **central store**, a giant JavaScript object that stores the entire application state. When a React component for example, wants to manipulate this application state, it will not do it directly because it will make this state pretty unpredictable. Redux is all about having a clearly defined process of how your state may change.
 
-Besides the central store, Redux provides a building block named **actions**. Actions a re dispatched from your JavaScript code (from within your React component for example). These actions are pre-defined information package, descriptions we could say, like "addUser" or "removeUser" for example. These actions can also hold payloads, like which User should be added. Actions don't directly reach the store, they are not containing any logic, they don't know how to update the store, it's just a messenger. The building block that is changing the store is a **reducer**.
+Besides the central store, Redux provides a building block named **actions**. Actions are dispatched from your JavaScript code (from within your React component for example). These actions are pre-defined information package, descriptions we could say, like "addUser" or "removeUser" for example. These actions can also hold payloads, like which User should be added. Actions don't directly reach the store, they are not containing any logic, they don't know how to update the store, it's just a messenger. The building block that is changing the store is a **reducer**.
 
 Reducers can be combined but in the end you will have one root reducer that will reach the store. The reducer will receive actions, check the type of this action and run some code. A reducer is [pure function](https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/) which will receive an action and the old state as inputs and return an updated state. The updated state is then replacing the old state on the store. This has to be done in a immutable way, the updated is based on the old one but it's a new JavaScript object. A reducer has to execute synchronous code only.
 
@@ -1516,7 +1549,7 @@ export default reducer;
 
 In order to connect Redux to your React application, the first thing to do is to use the `connect` HOC from `react-redux` package. This HOC has to wrap the component you want to connect to the store.
 
-The first argument of this `connect` function is `mapStateToProps` which is a function too. Like its name suggests it, `mapStateToProps` is used to select the data from the store that the connected component needs. This function is called every time the store state changes and it will receive the entire state from the store. The goal of th is function is to return an object, a part of the state the component needs.
+The first argument of this `connect` function is `mapStateToProps` which is a function too. Like its name suggests it, `mapStateToProps` is used to select the data from the store that the connected component needs. This function is called every time the store state changes and it will receive the entire state from the store. The goal of this function is to return an object, a piece of the state the component needs.
 
 #### Dispatching actions
 
@@ -1531,11 +1564,11 @@ But you can also use the second argument of the `connect` HOC. This argument is 
 // making Book able to dispatch the bookClickHandler action
 const Library = ({ books, bookClickHandler }) => (
   <div>
-    {books.map(book => (
+    {books.map((book) => (
       <Book book={book} onClick={bookClickHandler} />
     ))}
   </div>
-)
+);
 ```
 
 #### Passing and retrieving data with Action
@@ -1548,7 +1581,7 @@ Of course, just like in the Redux example, it is possible to pass data in an act
 
 ```javascript
 const initialState = {
-  counter: 0
+  counter: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -1556,27 +1589,27 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'INCREMENT':
       newState = {
-        counter: state.counter + 1
+        counter: state.counter + 1,
       };
       break;
     case 'DECREMENT':
       newState = {
-        counter: state.counter - 1
+        counter: state.counter - 1,
       };
       break;
     case 'ADD':
       newState = {
-        counter: state.counter + action.value
+        counter: state.counter + action.value,
       };
       break;
     case 'SUBTRACT':
       newState = {
-        counter: state.counter - action.value
+        counter: state.counter - action.value,
       };
       break;
     default:
       newState = {
-        ...state
+        ...state,
       };
   }
 
@@ -1593,42 +1626,51 @@ import React, { Component } from 'react';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Counter extends Component {
-    state = {
-        counter: 0
-    }
+  state = {
+    counter: 0,
+  };
 
-    render () {
-        return (
-            <div>
-                <CounterOutput value={this.props.ctr} />
-                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
-                <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
-                <CounterControl label="Add" clicked={this.props.onAddCounter}  />
-                <CounterControl label="Subtract" clicked={this.props.onSubtractCounter}  />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <CounterOutput value={this.props.ctr} />
+        <CounterControl
+          label='Increment'
+          clicked={this.props.onIncrementCounter}
+        />
+        <CounterControl
+          label='Decrement'
+          clicked={this.props.onDecrementCounter}
+        />
+        <CounterControl label='Add' clicked={this.props.onAddCounter} />
+        <CounterControl
+          label='Subtract'
+          clicked={this.props.onSubtractCounter}
+        />
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    ctr: state.counter
-  }
+    ctr: state.counter,
+  };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onIncrementCounter: () => dispatch({ type: 'INCREMENT'}),
-    onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
-    onAddCounter: () => dispatch({
-      type: 'ADD',
-      value: 5
-    }),
-    onSubtractCounter: () => dispatch({type: 'SUBTRACT',
-    value: 5}),
+    onIncrementCounter: () => dispatch({ type: 'INCREMENT' }),
+    onDecrementCounter: () => dispatch({ type: 'DECREMENT' }),
+    onAddCounter: () =>
+      dispatch({
+        type: 'ADD',
+        value: 5,
+      }),
+    onSubtractCounter: () => dispatch({ type: 'SUBTRACT', value: 5 }),
   };
 };
 
@@ -1639,7 +1681,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 
 #### Combining reducers
 
-Redux allows to combine reducers into one. To do that in React, simply use the `combineReducers` function. This function will take a JS object as an argument, and each property of this object is one the your reducers. The state produced by `combineReducers()` namespaces the states of each reducer under their keys as passed to combineReducers().
+Redux allows to combine reducers into one. To do that in React, simply use the `combineReducers` function. This function will take a JS object as an argument, and each property of this object is one your reducers. The state produced by `combineReducers()` namespaces the states of each reducer under their keys as passed to combineReducers().
 
 **Counter reducer**
 
@@ -1655,22 +1697,22 @@ const reducer = (state = initialState, action) => {
     case actionTypes.INCREMENT:
       return {
         ...state,
-        counter: state.counter + 1
+        counter: state.counter + 1,
       };
     case actionTypes.DECREMENT:
       return {
         ...state,
-        counter: state.counter - 1
+        counter: state.counter - 1,
       };
     case actionTypes.ADD:
       return {
         ...state,
-        counter: state.counter + action.value
+        counter: state.counter + action.value,
       };
     case actionTypes.SUBTRACT:
       return {
         ...state,
-        counter: state.counter - action.value
+        counter: state.counter - action.value,
       };
   }
   return state;
@@ -1685,23 +1727,27 @@ export default reducer;
 import * as actionTypes from '../actions';
 
 const initialState = {
-  results: []
+  results: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.STORE_RESULT:
-      console.log(state)
+      console.log(state);
       return {
         ...state,
-        results: state.results.concat({id: new Date(), // concat returns a new Array
-          value: action.counter}) // here we need to get the value through an action payload because the state
+        results: state.results.concat({
+          id: new Date(), // concat returns a new Array
+          value: action.counter,
+        }), // here we need to get the value through an action payload because the state
         // doesn't contain the counter anymore
-      }
+      };
     case actionTypes.DELETE_RESULT:
       return {
         ...state,
-        results: state.results.filter((result) => result.id !== action.resultElId)
+        results: state.results.filter(
+          (result) => result.id !== action.resultElId
+        ),
       };
   }
   return state;
@@ -1718,17 +1764,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import {combineReducers, createStore} from 'redux';
+import { combineReducers, createStore } from 'redux';
 import counterReducer from './store/reducers/counter';
 import resultReducer from './store/reducers/result';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
 const rootReducer = combineReducers({
   ctr: counterReducer,
-  res: resultReducer
+  res: resultReducer,
 });
 const store = createStore(rootReducer);
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
 registerServiceWorker();
 ```
 
@@ -1738,55 +1789,72 @@ registerServiceWorker();
 import React, { Component } from 'react';
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions';
 
 class Counter extends Component {
-    state = {
-        counter: 0
-    }
+  state = {
+    counter: 0,
+  };
 
-    render () {
-        return (
-            <div>
-                <CounterOutput value={this.props.ctr} />
-                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
-                <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
-                <CounterControl label="Add" clicked={this.props.onAddCounter}  />
-                <CounterControl label="Subtract" clicked={this.props.onSubtractCounter}  />
-                <hr />
-                <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store result</button>
-              <ul>
-                {this.props.storedResults.map(storedResult => (
-                    <li key={storedResult.id} onClick={() => this.props.onDeleteResult(storedResult.id)}>{storedResult.value}</li>
-                ))}
-              </ul>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <CounterOutput value={this.props.ctr} />
+        <CounterControl
+          label='Increment'
+          clicked={this.props.onIncrementCounter}
+        />
+        <CounterControl
+          label='Decrement'
+          clicked={this.props.onDecrementCounter}
+        />
+        <CounterControl label='Add' clicked={this.props.onAddCounter} />
+        <CounterControl
+          label='Subtract'
+          clicked={this.props.onSubtractCounter}
+        />
+        <hr />
+        <button onClick={() => this.props.onStoreResult(this.props.ctr)}>
+          Store result
+        </button>
+        <ul>
+          {this.props.storedResults.map((storedResult) => (
+            <li
+              key={storedResult.id}
+              onClick={() => this.props.onDeleteResult(storedResult.id)}
+            >
+              {storedResult.value}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // state object will have two properties ctr and res corresponding to the properties you defined in the combineReducers argument
-    ctr: state.ctr.counter, 
-    storedResults: state.res.results
-  }
+    ctr: state.ctr.counter,
+    storedResults: state.res.results,
+  };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT}),
-    onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
-    onAddCounter: () => dispatch({
-      type: actionTypes.ADD,
-      value: 5
-    }),
-    onSubtractCounter: () => dispatch({type: actionTypes.SUBTRACT,
-    value: 5}),
-    onStoreResult: (val) => dispatch({type: actionTypes.STORE_RESULT, counter: val}),
-    onDeleteResult:  (id) => dispatch({type: actionTypes.DELETE_RESULT,
-    resultElId: id}),
+    onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
+    onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
+    onAddCounter: () =>
+      dispatch({
+        type: actionTypes.ADD,
+        value: 5,
+      }),
+    onSubtractCounter: () => dispatch({ type: actionTypes.SUBTRACT, value: 5 }),
+    onStoreResult: (val) =>
+      dispatch({ type: actionTypes.STORE_RESULT, counter: val }),
+    onDeleteResult: (id) =>
+      dispatch({ type: actionTypes.DELETE_RESULT, resultElId: id }),
   };
 };
 
@@ -1797,9 +1865,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 
 There are different types of states, and knowing them will allow you to decide whether or not it is worth using Redux.
 
-- Local UI State: state that is local to a component and doesn't concern the entire application, for example, the selected tab in a navigation bar. For these cases, it is mostly handled within components and Redux is not really necessary.
-- Persistent state: things also stored in your server-side database. You can use Redux to only get and manage relevant slice of data. Remember that the state are removed if you refresh your page, so, do not consider the state as a database.
-- Client state: things like "is the user authenticated?" or filter settings of a user. These are things you can definitely managed with Redux.
+- **Local UI State**: state that is local to a component and doesn't concern the entire application, for example, the selected tab in a navigation bar. For these cases, it is mostly handled within components and Redux is not really necessary.
+- **Persistent state**: things also stored in your server-side database. You can use Redux to only get and manage relevant slice of data. Remember that the state are removed if you refresh your page, so, do not consider the state as a database.
+- **Client state**: things like "is the user authenticated?" or filter settings of a user. These are things you can definitely managed with Redux.
 
 ### Advanced concepts
 
@@ -1814,18 +1882,18 @@ To add a middleware to the store, simply use the `applyMiddleware` function and 
 **Example with a logger middleware**
 
 ```javascript
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 
-const logger = store => {
-  return next => {
-    return action => {
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
       console.log('[Middleware] Dispatching', action);
       const result = next(action); // allow the action to go to the reducer. Very important!
       console.log('[Middleware] newt state', store.getState());
       return result;
-    }
-  }
-}
+    };
+  };
+};
 
 const store = createStore(rootReducer, applyMiddleware(logger));
 ```
@@ -1842,7 +1910,7 @@ An action can also be created with an **action creator**. An action creator is j
 export const storeResult = (value) => {
   return {
     type: 'STORE_RESULT',
-    counter: value
+    counter: value,
   };
 };
 ```
@@ -1853,51 +1921,54 @@ The perk of action creators is that it will allow us to do asynchronous code.
 
 Remember that a reducer can't run asynchronous code because it is a pure function.
 
-To run asynchronous code, e are going to use actions and to do that, we need a third party library called [`redux-thunk`](https://github.com/reduxjs/redux-thunk). This library provides a thunk middleware. "thunk" means a function that is returned by another function, and the thunk middleware will just look at every action that passes through the system and, if it's a function, it will just call it.
+To run asynchronous code, we are going to use actions and to do that, we need a third party library called [`redux-thunk`](https://github.com/reduxjs/redux-thunk). This library provides a thunk middleware. "thunk" means a function that is returned by another function, and the thunk middleware will just look at every action that passes through the system and, if it's a function, it will just call it.
 
 **actions.js**
 
 ```javascript
 // Synchronous action creator
-export const saveResult = value => {
+export const saveResult = (value) => {
   return {
     type: 'STORE_RESULT',
-    counter: value
+    counter: value,
   };
-}
+};
 
 // Asynchronous action creator
 export const storeResult = (value) => {
-  return dispatch => {
+  return (dispatch) => {
     setTimeout(() => {
       dispatch(saveResult(value)); // after timer is out, we execute the synchronous action creator
     }, 2000);
-  }
+  };
 };
 ```
 
 **index.js**
 
 ```javascript
-import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-const logger = store => {
-  return next => {
-    return action => {
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
       console.log('[Middleware] Dispatching', action);
       const result = next(action); // allow the action to go to the reducer. Very important!
       console.log('[Middleware] newt state', store.getState());
       return result;
-    }
-  }
-}
+    };
+  };
+};
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // for ReduxDevTools extension
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk))); // simply add the thunk middleware
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(logger, thunk))
+); // simply add the thunk middleware
 ```
 
-> You can now apply data transforming login in action creators, but you may ask yourself, where to put that logic? in the action creator or in the reducer? First, if you have asynchronous logic, you can only put it in the action creator. The reducer is the core concept and it's its role to update the state. But there is a difference between returning a new state (reducer) and updating the data that will go to a state (could be done in an action creator). It is still recommended that if you have clean data (after getting it from a server for example) to pass it to the reducer and to limit logic in the action creators.
+> You can now apply data transforming in action creators, but you may ask yourself, where to put that logic? in the action creator or in the reducer? First, if you have asynchronous logic, you can only put it in the action creator. The reducer is the core concept and it's its role to update the state. But there is a difference between returning a new state (reducer) and updating the data that will go to a state (could be done in an action creator). It is still recommended that if you have clean data (after getting it from a server for example) to pass it to the reducer and to limit logic in the action creators.
 
 > `react-thunk` can also pass the getState function as well as the dispatch function. This will allow you to have access to the state within an action creator.
 
