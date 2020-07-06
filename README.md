@@ -8,6 +8,7 @@
 - [Angular](angular_lesson.md)
 - [Nestjs](nestjs_lesson.md)
 - [React](react_lesson.md)
+- [GraphQL](graphql-lesson.md)
 
 ## External resources
 
