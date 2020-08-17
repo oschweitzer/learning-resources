@@ -62,6 +62,12 @@
     - [Lazy loading](#lazy-loading)
     - [Modules and services](#modules-and-services)
   - [AoT & JiT](#aot--jit)
+  - [State management with NgRx](#state-management-with-ngrx)
+    - [Actions](#actions)
+    - [Reducers](#reducers)
+    - [Store](#store)
+    - [Selectors](#selectors)
+    - [Effects](#effects)
   - [Links and references](#links-and-references)
     - [Video course](#video-course)
     - [Documentation](#documentation)
@@ -1599,6 +1605,226 @@ The default way to inject services should still be to inject them in the AppModu
 Once your code is written and the TypeScript compiler compiled your code into JavaScript code, there is still another compilation step that Angular performs. Angular comes with a compiler that will compile template syntax into JavaScript DOM instructions. By default, this compilation is done in the browser (at runtime) and that is why it is called **Just in Time (JiT) compilation**. This compilation may take some time and that's why it is possible to tell Angular to compile before the application is deployed (during the build process), this is called **Ahead of Time (AoT) compilation**. AoT compilation does some extra optimization steps so you may see errors that didn't appear in JiT compilation.
 
 > AoT compilation can be done by using the `ng build --prod` command.
+
+## State management with NgRx
+
+If you already know [React](https://reactjs.org/), you might have heard of [Redux](https://redux.js.org/) library to handle states in your front end application. Well, [NgRx](https://ngrx.io/) is basically Redux adapted to Angular.
+
+**So, first, why do we need state management ?**
+
+In Angular, we could say that each component manage its own state and that's fine for small applications. But, when you have a big application and you need to share data between multiple components it's hard to know to know where a state should live. One of the main issue that these state management tools solve is data sharing between components that are far away in the component tree. You don't want to pass data through all the components in the tree when only two components should be concerned. Here is when a state management tool could be useful.
+
+**Ok, so now let see what is a state management tool and how does it work ?**
+
+A state management tool, like NgRx, is composed of a few elements:
+
+- Store: this is where all the states are stored. Most of the time there is only one store per application (it's not mandatory though). You can see it as a big global object accessible by all the components (this eliminates the need to continuously pass state from one component to another).
+- Actions: events that are dispatched and can contain data to update the store. Actions are simple objects that have a type indicating the type of action to do (set data, get data...).
+- Reducers: pure functions that take the current state of the application, perform an action and return a new state. They do not change the data in the object passed to them or perform any side effect in the application (pure functions).
+
+Depending on the state management library you use, there might be additional elements, we will only talk about NgRx from now on.  
+
+Here is diagram that represents the workflow of application state in NgRx.
+
+![NgRx overall application state workflow diagram](https://ngrx.io/generated/images/guide/store/state-management-lifecycle.png)
+
+### Actions
+
+Actions are events defined by the developer and we mostly describe them using **action creators**. Action creators are functions that provide a consistent and type-safe way to create an action. NgRx provides the `createAction` function that returns an `Action` and needs a type and optionally some data. Data are described using the `props()` function.
+
+```typescript
+import {createAction, props} from '@ngrx/store';
+
+export const increment = createAction(
+  '[COUNTER] INCREMENT',
+  props<{ incrementValue: number }>(),
+);
+```
+
+Once an action is created, we have to dispatch it so it can be later catch by a reducer (or an effect but we will see that later).
+
+**app.component.ts**
+
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {pluck} from 'rxjs/operators';
+import {increment} from './store/app.actions';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.sass']
+})
+export class AppComponent implements OnInit {
+
+  counter$: Observable<number>;
+
+  constructor(
+    private store: Store<{counterReducer: { counter: number }}>
+  ) {}
+
+  ngOnInit(): void {
+    this.counter$ = this.store.select('counterReducer').pipe(
+      pluck('counter')
+    );
+  }
+
+  incrementCounter(value: number): void {
+    this.store.dispatch(increment({incrementValue: value}));
+  }
+}
+```
+
+Here we are injecting the `Store` to have access to the `select` and `dispatch` functions. The type of the `Store` should be the property you use on the `forRoot` call in the root module (see [Store section](#store)) (here `counterReducer`).
+
+### Reducers
+
+Reducer is responsible of handling actions and transitions from one state to another. A reducer is a pure function, it will produce the result given the same input. Since the state is immutable, a reducer should never modify directly its inputs but instead return a new state.
+
+```typescript
+import {Action, createReducer, on} from '@ngrx/store';
+import {increment} from './app.actions';
+
+export interface State {
+  counter: number;
+}
+
+const initialState: State = {
+  counter: 0,
+};
+
+const counterReducer = createReducer(
+  initialState,
+  on(
+      increment, // action
+      (state, {incrementValue}) => ({...state, counter: state.counter + incrementValue, }) // we are returning a new state object.
+    )
+);
+
+// We have to wrap the reducer in a named function because AOT compilation doesn't support arrow functions for factory functions.
+export function reducer(state: State | undefined, action: Action) {
+  return counterReducer(state, action);
+}
+```
+
+### Store
+
+To create the store and associate reducers, you simply have to import the `StoreModule` to your root module. Then, use the `forRoot` function to add a reducer.
+
+**app.module.ts**
+
+```typescript
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {StoreModule} from '@ngrx/store';
+
+import {AppComponent} from './app.component';
+import {reducer} from './store/app.reducer';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    StoreModule.forRoot({counterReducer: reducer}),
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+### Selectors
+
+Selectors are **pure functions** used to get slices of store state. It allows to have some sort of an API for your store. 
+You can also create selectors as a combination of other selectors.
+
+```typescript
+import {createSelector} from '@ngrx/store';
+
+export const selectCounterState = createSelector(
+  (state: { counterReducer: { counter: number } }) => state.counterReducer,
+  (counterReducer) => counterReducer,
+);
+
+export const selectCounter = createSelector(
+  selectCounterState,
+  (state: { counter: number }) => state.counter,
+);
+```
+
+Then in your component, you can use selectors
+
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {increment} from './store/app.actions';
+import * as fromRoot from './store/index';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.sass']
+})
+export class AppComponent implements OnInit {
+
+  counter$: Observable<number>;
+
+  constructor(
+    private store: Store<{counterReducer: { counter: number }}>
+  ) {}
+
+  ngOnInit(): void {
+    this.counter$ = this.store.pipe(select(fromRoot.selectCounter));
+  }
+
+  incrementCounter(value: number): void {
+    this.store.dispatch(increment({incrementValue: value}));
+  }
+}
+```
+
+In order to improve performance, selectors track the inputs you provide them and use memoization.
+
+> Memoization is an optimization technique consisting in caching the result of a function after its initial execution, so, when passing the same value as an input, the function will return the value stored in cache instead of running the function again.
+
+### Effects
+
+In the store management workflow, it is hardly recommended to avoid side effects in actions and reducers. Side effects can be HTTP requests (asynchronous tasks) or accessing the [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for example. These processes are not really interesting in the state point of view even if the results of these processes are important.
+
+This is why NgRx provides the `@ngrx/effects` package that will help us managing these side-effects.
+
+Basically an `effect` is a function that will react to an action and will dispatch another action once the side-effect is done.
+
+```typescript
+import {Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {map, tap} from 'rxjs/operators';
+import {AppService} from '../app.service';
+import {increment, sendCounterValueSuccess} from './app.actions';
+
+@Injectable()
+export class AppEffects {
+  constructor(
+    private actions$: Actions,
+    private appService: AppService,
+  ) {}
+
+  myEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(increment),
+      tap((action) => this.appService.send(action.incrementValue).pipe(
+        map(sendCounterValueSuccess)
+        )
+      ),
+    )
+  )
+}
+```
 
 ## Links and references
 
