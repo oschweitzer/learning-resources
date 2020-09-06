@@ -336,7 +336,7 @@ export default app;
 
 ### Events handling
 
-In React and JSX, you can handle [events](https://reactjs.org/docs/events.html#supported-events) pretty easily by just defining a handler function and associate it to the wanted event on the wanted element.
+In React and JSX, you can handle [events](https://reactjs.org/docs/events.html#supported-events) pretty easily by just defining an handler function and associate it to the wanted event on the wanted element.
 
 ```javascript
 import React, { Component } from 'react';
@@ -535,7 +535,9 @@ export default App;
 
 If you want your components to have CSS styling, there are two ways to do that.
 
-First solution is to create CSS files for your components and then, in the JSX file, import the wanted CSS file. Keep in mind that CSS rules defined in a CSS file are global and not restricted to the component which is imported the file.
+First solution is to create CSS files for your components and then, in the JSX
+file, import the wanted CSS file. Keep in mind that CSS rules defined in a CSS
+file are global and not restricted to the component which is importing the CSS file.
 
 **Person.css**
 
@@ -606,11 +608,11 @@ couldn't manage state. But, since React hooks were introduced, they can with the
 components (event though the `useEffect` React Hook allows to do side effects). In a functional component, you will get all your properties by the
 `props` variable.
 
-> Keep in mind, that you could be working on older React project where functional components can't handle state.
+> Keep in mind, that you could be working on projects using older React versions where functional components can't handle state.
 
 ### Component lifecycle
 
-The component lifecycle is only available in class-based components. This lifecycle is represented by lifecycle hooks (**lifecycle hooks have nothing to do with React hooks!**). There are two different lifecycles we could say, one for the component creation and one when a component is updated (because props or state changed).
+The component lifecycle is only available in class-based components. This lifecycle is represented by lifecycle hooks (**lifecycle hooks have nothing to do with React hooks!**). There are two different lifecycles we could say, one for the component creation and one when a component is updated (because `props` or `state` changed).
 
 #### Component creation lifecycle
 
@@ -634,13 +636,17 @@ The component lifecycle is only available in class-based components. This lifecy
 - `shouldComponentUpdate(nextProps, nextState)` => allows to cancel the updating process. This hook should return a boolean, true if the update should continue, false otherwise. It can be used to do optimization by restricting updating to only changes on specific data.
 - `render()` => React goes through the JSX code, evaluates it and constructs its virtual DOM.
 - `getSnapshotBeforeUpdate(prevProps, prevState)` => takes the previous props and the previous state as input and returns a snapshot. It is not very used but you can use it for last minute DOM operations (for example, getting the current scrolling position of the user).
-- `componentDidUpdate()` => the updating is now done, so here can do side effects (HTTP requests for example). Avoid synchronous functions otherwise you will have infinite loops.
+- `componentDidUpdate()` => the updating is now done, so here you can do side effects (HTTP requests for example). Avoid synchronous functions otherwise you will have infinite loops.
 
 ### useEffect()
 
 Since React Hooks, it is possible to handle state in functional components. The `useEffect()` function basically regroup all the class-based lifecycle methods in one React hook. It is `componentDidUpdate()` and `componentDidMount()` combined in one effect.
 
-The first argument of this function is the effect, the function that will be executed on changes or creation. The second argument is an array of data. With this array you cas restrict the hook to only trigger on changes on these data. If this array is empty, the effect will only run one time, on the component creation (like the `componentDidMount()` function).
+The first argument of this function is the effect, the function that will be
+executed on changes or creation. The second argument is an array of data. With
+this array you can restrict the hook to only trigger on changes on these data.
+If this array is empty, the effect will only run one time, on the component
+creation (like the `componentDidMount()` function).
 
 You can return a function in the effect function, this allows to do some cleanup
 work for example because this function will be called right before the next
@@ -653,7 +659,7 @@ You can have more than one `useEffect()` hook in a single component.
 
 To optimize functional component, meaning not re-rendering it when its props don't change, you can wrap it using the `React.memo` function. Of course, if your component will always change with its parent component, don't use this function because you will execute useless code.
 
-If you need to check all the properties of a component in the `shouldComponentUpdate` hook, meaning you know that your component will render the same result given the same props ans state, you can extends this component from `PureComponent` instead of `Component`. `PureComponent` will implement the shouldComponentUpdate for you and do a shallow prop and state comparison (be careful if you have complex data structure because it can lead to false positive).
+If you need to check all the properties of a component in the `shouldComponentUpdate` hook, meaning you know that your component will render the same result given the same props and state, you can extends this component from `PureComponent` instead of `Component`. `PureComponent` will implement the shouldComponentUpdate for you and do a shallow prop and state comparison (be careful if you have complex data structure because it can lead to false positive).
 
 ### DOM updates
 
@@ -1195,7 +1201,7 @@ If you want relative paths, you can use the `props.match` object and its `url` p
 
 ### Route parameters
 
-You can use route parameters to use dynamic parameters and created multiple routes. For example in our example, we might want to access a path like '/<postId>' where `postId` is dynamic because we are not going to write a route for each post id.
+You can use route parameters to have dynamic parameters and created multiple routes. In our example, we might want to access a path like '/<postId>' where `postId` is dynamic because we are not going to write a route for each post id.
 
 To do that, simply add a `Route` and, in this route path, use the ':' operator followed by the name of your dynamic parameter.
 
@@ -1319,7 +1325,7 @@ export default Blog;
 
 Lazy loading is a pattern where you only load components when the user really need them. For example if a user never clicks on one of your navigation item, you will still have loaded the associated component for nothing.
 
-To do that, we will have to implement a HOC that will load the provided component.
+To do that, we will have to implement an HOC that will load the provided component.
 
 **HOC AsyncComponent**
 
@@ -1449,7 +1455,7 @@ Redux provides a **central store**, a giant JavaScript object that stores the en
 
 Besides the central store, Redux provides a building block named **actions**. Actions are dispatched from your JavaScript code (from within your React component for example). These actions are pre-defined information package, descriptions we could say, like "addUser" or "removeUser" for example. These actions can also hold payloads, like which User should be added. Actions don't directly reach the store, they are not containing any logic, they don't know how to update the store, it's just a messenger. The building block that is changing the store is a **reducer**.
 
-Reducers can be combined but in the end you will have one root reducer that will reach the store. The reducer will receive actions, check the type of this action and run some code. A reducer is [pure function](https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/) which will receive an action and the old state as inputs and return an updated state. The updated state is then replacing the old state on the store. This has to be done in a immutable way, the updated is based on the old one but it's a new JavaScript object. A reducer has to execute synchronous code only.
+Reducers can be combined but in the end you will have one root reducer that will reach the store. The reducer will receive actions, check the type of this action and run some code. A reducer is a [pure function](https://www.freecodecamp.org/news/what-is-a-pure-function-in-javascript-acb887375dfe/) which will receive an action and the old state as inputs and return an updated state. The updated state is then replacing the old state in the store. This has to be done in an immutable way, the updated is based on the old one but it's a new JavaScript object. A reducer has to execute synchronous code only.
 
 Components can subscribe to the store, so when the store receives a new state, it will trigger all subscriptions and components will get notified that the state has been updated.
 
@@ -1866,7 +1872,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 There are different types of states, and knowing them will allow you to decide whether or not it is worth using Redux.
 
 - **Local UI State**: state that is local to a component and doesn't concern the entire application, for example, the selected tab in a navigation bar. For these cases, it is mostly handled within components and Redux is not really necessary.
-- **Persistent state**: things also stored in your server-side database. You can use Redux to only get and manage relevant slice of data. Remember that the state are removed if you refresh your page, so, do not consider the state as a database.
+- **Persistent state**: things also stored in your server-side database. You can use Redux to only get and manage relevant slice of data. Remember that states are removed if you refresh your page, so, do not consider states as databases.
 - **Client state**: things like "is the user authenticated?" or filter settings of a user. These are things you can definitely managed with Redux.
 
 ### Advanced concepts
