@@ -43,7 +43,7 @@
 
 Node.js is a JavaScript runtime. It allows to run JavaScript on the server (or anywhere else from the browser).
 
-Node.js uses V8, which is the JavaScript engine built by Google. A JS engine takes JS code and compile it to machine code. Node.js takes V8 and adds some extra features, like working with your local filesystem (opening files, reading files...).
+Node.js uses V8, which is the JavaScript engine built by Google. A JS engine takes JS code and compiles it to machine code. Node.js takes V8 and adds some extra features, like working with your local filesystem (opening files, reading files...).
 
 Of course, because Node.js doesn't run on a web browser, JS features linked to the browser (like DOM manipulation) don't exist in Node.js.
 
@@ -188,7 +188,7 @@ const server = http.createServer((req, res) => {
 server.listen(3000);
 ```
 
-:warning: Be careful of the execution order of events. In the example above, the callback function of a `on()` event will be executed when the associated event occurs, meaning that the response could be send before the `message.txt` will be created.
+:warning: Be careful of the execution order of events. In the example above, the callback function of an `on()` event will be executed when the associated event occurs, meaning that the response could be send before the `message.txt` will be created.
 
 ### Blocking and non-blocking code
 
@@ -343,7 +343,7 @@ server.listen(3000);
 
 ### Cookies
 
-A cookie is piece of information send by a server and stored in the client browser. This cookie can then be send by the client within a HTTP request to the same server. This allows the server to know if two requests come from the same client. It is mostly used for data tracking, sessions (shopping cart, game score, logins...) or custom configuration (user preferences, themes...).
+A cookie is piece of information send by a server and stored in the client browser. This cookie can then be send by the client within an HTTP request to the same server. This allows the server to know if two requests come from the same client. It is mostly used for data tracking, sessions (shopping cart, game score, logins...) or custom configuration (user preferences, themes...).
 
 To create a cookie, the server needs to set the HTTP header 'Set-Cookie' with a key-value pair. The client will store this value, and then the server should look at the 'Cookie' header to check if the cookie is present.
 
@@ -425,7 +425,7 @@ REST (Representational State Transfer) is a way of building API. Node.js can be 
 
 ### Routes
 
-With REST API, routes are still a combination of a path and a HTTP method. Routes are also called **API endpoints**. These HTTP methods are and should be used for particular process.
+With REST API, routes are still a combination of a path and an HTTP method. Routes are also called **API endpoints**. These HTTP methods are and should be used for particular process.
 
 - GET: get a resource from the server.
 - POST: post a resource to the server (i.e. create or append a resource).
