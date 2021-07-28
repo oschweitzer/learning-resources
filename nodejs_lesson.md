@@ -60,7 +60,7 @@ server.listen(3000);
 
 ### Request
 
-In Node.js requests are represented through an object. This object contains the HTTP headers, the URL, the HTTP method used by the client...
+In Node.js, requests are represented through an object. This object contains the HTTP headers, the URL, the HTTP method used by the client...
 
 ### Response
 
@@ -127,7 +127,7 @@ server.listen(3000);
 
 In Node.js, data from network or file are put in a special data structure called **streams** which are widely used in Node.js. There are mainly used for reading/writing files and network communications.
 
-Streams are used to avoid the issue to have a file (or a big amount of data) into memory all at once. Streams read chunks of data, piece by piece, processing its content without keeping it all in memory. Streams allow to process data as soon has we have it, we don't have to wait for the whole data to be received to start processing it. These are the two main advantages of streams.
+Streams are used to avoid the issue to have a file (or a big amount of data) in memory all at once. Streams read chunks of data, piece by piece, processing its content without keeping it all in memory. Streams allow to process data as soon has we have it, we don't have to wait for the whole data to be received to start processing it. These are the two main advantages of streams.
 
 Node.js has 4 types of stream:
 
@@ -389,7 +389,7 @@ In the web world, you don't want any client to see everything your frontend prop
 
 A client should first sign up and login. When logging in, a login request is send to the server. The server will create a session so, when the same client will make another request, the server will know that this client is already logged in.
 
-The server will check is the credentials are valid and if so, respond to the request with a 200 HTTP code and a cookie that will be send again for each client requests so that the server will know that the client is authenticated.
+The server will check if the credentials are valid and if so, responds to the request with a 200 HTTP code and a cookie that will be send again for each client requests so that the server will know that the client is authenticated.
 
 ### Password encryption
 
@@ -421,7 +421,7 @@ Using Express.js, there is a npm package called [csurf](https://github.com/expre
 
 ## REST API
 
-REST (Representational State Transfer) is a way of building API. Node.js can be used to build servers that will serve or render their own user interface (using [EJS](https://ejs.co/) for example). Nowadays, it is most common to avoid reloading entire web pages, but instead we try to get data from servers in order to update part of web pages or even having only one page (something we called SPA for Single Page Application). Getting data instead of full HTML pages, allows to decouple frontend and backend. That is why we need REST API, but keep in mind that the server logic (validation, authentication, databases...) stays the same between servers using REST and those who don't.
+REST (REpresentational State Transfer) is a way of building APIs. Node.js can be used to build servers that will serve or render their own user interface (using [EJS](https://ejs.co/) for example). Nowadays, it is most common to avoid reloading entire web pages, but instead we try to get data from servers in order to update part of web pages or even having only one page (something we called SPA for Single Page Application). Getting data instead of full HTML pages, allows to decouple frontend and backend. That is why we need REST API, but keep in mind that the server logic (validation, authentication, databases...) stays the same between servers using REST and those who don't.
 
 ### Routes
 
@@ -442,7 +442,7 @@ Of course you can do whatever you want with these methods since you will develop
 - Stateless interactions: Server and the client don't share any connection history, every request is handled separately. There are no session with the client, so the authentication will be handled in another way.
 - Cacheable: Servers may set caching headers to allow the client to cache responses.
 - Client-server: Server and client are separated, client is not concerned with persistent data storage.
-- Layered system: server may forward requests to other APIs.
+- Layered system: Server may forward requests to other APIs.
 - Code on demand: Executable code may be transferred from server to client.
 
 ### CORS
