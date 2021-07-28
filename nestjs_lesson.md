@@ -31,7 +31,7 @@ Each applications has at least one module, the root module (called `AppModule`).
 
 The `@Module` decorator has several properties.
 
-- `providers`: Array of providers to be available within the module vie dependency injection.
+- `providers`: Array of providers to be available within the module via dependency injection.
 - `controllers`: Array of controllers to be instantiated within the module.
 - `exports`: Array of providers to export to any other modules.
 - `imports`: List of modules required by this module. Any exported provider by these modules will be available in our module via dependency injection.
@@ -58,7 +58,7 @@ Handlers are methods of the controller class and are decorated with decorators s
 
 A basic controller workflow would be:
 
-1. A HTTP request is send by the client.
+1. An HTTP request is send by the client.
 2. The request is routed to the controller and the handler is called with arguments.
 3. The handler handles the request and performs operations (retrieving data from a database for example).
 4. The handler returns a response value of any type (even an exception) to the client.
@@ -87,7 +87,7 @@ A special type of provider is the service (:warning: not all providers are servi
 
 Services are the main source of business logic. A service can, for example, be called from a controller to validate data, create an item in the database and return a response.
 
-Any NestJS component can inject a provider that is decorated with the `@Injectable` decorator. When providing a provider in the component's constructor, NestJS will take care of the injection, and it will then be available as a class property. This is called **constructor-based injection**.
+Any NestJS component can inject a provider that is decorated with the `@Injectable` decorator. When providing a provider in the controller's constructor, NestJS will take care of the injection, and it will then be available as a class property. This is called **constructor-based injection**.
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -109,7 +109,7 @@ export class CatsService {
 
 ### Dependency Injection (DI)
 
-With the constructor-based injection, we saw one example of dependency injection. Dependency injection is an [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)(IoC) technique. The dependencies instantiation is delegated to the IoC container (in our case, the NestJS runtime system) instead doing it in your own code.
+With the constructor-based injection, we saw one example of dependency injection. Dependency injection is an [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control) (IoC) technique. The dependencies instantiation is delegated to the IoC container (in our case, the NestJS runtime system) instead doing it in your own code.
 
 When the NestJS IoC container instantiates a controller for example, it first looks for any dependencies. This step is happening during the application bootstrapping, will analyse the dependencies and create a **dependency graph**. This analysis is transitive, if one dependency has dependencies too, those will also be resolved. This dependency graph make sure that the dependencies are resolved in the right order, think of it as a tree where leaves are resolved first.
 
