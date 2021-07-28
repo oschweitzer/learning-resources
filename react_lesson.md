@@ -55,7 +55,7 @@
 
 ## Introduction
 
-[React](https://reactjs.org/) is a JavaScript library (developed by Facebook) allowing to build User Interfaces (UI). Since it's written in JavaScript, React runs in the browser not in servers.
+[React](https://reactjs.org/) is a JavaScript library (developed by Facebook) allowing to build User Interfaces (UI). Since it's written in JavaScript, React runs in the browser and not in servers.
 
 A React user interface is split into components, for example, we could have component for the web page header, one for a sidebar and another one for the web page content (where articles are displayed). Components are building blocks that makes your application more manageable and reusable.
 
@@ -98,7 +98,7 @@ Most of the HTML syntax will work in JSX, but be careful of the little differenc
 
 #### Dynamic content
 
-With JSX, and if you want dynamic content, you can use the single curly braces to tell React to interpret a variable or an JavaScript expression.
+With JSX, and if you want dynamic content, you can use the single curly braces to tell React to interpret a variable or a JavaScript expression.
 
 ```javascript
 import React from 'react';
@@ -115,7 +115,7 @@ export default person;
 
 Components are the core building blocks of React applications. A React application could be depicted as a component tree, with a root component ("App") and a certain amount of nested child components.
 
-Components are very useful, because they allow to write more manageable, reusable code. Your components can be static or you can configure them by passing arguments (which is called `props` in React).
+Components are very useful, because they allow to write more manageable, reusable code. Your components can be static or you can configure them by passing arguments (which are called `props` in React).
 
 A component needs to return JSX code to tell React which HTML code it should render to the real [DOM (Document Object Model)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model).
 
