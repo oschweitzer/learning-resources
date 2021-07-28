@@ -1,5 +1,45 @@
 # TypeScript
 
+- [TypeScript](#typescript)
+  - [Introduction](#introduction)
+  - [Basics & basic types](#basics--basic-types)
+    - [Union types](#union-types)
+    - [Type guards](#type-guards)
+    - [Literal types](#literal-types)
+    - [Type alias & custom types](#type-alias--custom-types)
+    - [Function types](#function-types)
+  - [Classes](#classes)
+    - [Classes basics](#classes-basics)
+    - [Inheritance](#inheritance)
+    - [Override](#override)
+    - [Protected scope](#protected-scope)
+    - [Getter/setter](#gettersetter)
+    - [Static methods/properties](#static-methodsproperties)
+    - [Abstract classes](#abstract-classes)
+    - [Singleton and private constructor](#singleton-and-private-constructor)
+  - [Interfaces](#interfaces)
+    - [Definition](#definition)
+    - [Interface inheritance](#interface-inheritance)
+    - [Function type](#function-type)
+  - [Advanced types](#advanced-types)
+    - [Intersection types](#intersection-types)
+    - [Advanced type guards](#advanced-type-guards)
+    - [Discriminated union](#discriminated-union)
+    - [Type casting](#type-casting)
+    - [Index properties](#index-properties)
+    - [Function overloads](#function-overloads)
+    - [Optional chaining](#optional-chaining)
+    - [Nullish coalescing](#nullish-coalescing)
+  - [Generics](#generics)
+    - [Definition](#definition-1)
+    - [Generic utility types](#generic-utility-types)
+    - [Decorators](#decorators)
+    - [Definition](#definition-2)
+    - [Usage](#usage)
+  - [Modules and namespaces](#modules-and-namespaces)
+    - [Namespaces](#namespaces)
+    - [Modules](#modules)
+
 ## Introduction
 
 TypeScript is a programming language which adds new features and typing to JavaScript. It is basically a superset of JavaScript, it is build upon JavaScript.
@@ -10,84 +50,131 @@ TypeScript allows to easily write better code.
 
 ## Basics & basic types
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-</style>
 <table class="tg">
-<thead>
-  <tr>
-    <th class="tg-0pky">Type</th>
-    <th class="tg-0pky">Description</th>
-    <th class="tg-0pky">Example</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-0pky">number</td>
-    <td class="tg-0pky">There is only one type for all numbers be it integers or floats. </td>
-    <td class="tg-0pky"><pre><code>const a = 0;<br>const b = 1.2;<br>const c = -86;</code></pre></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">string</td>
-    <td class="tg-0pky">Simple sequence of characters. There are no character type.</td>
-    <td class="tg-0pky"><pre><code>const a = 'Hello';<br>const b = "Hello";<br>const c = `Hello`;<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">boolean</td>
-    <td class="tg-0pky">Binary value, true or false.</td>
-    <td class="tg-0pky"><pre><code>const a = true;<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">object (or {})</td>
-    <td class="tg-0pky">Generic type for objects.</td>
-    <td class="tg-0pky"><pre><code>const a = {<br>&nbsp;&nbsp;age: 30<br>};<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">Array (or [])</td>
-    <td class="tg-0pky">Array of a single type or mixed type.</td>
-    <td class="tg-0pky"><pre><code>const a = [ 1, 5, 10];<br>const b = [ 1, 'hey', true];<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">Tuple</td>
-    <td class="tg-0pky">Array with fixed length and type.</td>
-    <td class="tg-0pky"><pre><code>// tuple with exactly 2 elements, first one is a number and second one is a string<br>const a: [ number, string ] = [ 1, 'hey'];<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">enum</td>
-    <td class="tg-0pky">Allows to define a set of constants.</td>
-    <td class="tg-0pky"><pre><code>enum Test { TEST1 ,TEST2, TEST3 };<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">any</td>
-    <td class="tg-0pky">Store any kind of type. Avoid using it though because it breaks the power of TypeScript.</td>
-    <td class="tg-0pky"></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">void</td>
-    <td class="tg-0pky">Mostly used as the return type of function that doesn't return anything.</td>
-    <td class="tg-0pky"><pre><code>function test(): void {<br>&nbsp;&nbsp;console.log('Test');<br>}<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">undefined</td>
-    <td class="tg-0pky">Type for absence of value.</td>
-    <td class="tg-0pky"></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">unknown</td>
-    <td class="tg-0pky">Allows to assign any value to a variable having this type (like any). But unlike any you must check the type first.</td>
-    <td class="tg-0pky"><pre><code>let a: unknown;<br>let b: string;<br>a = 5;<br>a = 'Hello'; <br>b = a; // Error, will work with ‘any’ type.<br>if (typeof a === 'string') {<br>  b = a; // Works!<br>}<br></pre></code></td>
-  </tr>
-  <tr>
-    <td class="tg-0pky">never</td>
-    <td class="tg-0pky">Can be used as a function return type to functions that will never return anything (like functions with a single throw statement or with an infinite loop).</td>
-    <td class="tg-0pky"><pre><code>function generateError(message: string, code: number): never {<br>&nbsp;&nbsp;throw { message, code};<br>}<br><br>generateError('Oups', 500);<br></pre></code></td>
-  </tr>
-</tbody>
+    <thead>
+        <tr>
+            <th class="tg-0pky">Type</th>
+            <th class="tg-0pky">Description</th>
+            <th class="tg-0pky">Example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="tg-0pky">number</td>
+            <td class="tg-0pky">There is only one type for all numbers be it integers or floats. </td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = 0;
+                    const b = 1.2;
+                    const c = -86;
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">string</td>
+            <td class="tg-0pky">Simple sequence of characters. There are no character type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = 'Hello';
+                    const b = "Hello";
+                    const c = `Hello`;
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">boolean</td>
+            <td class="tg-0pky">Binary value, true or false.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = true;
+                </pre></code>
+</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">object (or {})</td>
+            <td class="tg-0pky">Generic type for objects.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = {
+                        &nbsp;&nbsp;age: 30
+                    };
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Array (or [])</td>
+            <td class="tg-0pky">Array of a single type or mixed type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    const a = [ 1, 5, 10];
+                    const b = [ 1, 'hey', true];
+                </pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Tuple</td>
+            <td class="tg-0pky">Array with fixed length and type.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    // tuple with exactly 2 elements, first one is a number and second one is a string
+                    const a: [ number, string ] = [ 1, 'hey'];
+                </pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">enum</td>
+            <td class="tg-0pky">Allows to define a set of constants.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    enum Test { TEST1 ,TEST2, TEST3 };
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">any</td>
+            <td class="tg-0pky">Store any kind of type. Avoid using it though because it breaks the power of TypeScript.
+            </td>
+            <td class="tg-0pky"></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">void</td>
+            <td class="tg-0pky">Mostly used as the return type of function that doesn't return anything.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    function test(): void {
+                        &nbsp;&nbsp;console.log('Test');
+                    }
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">undefined</td>
+            <td class="tg-0pky">Type for absence of value.</td>
+            <td class="tg-0pky"></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">unknown</td>
+            <td class="tg-0pky">Allows to assign any value to a variable having this type (like any). But unlike any you
+                must check the type first.</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    let a: unknown;
+                    let b: string;
+                    a = 5;
+                    a = 'Hello'; 
+                    b = a; // Error, will work with ‘any’ type.
+                    if (typeof a === 'string') {
+                          b = a; // Works!
+                    }
+</pre></code></td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">never</td>
+            <td class="tg-0pky">Can be used as a function return type to functions that will never return anything (like
+                functions with a single throw statement or with an infinite loop).</td>
+            <td class="tg-0pky">
+                <pre><code>
+                    function generateError(message: string, code: number): never {
+                        &nbsp;&nbsp;throw { message, code};
+                    }
+                    generateError('Oups', 500);
+</pre></code></td>
+        </tr>
+    </tbody>
 </table>
 
 When assigning a value to a variable, TypeScript will determine the variable type. This is called **type inference**.
@@ -109,13 +196,13 @@ In order to tell TypeScript which type of an union type we want to use, we can u
 ```typescript
 const myFunction = (x: number | string): void => {
   if (typeof x === 'number') {
-    console.log('The variable X it\'s like a number')
+    console.log("The variable X it's like a number");
   }
 
   if (typeof x === 'string') {
-    console.log('The variable X it\'s like a string')
+    console.log("The variable X it's like a string");
   }
-}
+};
 ```
 
 This allows to narrow the variable type down to one type of the union.
@@ -134,7 +221,7 @@ A type alias means creating a type by using the `type` keyword. It can be used w
 
 ```typescript
 type Pet = 'cat' | 'dog';
-type User = { name: string; age: number; };
+type User = { name: string; age: number };
 ```
 
 ### Function types
@@ -143,7 +230,7 @@ You can give a variable the type of a specific function (default type is `Functi
 
 ```typescript
 function add(a: number, b: number) {
-	return a + b;
+  return a + b;
 }
 
 let f: (a: number, b: number) => number;
@@ -154,14 +241,14 @@ f = add;
 
 ```typescript
 function sendRequest(data: string, cb: (response: any) => void) {
- // ... sending a request with "data"
- return cb({data: 'Hi there!'});
+  // ... sending a request with "data"
+  return cb({ data: 'Hi there!' });
 }
- 
+
 sendRequest('Send this!', (response) => {
- console.log(response);
- return true;
- });
+  console.log(response);
+  return true;
+});
 
 // This code will compile.
 ```
@@ -184,9 +271,9 @@ class Car {
 // The above code is equivalent to the code below
 
 class Car {
-private brand: string;
-  constructor(brand: string) {
-	this.brand = b;
+  private brand: string;
+  constructor(b: string) {
+    this.brand = b;
   }
 }
 ```
@@ -207,13 +294,13 @@ Class inheritance is possible through the `extends` keyword. The child class wil
 
 ```typescript
 class Vehicle {
-   constructor(private  brand: string) {}
+  constructor(private brand: string) {}
 }
 
 class Car extends Vehicle {
-   constructor(brand: string, private color: string) {
-       super(brand);
-   }
+  constructor(brand: string, private color: string) {
+    super(brand);
+  }
 }
 ```
 
@@ -223,21 +310,21 @@ It is possible to override a method from a parent class in the child class.
 
 ```typescript
 class Vehicle {
-   constructor(private brand: string) { }
+  constructor(private brand: string) {}
 
-   test() {
-       console.log('test');
-   }
+  test() {
+    console.log('test');
+  }
 }
 
 class Car extends Vehicle {
-   constructor(brand: string, private color: string) {
-       super(brand);
-   }
+  constructor(brand: string, private color: string) {
+    super(brand);
+  }
 
-   test() {
-       console.log('Car test');
-   }
+  test() {
+    console.log('Car test');
+  }
 }
 
 const vehicle = new Vehicle('VW');
@@ -261,24 +348,24 @@ In order to read and modify private properties, TypeScript comes with accessors.
 const fullNameMaxLength = 10;
 
 class Employee {
-    private _fullName: string;
+  private _fullName: string;
 
-    get fullName(): string {
-        return this._fullName;
-    }
+  get fullName(): string {
+    return this._fullName;
+  }
 
-    set fullName(newName: string) {
-        if (newName && newName.length > fullNameMaxLength) {
-            throw new Error("fullName has a max length of " + fullNameMaxLength);
-        }
-        this._fullName = newName;
+  set fullName(newName: string) {
+    if (newName && newName.length > fullNameMaxLength) {
+      throw new Error('fullName has a max length of ' + fullNameMaxLength);
     }
+    this._fullName = newName;
+  }
 }
 
 let employee = new Employee();
-employee.fullName = "Bob Smith";
+employee.fullName = 'Bob Smith';
 if (employee.fullName) {
-    console.log(employee.fullName);
+  console.log(employee.fullName);
 }
 ```
 
@@ -296,34 +383,33 @@ A class with at least one abstract method will be an abstract class.
 
 ```typescript
 abstract class Animal {
-    abstract makeSound(): void; // must be implemented in child class
-    move(): void {
-        console.log("roaming the earth...");
-    }
+  abstract makeSound(): void; // must be implemented in child class
+  move(): void {
+    console.log('roaming the earth...');
+  }
 }
 ```
 
 ### Singleton and private constructor
 
-A singleton is a design pattern which consist to have only one instance of a specific class. To do that, it is possible to make the constructor private by adding the `private` keyword in front of the constructor function. by doing that, it is not possible to create an instance of the class with the `new` keyword anymore.
+A singleton is a design pattern which consists in having only one instance of a specific class. To do that, it is possible to make the constructor private by adding the `private` keyword in front of the constructor function. by doing that, it is not possible to create an instance of the class with the `new` keyword anymore.
 
 To create an instance of this class, we must add a static function in this class as well as a private and static property. This property will keep a reference of this unique instance of the class. The static method will test if the instance of the class exists and will return it if it's the case.
 
 ```typescript
 class Vehicle {
-   private static instance: Vehicle;
+  private static instance: Vehicle;
 
-   private constructor(private brand: string) { }
+  private constructor(private brand: string) {}
 
-   static getInstance() {
-       if (this.instance) {
-           return this.instance;
-       }
-       this.instance = new Vehicle('Audi');
-       return this.instance;
-   }
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new Vehicle('Audi');
+    return this.instance;
+  }
 }
-
 
 const vehicle = Vehicle.getInstance();
 const vehicle2 = Vehicle.getInstance(); // same instance as vehicule
@@ -337,17 +423,17 @@ An interface (created with the `interface` keyword) allows to describe the struc
 
 ```typescript
 interface Greetable {
-   name: string;
-   greet(): void;
+  name: string;
+  greet(): void;
 }
 
 class Person implements Greetable {
-   // Person must have a name property and a greet function
-   constructor(public name: string) {}
+  // Person must have a name property and a greet function
+  constructor(public name: string) {}
 
-   greet() {
-       console.log(this.name);
-   }
+  greet() {
+    console.log(this.name);
+  }
 }
 ```
 
@@ -361,20 +447,19 @@ An interface can inherit from another interface.
 
 ```typescript
 interface Named {
-   name: string;
+  name: string;
 }
 
 interface Greetable extends Named {
-   greet(): void;
+  greet(): void;
 }
 
 class Person implements Greetable {
+  constructor(public name: string) {}
 
-   constructor(public name: string) { }
-
-   greet() {
-       console.log(this.name);
-   }
+  greet() {
+    console.log(this.name);
+  }
 }
 ```
 
@@ -384,12 +469,13 @@ An interface can define a function type.
 
 ```typescript
 interface AddFn {
-   (a: number, b: number): number;
+  (a: number, b: number): number;
 }
 
-let add: AddFn; add = (a: number, b: number) => {
-   return a + b;
-}
+let add: AddFn;
+add = (a: number, b: number) => {
+  return a + b;
+};
 ```
 
 ## Advanced types
@@ -398,46 +484,46 @@ let add: AddFn; add = (a: number, b: number) => {
 
 It is possible to combine different types into one. To do that, you can use whether the `&` operator on a `type` declaration, or use the interfaces inheritance.
 
-`&` operator and `type`
+**`&` operator and `type`**
 
 ```typescript
 type Admin = {
-   name: string;
-   privileges: string[];
-}
+  name: string;
+  privileges: string[];
+};
 
 type Employee = {
-   name: string;
-   startDate: Date;
-}
+  name: string;
+  startDate: Date;
+};
 
 type ElevatedEmployee = Admin & Employee;
 const e: ElevatedEmployee = {
-   name: 'John',
-   privileges: ['create-server'],
-   startDate: new Date()
-}
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date(),
+};
 ```
 
 Interfaces inheritance
 
 ```typescript
 interface Admin {
-   name: string;
-   privileges: string[];
+  name: string;
+  privileges: string[];
 }
 
 interface Employee {
-   name: string;
-   startDate: Date;
+  name: string;
+  startDate: Date;
 }
 
 interface ElevatedEmployee extends Admin, Employee {}
 const e: ElevatedEmployee = {
-   name: 'John',
-   privileges: ['create-server'],
-   startDate: new Date()
-}
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date(),
+};
 ```
 
 ### Advanced type guards
@@ -446,10 +532,10 @@ Type guards on primitive types is done by using the `typeof` operator.
 
 ```typescript
 function add(a: number | string, b: number | string) {
-   if (typeof a === 'string' || typeof b === 'string') {
-       return a.toString() + b.toString();
-   }
-   return a + b;
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
+  }
+  return a + b;
 }
 ```
 
@@ -457,27 +543,27 @@ For custom types, one technique is to check if a property exists on an object by
 
 ```typescript
 type Admin = {
-   name: string;
-   privileges: string[];
-}
+  name: string;
+  privileges: string[];
+};
 
 type Employee = {
-   name: string;
-   startDate: Date;
-}
+  name: string;
+  startDate: Date;
+};
 
 type ElevatedEmployee = Admin & Employee;
 const e: ElevatedEmployee = {
-   name: 'John',
-   privileges: ['create-server'],
-   startDate: new Date()
-}
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date(),
+};
 
 function printEmployeeInfo(emp: ElevatedEmployee) {
-   if ('privileges' in emp) {
-       console.log(`Privileges : ${emp.privileges}`);
-   }
-   console.log(`Name: ${emp.name}`)
+  if ('privileges' in emp) {
+    console.log(`Privileges : ${emp.privileges}`);
+  }
+  console.log(`Name: ${emp.name}`);
 }
 
 printEmployeeInfo(e);
@@ -556,9 +642,13 @@ Type casting is used to force the type of a value. There are a two ways to do th
 - By using the `as` key word (more used in the community in order to avoid errors of the first method in React).
 
 ```typescript
-const userInputElement = <HTMLInputElement>document.getElementById('user-input')!;
+const userInputElement = <HTMLInputElement>(
+  document.getElementById('user-input')!
+);
 
-const userInputElement = document.getElementById('user-input') as HTMLInputElement;
+const userInputElement = document.getElementById(
+  'user-input'
+) as HTMLInputElement;
 ```
 
 > Notice the `!` in the first line, it is used to tell TypeScript that this value will never be `null`.
@@ -568,13 +658,14 @@ const userInputElement = document.getElementById('user-input') as HTMLInputEleme
 It is possible to describe index types with interfaces. An index type is a type accessible with an index. TypeScript allows only two types for these indexes, `number` and `string` (because these are the two types used to define key in a object).
 
 ```typescript
-interface ErrorContainer { // { email: 'Not a valid email', username: 'Must start with a character!' }
+interface ErrorContainer {
+  // { email: 'Not a valid email', username: 'Must start with a character!' }
   [prop: string]: string;
 }
 
 const errorBag: ErrorContainer = {
   email: 'Not a valid email!',
-  username: 'Must start with a capital character!'
+  username: 'Must start with a capital character!',
 };
 ```
 
@@ -606,7 +697,7 @@ Since TypeScript version 3.7, the `?` operator allows to check if an element exi
 const fetchedUserData = {
   id: 'u1',
   name: 'Max',
-  job: { title: 'CEO', description: 'My own company' }
+  job: { title: 'CEO', description: 'My own company' },
 };
 
 console.log(fetchedUserData?.job?.title);
@@ -637,7 +728,7 @@ A generic type is a type that will be replaced by a another one allowing to writ
 function merge<T extends object, U extends object>(objA: T, objB: U) {
   return Object.assign(objA, objB);
 }
-// extends is here to allow the Object.assign function to succeed because we need only objects for this function.
+// extends is here to allow the Object.assign function to succeed because we only need objects for this function.
 
 const mergedObj = merge({ name: 'Max', hobbies: ['Sports'] }, { age: 30 });
 console.log(mergedObj);
@@ -727,7 +818,7 @@ const names: Readonly<string[]> = ['Max', 'Anna'];
 
 ### Definition
 
-A decorator is a function that will run some logic on the arguments it will receive. A decorator can be applied to functions, classes, properties, accessors or parameters. To apply a decorator, use the `@` symbol and then the function name. A decorator is **executed when the function or class on which it is applied is defined**. 
+A decorator is a function that will run some logic on the arguments it will receive. A decorator can be applied to functions, classes, properties, accessors or parameters. To apply a decorator, use the `@` symbol and then the function name. A decorator is **executed when the function or class on which it is applied is defined**.
 
 ### Usage
 
@@ -749,14 +840,14 @@ class Person {
 }
 
 const pers = new Person();
-console.log(pers); // prints the class whole class code (since it's a constructor function)
+console.log(pers); // prints the whole class code (since it's a constructor function)
 ```
 
 In order to send any arguments we want to a decorator, it is recommended to use a decorators factory. A factory is a pattern which consists of a function creating functions.
 
 ```typescript
 function Logger(logString: string) {
-  return function(constructor: Function) {
+  return function (constructor: Function) {
     console.log(logString);
     console.log(constructor);
   };
@@ -782,14 +873,14 @@ We are talking about the decorator functions order and not the factories. Factor
 ```typescript
 function Logger(logString: string) {
   console.log('LOGGER FACTORY');
-  return function(constructor: Function) {
+  return function (constructor: Function) {
     console.log(logString);
   };
 }
 
 function WithTemplate(template: string, hookId: string) {
   console.log('TEMPLATE FACTORY');
-  return function(constructor: any) {
+  return function (constructor: any) {
     console.log('Rendering template');
     const hookEl = document.getElementById(hookId);
     const p = new constructor();
@@ -797,7 +888,7 @@ function WithTemplate(template: string, hookId: string) {
       hookEl.innerHTML = template;
       hookEl.querySelector('h1')!.textContent = p.name;
     }
-  }
+  };
 }
 
 @Logger('LOGGING')
@@ -890,7 +981,7 @@ Only decorators on classes, methods or accessors will return values that will be
 ```typescript
 function WithTemplate(template: string, hookId: string) {
   console.log('TEMPLATE FACTORY');
-  return function<T extends { new (...args: any[]): {name: string} }>(
+  return function <T extends { new (...args: any[]): { name: string } }>(
     // T extends an object with a new() function aka a class
     originalConstructor: T
   ) {
@@ -924,13 +1015,12 @@ const pers = new Person();
 
 ### Namespaces
 
-Namespaces are TypeScript only feature. They allow to regroup code having a common logic. A namespace can include functions, classes, variables and interfaces.
+Namespaces are a TypeScript only feature. They allow to regroup code having a common logic. A namespace can include functions, classes, variables and interfaces.
 
 To create a namespace, simply use the `namespace` keyword. To make the elements of the namespace accessible outside, use the `export` keyword in front of the element export.
 
 ```typescript
 namespace StringUtility {
-  
   export function ToCapital(str: string): string {
     return str.toUpperCase();
   }
@@ -976,10 +1066,10 @@ There are a few ways to import and export code.
 
 ```typescript
 import { Class1, function1 } from './path/to/a-lib.js'; // standard import
- // import everything of this file and you will use it through myLib
+// import everything of this file and you will use it through myLib
 import * as myLib from './path/to/my-lib.js';
 
-export const myConstant = 'test'; // named 
+export const myConstant = 'test'; // named
 export default class MyClass {} // default export of this file
 /* ... */
 import MyClass from './path/to/my-class.js'; // default import
