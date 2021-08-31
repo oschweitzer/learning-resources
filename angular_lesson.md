@@ -399,7 +399,7 @@ parent.component.html
 Once a new component is instantiated, Angular goes through a couple of different phases in this creation process. Angular provides some functions that allow us to hook into these phases and do some logic. These hooks are interfaces that a component can implement.
 
 - `ngOnChanges`: Called after a bound input property (decorated with `@Input`) changes. Can be executed multiple times.
-- `noOnInit`: Called one the component is initialized. This does not mean that we can see the component, it is not added to  the DOM yet but some initialization (properties for example) has been done. Keep in mind that this function is executed after the constructor.
+- `ngOnInit`: Called one the component is initialized. This does not mean that we can see the component, it is not added to  the DOM yet but some initialization (properties for example) has been done. Keep in mind that this function is executed after the constructor.
 - `ngDoCheck`: Called during every change detection run. Whenever Angular needs to check if something changed (so this function is called a lot).
 - `ngAfterContentInit`: Called after content (ng-content) has been projected into view.
 - `ngAfterContentChecked`: Called every time the projected content has been checked.
