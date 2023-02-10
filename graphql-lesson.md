@@ -224,3 +224,5 @@ GraphQL only works with JSON data, but what if you want to upload a file, let's 
 
 - https://graphql.org/ : Official GraphQL website
 - https://www.udemy.com/course/nodejs-the-complete-guide/learn/lecture/12197878#overview : Udemy Node.js course module on GraphQL
+- https://www.howtographql.com/ : Tutorial site for GraphQL
+- https://www.prisma.io/blog/graphql-server-basics-the-schema-ac5e2950214e : Nice article on GraphQL basics
