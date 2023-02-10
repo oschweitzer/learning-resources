@@ -80,19 +80,19 @@
 
 **[Angular](https://angular.io/)** is a Javascript (with wide TypeScript support) framework allowing to create **reactive Single Page Applications ([SPA](https://en.wikipedia.org/wiki/Single-page_application))**.
 
-A SPA consists in having one HTML page and only update some elements of this page using JavaScript allowing to have a much faster application.
+An SPA consists in having one HTML page and only update some elements of this page using JavaScript allowing to have a much faster application.
 
 > :warning: Don't mistake Angular and AngularJS. AngularJS was the first version of Angular and is not so much used. Angular refers to the framework from version 2 to the last one (version 9). There are a lot of breaking changes between AngularJS and Angular (plus the fact that Angular supports TypeScript), so, when searching information about Angular, you can add `-angularjs` in your search engine.
 
-> Angular versioning policy is that they release a new Angular version every 6 months. So, even if Angular 2 is a complete rewrite of AngularJS, there a far less changes between Angular 2 and 4 (version 3 was skipped), 4 and 5, 5 and 6, etc. To make it easier, Angular team provides tools to migrate your code to the next version.
+> Angular versioning policy is that they release a new Angular version every 6 months. So, even if Angular 2 is a complete rewrite of AngularJS, there are far less changes between Angular 2 and 4 (version 3 was skipped), 4 and 5, 5 and 6, etc. To make it easier, Angular team provides tools to migrate your code to the next version.
 
 ## Basics
 
 ### Bootstrap
 
-After creating a new Angular application with the [CLI](https://cli.angular.io/), you can serve it using the `ng serve` command. What will happened ? here's the simplified workflow:
+After creating a new Angular application with the [CLI](https://cli.angular.io/), you can serve it using the `ng serve` command. What will happen ? here's the simplified workflow:
 
-Basically, when starting an Angular application, Angular will start the `main.ts` file which bootstraps the `AppModule` class which is the root module of any Angular application. In this module, the root component is referenced through the `bootstrap` property (it's an array of components). In the root component, Angular will see the root component selector `app-root` (HTML tag linked to a Angular component) and, when running the single page file (the `index.html` file) it will know which component refers to the `app-root` HTML tag.
+Basically, when starting an Angular application, Angular will start the `main.ts` file which bootstraps the `AppModule` class which is the root module of any Angular application. In this module, the root component is referenced through the `bootstrap` property (it's an array of components). In the root component, Angular will see the root component selector `app-root` (HTML tag linked to an Angular component) and, when running the single page file (the `index.html` file) it will know which component refers to the `app-root` HTML tag.
 
 **main.ts**
 
@@ -165,7 +165,7 @@ export class AppComponent {}
 
 ### Modules
 
-Modules are bundle of functionalities linked your business logic. An Angular module can contain multiple components, directives, services... (those are the main elements of the Angular framework and we will get though them). Angular modules can be imported in the root module, or in other modules.
+Modules are bundle of functionalities linked to your business logic. An Angular module can contain multiple components, directives, services... (those are the main elements of the Angular framework, and we will get though them). Angular modules can be imported in the root module, or in other modules.
 
 An Angular module is a class decorated with the `@NgModule` decorator. This decorator takes an object as an argument to describe the module. The main properties of this object (each property is an array) are:
 
@@ -195,7 +195,7 @@ This `@Component` decorator needs some configuration in order for Angular to und
 
 ### Template
 
-Each component has an **HTML template** used to structure and display content, at the end, the HTML code is the only thing the user will see. This template looks like regular HTML but it also contain some Angular template syntax which can modify the HTML.
+Each component has an **HTML template** used to structure and display content, at the end, the HTML code is the only thing the user will see. This template looks like regular HTML, but it also contains some Angular template syntax which can modify the HTML.
 
 ```html
 <button (click)="onSave($event)">Save</button>
@@ -207,7 +207,7 @@ Each component has an **HTML template** used to structure and display content, a
 
 **Databinding** is another key concept in Angular. It basically allows communication between your component TypeScript code and your component HTML template. There a few way of communicating between these two entities.
 
-For example, if we want to output data from our TypeScript code in our HTML code, we can use **[string interpolation](#string-interpolation)**. If we want to set a value to a HTML tag, we will use **[property binding](#property-binding)**.
+For example, if we want to output data from our TypeScript code in our HTML code, we can use **[string interpolation](#string-interpolation)**. If we want to set a value to an HTML tag, we will use **[property binding](#property-binding)**.
 
 But we might want to communicate in the other way, from the template ot the TypeScript code. For example, if we have a button on the template, we would want the event triggered by this button to refer to a function implemented in the TypeScript code. To do that we will use **[event binding](#event-binding)**.
 
@@ -240,7 +240,7 @@ export class TestComponent {
 
 #### Property binding
 
-**Property binding** allows to bind a HTML tag property to a variable or function defined in your TypeScript code. This is done by adding square brackets `[]` to the HTML property we want to bind and assign it a value/function (we assign TypeScript code).
+**Property binding** allows to bind an HTML tag property to a variable or function defined in your TypeScript code. This is done by adding square brackets `[]` to the HTML property we want to bind and assign it a value/function (we assign TypeScript code).
 
 ```html
 <button [disabled]="!allowValidation">Validate</button>
@@ -413,7 +413,7 @@ Once a new component is instantiated, Angular goes through a couple of different
 
 If you apply CSS style to an HTML element (`<p>` tag for example), you will see that only the corresponding HTML elements of your component will have that CSS style applied. Well, this is not how it is handled normally in a web browser, so Angular is doing something here.
 
-Angular is doing what the [shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) is doing in some web browsers, it will encapsulate your views. To do that, Angular is not using the shadow DOM but it will add a unique identifier to your HTML elements (see image below). It basically emulates a DOM.
+Angular is doing what the [shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM) is doing in some web browsers, it will encapsulate your views. To do that, Angular is not using the shadow DOM, but it will add a unique identifier to your HTML elements (see image below). It basically emulates a DOM.
 
 ![Angular view encapsulation](https://codecraft.tv/courses/angular/components/templates-styles-view-encapsulation/images/encapsulation-emulated-html.png)
 
@@ -444,7 +444,7 @@ A local reference can be placed on any HTML element and will hold the whole HTML
 
 #### ViewChild
 
-In order to access local references from your TypeScript component code, you can use the `@ViewChild` decorator. This decorator must be applide on a property and can take the local reference name as an argument.
+In order to access local references from your TypeScript component code, you can use the `@ViewChild` decorator. This decorator must be applied on a property and can take the local reference name as an argument.
 
 ```html
 <div>
@@ -545,7 +545,7 @@ The first approach means that the component is added to a template with its sele
 
 In the second approach, it's the developer that will handle the component by creating and adding it to the DOM through imperative code. To do that you will need to use the Angular component factory by using the `ComponentFactoryResolver` (which can be injected).
 
-Then you will have to find a way to tell Angular where to add this component in the template. The trick here is to create a directive that we will use as a placeholder. And in the directive, make sure you are injecting the `ViewContainerRef` object because this will allow us to have an access to the DOM and be able to inject our component in there.
+Then you will have to find a way to tell Angular where to add this component in the template. The trick here is to create a directive that we will use as a placeholder. And in the directive, make sure you are injecting the `ViewContainerRef` object because this will allow us to have access to the DOM and be able to inject our component in there.
 
 **placeholder.directive.ts**
 
@@ -609,7 +609,7 @@ export class MyComponent {
 
 ## Directives
 
-**Directives** are instructions in the DOM. We could say that components are a kind of directives, directives with a template. There are also directives without templates. Angular provides some built-in directives but you can build your own directives too.
+**Directives** are instructions in the DOM. We could say that components are a kind of directives, directives with a template. There are also directives without templates. Angular provides some built-in directives, but you can build your own directives too.
 
 In Angular there are three kinds of directives:
 
@@ -662,7 +662,7 @@ export class TestComponent {
 }
 ```
 
-> The `*` before ngIf will actually be transform into something like: 
+> The `*` before ngIf will actually be transformed into something like: 
 
 ```html
 <ng-template [ngIf]="isOk">
@@ -722,9 +722,9 @@ export class TestComponent {
 
 ### Custom directives
 
-A custom directive is a class decorated with the `@Directive` decorator. Like components (remember a component is a directive), a directive needs configuration, and one of the most important argument is the selector.
+A custom directive is a class decorated with the `@Directive` decorator. Like components (remember a component is a directive), a directive needs configuration, and one of the most important arguments is the selector.
 
-The selector works the same way as for components, it's a string that will be used on HTML elements. A selector can use the [CSS attribute syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) if you want your directive to be placed on a HTML element. If that's the case, you can then use Angular injection system to get access to the element your directive sits on.
+The selector works the same way as for components, it's a string that will be used on HTML elements. A selector can use the [CSS attribute syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) if you want your directive to be placed on an HTML element. If that's the case, you can then use Angular injection system to get access to the element your directive sits on.
 
 ```typescript
 import {Directive, ElementRef, OnInit} from '@angular/core';
@@ -774,7 +774,7 @@ export class MyComponentDirective implements  OnInit {
 
 #### Host events
 
-We might want to make our directives a little bit more interactive, maybe we would want to react to events occurring on the element a directive sits on for example.
+We might want to make our directives a little more interactive, maybe we would want to react to events occurring on the element a directive sits on for example.
 
 To do that, we will use a decorator called `@HostListener` on a method of the directive. This decorator needs a [DOM event](https://developer.mozilla.org/en-US/docs/Web/Events) name as an argument.
 
@@ -825,7 +825,7 @@ export class MyComponentDirective implements  OnInit {
 
 #### Custom structural directive
 
-We can also create some custom structural directive. To do that, and because the `*` before the directive will transform it to a `ng-template`, we will need access to the template code inside `ng-template`. This is done by injecting the template (of type `TemplateRef`) in the directive constructor. The other thing we might want is an access to the view to know where to render the template for example. This is done by injecting a reference to the view container (of type `ViewContainerRef`).
+We can also create some custom structural directive. To do that, and because the `*` before the directive will transform it to a `ng-template`, we will need access to the template code inside `ng-template`. This is done by injecting the template (of type `TemplateRef`) in the directive constructor. The other thing we might want is access to the view to know where to render the template for example. This is done by injecting a reference to the view container (of type `ViewContainerRef`).
 
 ```typescript
 import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
@@ -888,9 +888,9 @@ import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@an
 
 ## Services
 
-Services act as central business unit,somewhere where can centralize your code in. They are often used to handle data whereas components are use to display data basically.
+Services act as central business unit,somewhere where can centralize your code in. They are often used to handle data whereas components are used to display data basically.
 
-Services in Angular are classes decorated with the `@Injectable` decorator. This decorator tells Angular that this class will be injected somewhere using **dependency injection**. Dependency injection is a design pattern, a specific form of **[inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)** where basically a client doesn't want to know how to construct a service, it just want to use it so it will delegate the creation of this service to an injector.
+Services in Angular are classes decorated with the `@Injectable` decorator. This decorator tells Angular that this class will be injected somewhere using **dependency injection**. Dependency injection is a design pattern, a specific form of **[inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)** where basically a client doesn't want to know how to construct a service, it just wants to use it, so it will delegate the creation of this service to an injector.
 
 ```typescript
 import {Injectable} from '@angular/core';
@@ -908,7 +908,7 @@ In Angular, a dependency is something a class of ours will depend on, a service 
 
 The dependency injector will inject an instance of this dependency into our component automatically. What we need to do is to inform Angular that we need this dependency. To do that, you simply need to pass the dependency in your constructor and specify the proper type. Once done that, the last step is to provide the wanted dependency. To do that, you can add it to the component or to the module.
 
-> We can also inject a service in an another service.
+> We can also inject a service in a service.
 
 The Angular dependency injector is a hierarchical injector, that means if we provide a service in some place in our application, in a component for example, Angular knows how to create an instance of that service for **this component and all its child components**. This component and all its child components will receive **the same instance of the service**.
 
@@ -963,7 +963,7 @@ Angular provides a router allowing to change the URL of your application, but wi
 
 To create such routes, first we need to declare them. Angular provides a `Routes` type that is an array of object describing the routes.
 Then, to tell Angular that we want these routes, import the `RouterModule` and add the routes as an argument to the `forRoot` function.
-FInally, in the template where you want to use the routes (usually in the `app.component.html` file), add the `router-outlet` directive.
+FFinally, in the template where you want to use the routes (usually in the `app.component.html` file), add the `router-outlet` directive.
 
 **app.module.ts**
 
@@ -1008,7 +1008,7 @@ To do that, Angular provides a special directive `routerLink`. It's an attribute
 
 We will then use property binding to pass the route we want to access with this link.
 
-> Calling the routes with a simple `href` on anchor element will work but it will also reload the page at each click (this is not a good way to do navigation).
+> Calling the routes with a simple `href` on anchor element will work, but it will also reload the page at each click (this is not a good way to do navigation).
 
 ```html
 <h1>Navigation</h1>
@@ -1142,11 +1142,11 @@ export class MyComponent implements OnInit {
 
 ##### Passing the parameters
 
-You may want to pass **[query parameters](https://en.wikipedia.org/wiki/Query_string)** in your URL. Again, you can do that in the HTML template if you want the user to navigate, or in the TypeSCript code if you want to navigate programmatically.
+You may want to pass **[query parameters](https://en.wikipedia.org/wiki/Query_string)** in your URL. Again, you can do that in the HTML template if you want the user to navigate, or in the TypeScript code if you want to navigate programmatically.
 
 In the HTML file, you can use property binding on `[queryParams]` (`[queryParams]` is an input of the `routerLink` directive, it's not a directive by itself). This input accepts JavaScript object, key-value pairs for each query parameter.
 
-In the Typescript code, we will use the injected `Router` again. In the same way as we saw with the `relativeTo` property, we are going to us the second argument of the `navigate()` method and use the property `queryParams`.
+In the Typescript code, we will use the injected `Router` again. In the same way as we saw with the `relativeTo` property, we are going to use the second argument of the `navigate()` method and use the property `queryParams`.
 
 If you want to use **[fragments](https://en.wikipedia.org/wiki/Fragment_identifier)** in your URL, it's the same thing as for the query parameters, use the `[fragment]` property binding in HTML and `fragment` property for the `navigate()` method.
 
@@ -1223,7 +1223,7 @@ export class MyComponent implements OnInit {
 
 ### Child routes
 
-Sometimes you would want to have nested routes, child routes. To do that, in the routes definition, simply use the `children` property which is an array of `Routes`.
+Sometimes you would want to have nested routes, child routes. To do that, in the routes' definition, simply use the `children` property which is an array of `Routes`.
 
 ```typescript
 const appRoutes: Routes = [
@@ -1252,7 +1252,7 @@ const appRoutes: Routes = [
 
 On most application, if a user wants to access a route that doesn't exist, it will be redirected or a 404 error view will be displayed.
 
-To redirect a route to another, simply use the `redirectTo` property instead of the `component` property in the routes definition. To catch all the non wanted routes, you can use the `**` (wildcard) as a path. :warning: Be careful of the routes order, the wildcard path should be the last route in the routes array, because otherwise, all the routes below the wildcard will be ignored and you will always be redirected.
+To redirect a route to another, simply use the `redirectTo` property instead of the `component` property in the routes' definition. To catch all the non wanted routes, you can use the `**` (wildcard) as a path. :warning: Be careful of the routes order, the wildcard path should be the last route in the routes array, because otherwise, all the routes below the wildcard will be ignored, and you will always be redirected.
 
 ```typescript
 const appRoutes: Routes = [
@@ -1287,7 +1287,7 @@ const appRoutes: Routes = [
 
 ### Guards
 
-A **route guard** is code, logic that you want to execute before a component is loaded or before you leave a component. Guards are often used to protect some routes with authentication. A guard is basically a service that will be provided in a module. The Angular router provides  multiple guards interfaces like `CanActivate`, `CanActivateChild` or `CanDeactivate`.
+A **route guard** is code, logic that you want to execute before a component is loaded, or before you leave a component. Guards are often used to protect some routes with authentication. A guard is basically a service that will be provided in a module. The Angular router provides  multiple guards interfaces like `CanActivate`, `CanActivateChild` or `CanDeactivate`.
 
 **auth-guard.service.ts**
 
@@ -1364,9 +1364,9 @@ export class AppModule { }
 
 An **Observable is a data source** and one of the element of the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern). We have an Observable and an **Observer** and between them a **timeline**. On this timeline (a data stream) will transit events, data packages we could say. The Observer is your code, the `subscribe` method that will listen to this data stream and get data.
 
-There are three way of handling data: handling normal data, handling errors and handling the observable completion (note that some observable never completes). An Observable will handle asynchronous tasks like a Promise or a callback will. The main advantages of an Observable is that they come with a lot of operators that makes it easier to perform operation on data.
+There are three ways of handling data: handling normal data, handling errors and handling the observable completion (note that some observable never completes). An Observable will handle asynchronous tasks like a Promise or a callback will. The main advantages of an Observable is that they come with a lot of operators that makes it easier to perform operation on data.
 
-In Angular, Observables are implemented in a library called [RxJS](https://rxjs-dev.firebaseapp.com/). Remember this library as nothing to do with Angular, Angular simply uses this library and its Observables. Angular will handle its own Observables, that means it will do the unsubscribing process for you for example. Of course, you can create and use your own Observables but you will be responsible of unsubscribing them.
+In Angular, Observables are implemented in a library called [RxJS](https://rxjs-dev.firebaseapp.com/). Remember this library as nothing to do with Angular, Angular simply uses this library and its Observables. Angular will handle its own Observables, that means it will do the unsubscribing process for you for example. Of course, you can create and use your own Observables, but you will be responsible for unsubscribing them.
 
 **Custom Observable example**
 
@@ -1379,9 +1379,9 @@ const observable = Observable.create((observer:any) => {
     observer.next('I am number 4'); // this will never be send.
 })
 observable.subscribe(
-  (message: string) => console.log(message)
+  (message: string) => console.log(message),
   error => console.error(error),
-  () => console.log('Done.')
+  () => console.log('Done.'),
 );
 
 // This will print
@@ -1393,7 +1393,7 @@ observable.subscribe(
 
 ### Operators
 
-RxJS comes with a lot operators that will act on Observables. Operators will act between the Observable and the subscription.
+RxJS comes with a lot of operators that will act on Observables. Operators will act between the Observable and the subscription.
 
 ```typescript
 const observable = Observable.create((observer:any) => {
@@ -1418,7 +1418,7 @@ An RxJS Subject is a special kind of Observable, you can subscribe on it but unl
 
 ## Pipes
 
-In Angular, a `Pipe` is a feature allowing to transform output in your templates. A Pipe is used in the template through the `|` operator. Angular provides some built-in pipes and you can of course write your own pipes.
+In Angular, a `Pipe` is a feature allowing to transform output in your templates. A Pipe is used in the template through the `|` operator. Angular provides some built-in pipes, and you can of course write your own pipes.
 
 ```html
 <p>{{ myVariable | uppercase }}</p>
@@ -1510,12 +1510,12 @@ For Angular based web applications, a standard authentication workflow would be:
 
 - The client sends its auth data to a server.
 - The server validates these data and sends a response to the client, a [JSON Web Token aka JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) (an encoded string).
-- This token will be stored in the client and will be send alongside for each requests the client will make.
+- This token will be stored in the client and will be sent alongside for each request the client will make.
 - The server is the only one who knows how the JWT has been created (with a private key and a specific algorithm) and therefore is the only one to know if it's valid or not.
 
 > Session can't be used for Angular apps because Single Page Application are designed to separate the frontend from the backend, so the server API with be a RESTful API which is stateless, it doesn't know its clients.
 
-The signup/signin process is commonly done through a form component and with an authentication service that will handle HTTP requests to the server.
+The signup/sign in process is commonly done through a form component and with an authentication service that will handle HTTP requests to the server.
 
 To add the JWT to the client requests, you can use an `HTTPInterceptor` (interface provided by the HTTP module of Angular) that will intercept outgoing requests and add the JWT in those requests.
 
@@ -1534,7 +1534,7 @@ To sum up:
 - Angular analyzes NgModules to "understand" your application and its features.
 - Angular modules define all building blocks your app uses (components, directives, services...).
 - An application requires at least one module (AppModule) but may be split into multiple modules.
-- Core Angular features are included in ANgular modules (FormsModule for example) to load them only when needed.
+- Core Angular features are included in Angular modules (FormsModule for example) to load them only when needed.
 - You can't use a feature / building block without including it in a module.
 
 ### Shared modules
@@ -1543,7 +1543,7 @@ Shared modules are simply modules containing building blocks that are common to 
 
 ### Core module
 
-A core module is pattern that allows to make the AppModule a bit more leaner by moving services into a separate module. An alternative to that is to use the `providedIn` property of `@Injectable` on the services to not have to provide these services in the `providers` array of the AppModule. But in the case where you still use the `providers` array, you can use this core module pattern.
+A core module is pattern that allows to make the AppModule a bit leaner by moving services into a separate module. An alternative to that is to use the `providedIn` property of `@Injectable` on the services to not have to provide these services in the `providers` array of the AppModule. But in the case where you still use the `providers` array, you can use this core module pattern.
 
 This pattern is purely optional and using `providedIn` is still the recommended way to provide services.
 
@@ -1551,7 +1551,7 @@ This pattern is purely optional and using `providedIn` is still the recommended 
 
 By default, when you have an Angular application with routing, if you visit a page, all the other routes/modules/components are also loaded even if you are not using these elements on the current page you are visiting. The idea behind **lazy loading** is to load only what is necessary.
 
-It very useful to improve the application performances and of course it will shrink the scripts size and therefore allow slow internet connection to access your site.
+It is very useful to improve the application performances and of course it will shrink the scripts size and therefore allow slow internet connection to access your site.
 
 In order to implement lazy loading on your routes, you will have to add the `loadChildren` property for routes where we want lazy loading.
 
@@ -1595,14 +1595,14 @@ Services can be provided in different ways and in different location.
 
 - In the AppModule, so the service is available application wide and all elements will access this single service instance. Angular uses the **root injector** to inject the service.
 - In a component, so the service is only available in this component tree and will share the same service instance. Angular uses the **component-specific injector** to inject the service.
-- In non lazy loaded modules (eager-loaded), so the is service **is available application wide** (and not only in this module !). Angular uses the **root injector** to inject the service.
-- In lazy loaded modules, os the service is only available in the module and it gets its own instance. If you provide a service both in the AppModule and in the lazy loaded module, the service is available application-wide but the lazy loaded module will have a separate instance of this service. Angular uses a separate **child injector** to inject the service.
+- In non-lazy loaded modules (eager-loaded), so the is service **is available application wide** (and not only in this module !). Angular uses the **root injector** to inject the service.
+- In lazy loaded modules, os the service is only available in the module, and it gets its own instance. If you provide a service both in the AppModule and in the lazy loaded module, the service is available application-wide but the lazy loaded module will have a separate instance of this service. Angular uses a separate **child injector** to inject the service.
 
-The default way to inject services should still be to inject them in the AppModule (or use `providedIn: 'root'` in the `@Injectable` of the service). Component-wide service are to use only if it's relevant (it's still rare). Services in lazy-loaded module should be used if you really need a service to be module-wide. Finally, avoid providing services in eager-loaded module, because they will be available application-wide and it's confusing, provide them directly in the AppModule.
+The default way to inject services should still be to inject them in the AppModule (or use `providedIn: 'root'` in the `@Injectable` of the service). Component-wide service are to use only if it's relevant (it's still rare). Services in lazy-loaded module should be used if you really need a service to be module-wide. Finally, avoid providing services in eager-loaded module, because they will be available application-wide, and it's confusing, provide them directly in the AppModule.
 
 ## AoT & JiT
 
-Once your code is written and the TypeScript compiler compiled your code into JavaScript code, there is still another compilation step that Angular performs. Angular comes with a compiler that will compile template syntax into JavaScript DOM instructions. By default, this compilation is done in the browser (at runtime) and that is why it is called **Just in Time (JiT) compilation**. This compilation may take some time and that's why it is possible to tell Angular to compile before the application is deployed (during the build process), this is called **Ahead of Time (AoT) compilation**. AoT compilation does some extra optimization steps so you may see errors that didn't appear in JiT compilation.
+Once your code is written and the TypeScript compiler compiled your code into JavaScript code, there is still another compilation step that Angular performs. Angular comes with a compiler that will compile template syntax into JavaScript DOM instructions. By default, this compilation is done in the browser (at runtime) and that is why it is called **Just in Time (JiT) compilation**. This compilation may take some time and that's why it is possible to tell Angular to compile before the application is deployed (during the build process), this is called **Ahead of Time (AoT) compilation**. AoT compilation does some extra optimization steps, so you may see errors that didn't appear in JiT compilation.
 
 > AoT compilation can be done by using the `ng build --prod` command.
 
@@ -1612,7 +1612,7 @@ If you already know [React](https://reactjs.org/), you might have heard of [Redu
 
 **So, first, why do we need state management ?**
 
-In Angular, we could say that each component manage its own state and that's fine for small applications. But, when you have a big application and you need to share data between multiple components it's hard to know to know where a state should live. One of the main issue that these state management tools solve is data sharing between components that are far away in the component tree. You don't want to pass data through all the components in the tree when only two components should be concerned. Here is when a state management tool could be useful.
+In Angular, we could say that each component manage its own state and that's fine for small applications. But, when you have a big application, and you need to share data between multiple components it's hard to know where a state should live. One of the main issue that these state management tools solve is data sharing between components that are far away in the component tree. You don't want to pass data through all the components in the tree when only two components should be concerned. Here is when a state management tool could be useful.
 
 **Ok, so now let see what is a state management tool and how does it work ?**
 
@@ -1630,7 +1630,7 @@ Here is diagram that represents the workflow of application state in NgRx.
 
 ### Actions
 
-Actions are events defined by the developer and we mostly describe them using **action creators**. Action creators are functions that provide a consistent and type-safe way to create an action. NgRx provides the `createAction` function that returns an `Action` and needs a type and optionally some data. Data are described using the `props()` function.
+Actions are events defined by the developer, and we mostly describe them using **action creators**. Action creators are functions that provide a consistent and type-safe way to create an action. NgRx provides the `createAction` function that returns an `Action` and needs a type and optionally some data. Data are described using the `props()` function.
 
 ```typescript
 import {createAction, props} from '@ngrx/store';
@@ -1641,7 +1641,7 @@ export const increment = createAction(
 );
 ```
 
-Once an action is created, we have to dispatch it so it can be later catch by a reducer (or an effect but we will see that later).
+Once an action is created, we have to dispatch it, so it can be later catch by a reducer (or an effect, but we will see that later).
 
 **app.component.ts**
 
@@ -1681,7 +1681,7 @@ Here we are injecting the `Store` to have access to the `select` and `dispatch` 
 
 ### Reducers
 
-Reducer is responsible of handling actions and transitions from one state to another. A reducer is a pure function, it will produce the result given the same input. Since the state is immutable, a reducer should never modify directly its inputs but instead return a new state.
+Reducer is responsible for handling actions and transitions from one state to another. A reducer is a pure function, it will produce the result given the same input. Since the state is immutable, a reducer should never modify directly its inputs but instead return a new state.
 
 ```typescript
 import {Action, createReducer, on} from '@ngrx/store';
@@ -1739,7 +1739,7 @@ export class AppModule { }
 
 ### Selectors
 
-Selectors are **pure functions** used to get slices of store state. It allows to have some sort of an API for your store. 
+Selectors are **pure functions** used to get slices of store state. It allows to have some sort of API for your store. 
 You can also create selectors as a combination of other selectors.
 
 ```typescript
@@ -1796,9 +1796,9 @@ In order to improve performance, selectors track the inputs you provide them and
 
 In the store management workflow, it is hardly recommended to avoid side effects in actions and reducers. Side effects can be HTTP requests (asynchronous tasks) or accessing the [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for example. These processes are not really interesting in the state point of view even if the results of these processes are important.
 
-This is why NgRx provides the `@ngrx/effects` package that will help us managing these side-effects.
+This is why NgRx provides the `@ngrx/effects` package that will help us to manage these side effects.
 
-Basically an `effect` is a function that will react to an action and will dispatch another action once the side-effect is done.
+Basically an `effect` is a function that will react to an action and will dispatch another action once the side effect is done.
 
 ```typescript
 import {Injectable} from '@angular/core';
