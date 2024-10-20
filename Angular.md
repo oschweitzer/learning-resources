@@ -48,8 +48,12 @@
     })
     export class LoginComponent {
         form = new FormGroup({
-            email: new FormControl(''),
-            password: new FormControl(''),
+            email: new FormControl('', {
+                validators: [Validators.email, Validators.required]
+            }),
+            password: new FormControl('', {
+                validators: [Validators.required, Validators.minLength(6)]
+            }),
         })
     }
     ```
