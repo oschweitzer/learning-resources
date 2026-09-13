@@ -20,6 +20,7 @@
 ### TypeScript
 
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/ )
+- [The Concise TypeScript Book](https://github.com/gibbok/typescript-book) - A free and open-source TypeScript book.
 - [TypeScript Tutorial For Beginners: The Missing Guide](https://www.valentinog.com/blog/typescript/)
 - [Video Typescript Tutorial (12min)](https://www.youtube.com/watch?v=ahCwqrYpIuM )
 - [Video Object-Oriented vs Functional Programming with TypeScript (12min)](https://angularfirebase.com/lessons/object-oriented-programming-with-typescript/)
