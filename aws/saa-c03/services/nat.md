@@ -5,41 +5,41 @@ tags:
   - resilient
   - cost
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
-# NAT : instance, NAT gateway zonale et régionale
+# NAT: instance, zonal NAT gateway and regional NAT gateway
 
-## À quoi ça sert
+## What it is for
 
-Donner un accès internet sortant à des ressources de subnets privés. Route : 0.0.0.0/0 du subnet privé → NAT → IGW.
+Give private-subnet resources outbound internet access. Route: private subnet 0.0.0.0/0 -> NAT -> IGW.
 
-## Concepts clés
+## Key concepts
 
-- **NAT instance** (legacy, AMI hors support standard fin 2020, mais à l'examen) : EC2 en subnet public avec Elastic IP, **source/destination check désactivé** ; SG sur l'instance ; HA à votre charge ; bande passante selon le type ; peut servir de bastion, port forwarding.
-- **NAT gateway zonale** : dans un subnet public d'**une AZ** avec Elastic IP ; HA dans l'AZ ; **une par AZ** pour la résilience (pas de failover cross-AZ) ; 5 Gbps jusqu'à 100 Gbps ; **NACL seulement, pas de SG** ; inutilisable par les instances de son propre subnet ; nécessite un IGW ; supporte *private NAT*.
-- **NAT gateway régionale** (novembre 2025) : attachée au VPC, **sans subnet public** ; s'étend/se contracte sur les AZ où vous avez des workloads ; un seul NAT ID pour toutes les AZ, jusqu'à 5 par VPC ; NACLs ; pas de private NAT.
+- **NAT instance** (legacy, AMI out of standard support since end of 2020, but still on the exam): EC2 in a public subnet with an Elastic IP, **source/destination check disabled**; SG on the instance; HA is up to you; bandwidth depends on the type; can double as a bastion, port forwarding.
+- **Zonal NAT gateway**: in a public subnet of **one AZ** with an Elastic IP; HA within the AZ; **one per AZ** for resilience (no cross-AZ failover); 5 Gbps up to 100 Gbps; **NACLs only, no security group**; cannot be used by instances in its own subnet; needs an IGW; supports *private NAT*.
+- **Regional NAT gateway** (November 2025): attached to the VPC, **no public subnet needed**; expands/contracts automatically across the AZs where you have workloads; one NAT ID for all AZs, up to 5 per VPC; NACLs; no private NAT.
 
-## Limites et quotas
+## Limits and quotas
 
-- NAT régionale : jusqu'à 5 par VPC. NAT zonale : 5 à 100 Gbps.
+- Regional NAT: up to 5 per VPC. Zonal NAT: 5 up to 100 Gbps.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- NAT gateway : à l'heure + au GB traité. NAT instance : heures d'instance + trafic.
+- NAT gateway: per hour + per GB processed. NAT instance: instance hours + traffic.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Pour S3/DynamoDB, préférer un gateway endpoint (gratuit) → [[vpc-endpoints]]. Comparatif → [[nat-gateway-vs-instance]].
+- For S3/DynamoDB prefer a gateway endpoint (free) -> [[vpc-endpoints]]. Comparison -> [[nat-gateway-vs-instance]].
 
-## Pièges d'examen
+## Exam traps
 
-- Une NAT gateway par AZ pour la résilience zonale, ou une NAT régionale.
-- NAT gateway = pas de security group.
-- NAT instance : désactiver source/destination check.
+- One NAT gateway per AZ for zonal resilience, or a regional NAT gateway.
+- NAT gateway = no security group.
+- NAT instance: disable the source/destination check.
 
-## Voir aussi
+## See also
 
 [[nat-gateway-vs-instance]], [[vpc]], [[vpc-endpoints]], [[lambda]]

@@ -6,32 +6,32 @@ tags:
   - secure
   - performant
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
 # Site-to-Site VPN vs Direct Connect
 
-Connexion rapide et chiffrée sur internet, ou lien privé dédié.
+Quick encrypted connection over the internet, or a dedicated private link.
 
 |  | Site-to-Site VPN | Direct Connect |
 | --- | --- | --- |
-| Réseau | IPsec sur internet public | Liaison privée dédiée via un DX location |
-| Chiffrement | Oui | Non par défaut (IPsec VPN dessus ou MACsec) |
-| Délai | Rapide à mettre en place | Souvent plus d'un mois |
-| Bande passante | ~1,25 Gbps par tunnel vers un VGW | Dedicated 1 à 400 Gbps ; hosted 50 Mbps à 25 Gbps |
-| Perf | Variable (internet) | Plus constante, gros volumes à moindre coût |
+| Network | IPsec over the public internet | Dedicated private link through a DX location |
+| Encryption | Yes | Not by default (IPsec VPN on top or MACsec) |
+| Lead time | Quick to set up | Often more than a month |
+| Bandwidth | ~1.25 Gbps per tunnel to a VGW | Dedicated 1 to 400 Gbps; hosted 50 Mbps to 25 Gbps |
+| Performance | Variable (internet) | More consistent, large volumes at lower cost |
 
-## Règle de décision
+## Decision rule
 
-- Besoin immédiat → VPN d'abord.
-- Gros volumes, perf constante → Direct Connect, VPN en backup.
+- Immediate need -> VPN first.
+- Large volumes, consistent performance -> Direct Connect, VPN as backup.
 
-## Pièges d'examen
+## Exam traps
 
-- DX non chiffré par défaut.
+- DX is not encrypted by default.
 
-## Voir aussi
+## See also
 
-[[connectivite-vpc]]
+[[vpc-connectivity]]

@@ -4,43 +4,43 @@ tags:
   - saa-c03
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "21. Architecture patterns, other services and Well-Architected"
+notion-module: "21. Architecture patterns, other services and Well-Architected"
 ---
 
 # AWS Elastic Beanstalk
 
-## À quoi ça sert
+## What it is for
 
-PaaS orienté développeur : déploie votre code sur EC2, ASG, ELB, RDS et gère capacité, load balancing, scaling, monitoring. Vous gardez le contrôle des ressources sous-jacentes.
+Developer-centric PaaS that runs your code on EC2, ASG, ELB and RDS, managing capacity, load balancing, scaling, monitoring. You keep control of the underlying resources.
 
-## Concepts clés
+## Key concepts
 
-- **Gratuit**, on paie les ressources créées.
-- Composants : une *application* contient des *application versions* et des *environnements* (dev, test, prod).
-- Tiers : *web server tier* derrière un ELB ; *worker tier* qui traite les messages d'une file SQS et scale sur la profondeur. Le tier web peut pousser du travail au tier worker.
-- Modes de déploiement : *single instance* (dev) ; *high availability avec load balancer* (prod).
-- Plateformes : Go, Java, .NET, Node.js, PHP, Python, Ruby, Packer, Docker (mono et multi-conteneur).
-- Lancer vite une appli : golden AMI + user data (c'est ce que fait Beanstalk).
+- **Free**, you pay for the resources it creates.
+- Components: an *application* holds *application versions* and *environments* (dev, test, prod).
+- Tiers: *web server tier* behind an ELB; *worker tier* that processes messages from an SQS queue and scales on queue depth. The web tier can push work to the worker tier.
+- Deployment modes: *single instance* (dev); *high availability with load balancer* (production).
+- Platforms: Go, Java, .NET, Node.js, PHP, Python, Ruby, Packer, Docker (single and multi-container).
+- Launching apps quickly: golden AMI + user data (that is what Beanstalk does).
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Gratuit ; paiement des ressources créées.
+- Free; you pay for the resources it creates.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Déployer du code sans gérer l'infra mais en gardant la main → Beanstalk ; infra as code explicite → [[cloudformation]].
+- Deploy code without managing infrastructure but keeping control -> Beanstalk; explicit infrastructure as code -> [[cloudformation]].
 
-## Pièges d'examen
+## Exam traps
 
-- Beanstalk est gratuit.
+- Beanstalk is free.
 - Worker tier = SQS.
 
-## Voir aussi
+## See also
 
 [[cloudformation]], [[sqs]], [[elb]], [[auto-scaling]]

@@ -6,44 +6,44 @@ tags:
 source: notion
 ---
 
-# Quiz blanc hebdomadaire (modèle)
+# Weekly mock quiz (template)
 
-Dupliquer cette page chaque semaine (`quiz-AAAA-SS`). Conditions de l'examen : choix unique et choix multiple, scénarios, pas de pénalité pour une mauvaise réponse (répondre à tout).
+Duplicate this page every week (`quiz-YYYY-WW`). Exam conditions: multiple choice and multiple response, scenario-based, no penalty for a wrong answer (answer everything).
 
-## Paramètres
+## Settings
 
-- Semaine :
-- Durée visée : à ajuster ; l'examen réel donne 130 minutes pour 65 questions.
-- Domaines à couvrir (ordre des poids) : `secure` 30 %, `resilient` 26 %, `performant` 24 %, `cost` 20 %.
-- Source des questions : sections « Self-assessment » du Notion, cartes Anki ratées, entrées du [[journal-erreurs]].
+- Week:
+- Target duration: adjust as needed; the real exam gives 130 minutes for 65 questions.
+- Domains to cover (in weight order): `secure` 30%, `resilient` 26%, `performant` 24%, `cost` 20%.
+- Question sources: the "Self-assessment" sections of the Notion course, failed Anki cards, entries of the [[journal-erreurs]].
 
-## Répartition proposée
+## Proposed split
 
-| Domaine | Poids | Nombre de questions | Faites | Réussies |
+| Domain | Weight | Number of questions | Done | Correct |
 | --- | --- | --- | --- | --- |
-| Secure | 30 % |  |  |  |
-| Resilient | 26 % |  |  |  |
-| Performant | 24 % |  |  |  |
-| Cost | 20 % |  |  |  |
+| Secure | 30% |  |  |  |
+| Resilient | 26% |  |  |  |
+| Performant | 24% |  |  |  |
+| Cost | 20% |  |  |  |
 
 ## Questions
 
-| # | Domaine | Énoncé (mots-clés soulignés) | Ma réponse | Correct ? | Sûr de moi ? (oui/non) | Note à revoir |
+| # | Domain | Question (keywords underlined) | My answer | Correct? | Confident? (yes/no) | Note to review |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 |  |  |  |  |  |  |
 | 2 |  |  |  |  |  |  |
 | 3 |  |  |  |  |  |  |
 
-## Méthode
+## Method
 
-1. Lire chaque scénario, souligner les contraintes (coût, ops, HA, latence, sécurité). Voir [[mots-cles-de-l-enonce]].
-2. Éliminer les réponses fausses, puis choisir la plus simple qui respecte tout.
-3. Marquer les hésitations et y revenir à la fin.
-4. Corriger : chaque erreur ou réponse juste par chance va dans [[journal-erreurs]].
+1. Read each scenario, underline the constraints (cost, ops, HA, latency, security). See [[exam-keywords]].
+2. Eliminate the wrong answers, then pick the simplest one that respects everything.
+3. Flag hesitations and come back to them at the end.
+4. Mark: every mistake or lucky right answer goes into the [[journal-erreurs]].
 
-## Bilan
+## Review
 
-- Score :
-- Objectif des examens blancs complets : plus de 80 % (suivi du Notion).
-- Notes à repasser en `a-revoir` :
-- Plan de la semaine suivante :
+- Score:
+- Goal for full practice exams: above 80% (Notion tracker).
+- Notes to set back to `to-review`:
+- Plan for next week:

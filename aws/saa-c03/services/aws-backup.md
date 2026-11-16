@@ -4,40 +4,40 @@ tags:
   - saa-c03
   - resilient
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "20. Disaster recovery, migration and multi-region"
+notion-module: "20. Disaster recovery, migration and multi-region"
 ---
 
 # AWS Backup
 
-## À quoi ça sert
+## What it is for
 
-Sauvegardes centralisées et managées, sans scripts, sur de nombreux services.
+Centralised, managed backups across many services, no scripts.
 
-## Concepts clés
+## Key concepts
 
-- Supporte EC2, EBS, S3, RDS (tous moteurs), Aurora, DynamoDB, DocumentDB, Neptune, EFS, FSx (Lustre, Windows, ONTAP, OpenZFS), volumes Storage Gateway, etc.
-- Copies cross-région et cross-compte ; PITR pour les services qui le supportent ; backups à la demande ou planifiés ; policies par tags.
-- **Backup plans** : fréquence (12 h, quotidien, hebdo, mensuel, cron), fenêtre, transition vers froid, rétention.
-- **Vault Lock** : WORM sur un vault ; personne, pas même root, ne peut supprimer ni raccourcir la rétention ; protège du ransomware et des erreurs. **Backup policies** d'Organizations déploient les plans sur tous les comptes.
+- Supports EC2, EBS, S3, RDS (all engines), Aurora, DynamoDB, DocumentDB, Neptune, EFS, FSx (Lustre, Windows, ONTAP, OpenZFS), Storage Gateway volumes, etc.
+- Cross-region and cross-account copies; point-in-time recovery for supported services; on-demand and scheduled backups; tag-based policies.
+- **Backup plans**: frequency (every 12 hours, daily, weekly, monthly, cron), window, transition to cold storage, retention.
+- **Vault Lock**: WORM on a backup vault; nobody, not even root, can delete backups or shorten retention; a defence against ransomware and mistakes. Organizations **backup policies** deploy plans across all accounts.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Backups multi-service centralisés → AWS Backup ; immutabilité → Vault Lock.
+- Centralised multi-service backups -> AWS Backup; immutability -> Vault Lock.
 
-## Pièges d'examen
+## Exam traps
 
-- Sauvegardes que personne ne peut supprimer = AWS Backup Vault Lock.
+- Backups nobody can delete = AWS Backup Vault Lock.
 
-## Voir aussi
+## See also
 
-[[dr-et-multi-region]], [[ebs]], [[dynamodb]], [[organizations-et-scp]], [[s3]]
+[[dr-and-multi-region]], [[ebs]], [[dynamodb]], [[organizations-and-scp]], [[s3]]

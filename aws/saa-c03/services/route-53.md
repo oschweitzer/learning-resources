@@ -4,51 +4,51 @@ tags:
   - saa-c03
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "06. Route 53"
+notion-module: "06. Route 53"
 ---
 
 # Amazon Route 53
 
-## À quoi ça sert
+## What it is for
 
-DNS managé et autoritatif, registrar de domaines et health checks. Seul service AWS avec un SLA de disponibilité de 100 %.
+Managed authoritative DNS, domain registrar and health checks. The only AWS service with a 100% availability SLA.
 
-## Concepts clés
+## Key concepts
 
-- Records : nom, type, valeur, routing policy, TTL. **A** (IPv4), **AAAA** (IPv6), **CNAME** (vers un autre hostname, interdit à l'apex), **NS**. Autres à reconnaître : CAA, MX, TXT, SOA, SRV, PTR, DS (l'examen teste surtout A, AAAA, CNAME, NS, alias).
-- **Hosted zone** publique (internet) ou privée (une ou plusieurs VPC). NS et SOA créés automatiquement.
-- **TTL** : élevé = moins de requêtes et de coût mais propagation lente ; bas = l'inverse. **Baisser le TTL avant une migration.** TTL obligatoire sauf pour les alias.
-- **Alias** : vers une ressource AWS, autorisé à l'apex, requêtes gratuites, évaluation native de la santé de la cible, type A/AAAA. Cibles : LB, CloudFront, API Gateway, Beanstalk, site S3, VPC interface endpoints, Global Accelerator, records de la même zone. **Pas d'alias vers un nom DNS public EC2.**
-- **Routing policies** : Simple, Weighted (poids relatifs, 0 = arrêt), Latency, Failover (health check requis sur le primary), Geolocation (continent/pays/état US ; record default nécessaire), Geoproximity (bias -99 à 99), IP-based (CIDR collections), Multi-value (jusqu'à 8 valeurs saines ; n'est pas un ELB).
-- **Health checks** : endpoint (~15 checkers mondiaux, toutes les 30 s ou 10 s plus cher, seuil 3, sain si > 18 % des checkers d'accord, texte dans les 5 120 premiers octets), calculated (AND/OR/NOT, jusqu'à 256 enfants), CloudWatch alarm. Doivent pouvoir joindre l'endpoint (autoriser les IP des checkers). **Pour une ressource privée : métrique CloudWatch + alarme + health check sur l'alarme.**
-- Domaine chez un registrar tiers : créer la hosted zone publique dans Route 53, mettre à jour les NS chez le registrar.
-- **Resolver hybride** : *inbound endpoint* = on-premises résout des noms AWS ; *outbound endpoint* = VPC forwarde vers les résolveurs on-premises (règles par domaine). Nécessite VPN ou Direct Connect ; ENI dans 2 AZ.
+- Records: name, type, value, routing policy, TTL. **A** (IPv4), **AAAA** (IPv6), **CNAME** (to another hostname, forbidden at the apex), **NS**. Others to recognise: CAA, MX, TXT, SOA, SRV, PTR, DS (the exam mostly tests A, AAAA, CNAME, NS and alias).
+- **Hosted zone**: public (internet) or private (one or more VPCs). NS and SOA records are created automatically.
+- **TTL**: high = fewer queries and lower cost but slow propagation; low = the opposite. **Lower the TTL before a planned migration.** TTL is mandatory except for alias records.
+- **Alias**: points to an AWS resource, allowed at the apex, free queries, native target health evaluation, type A/AAAA. Targets: load balancers, CloudFront, API Gateway, Beanstalk, S3 website, VPC interface endpoints, Global Accelerator, records in the same zone. **You cannot alias an EC2 public DNS name.**
+- **Routing policies**: Simple, Weighted (relative weights, 0 = stop), Latency, Failover (health check required on the primary), Geolocation (continent/country/US state; default record needed), Geoproximity (bias -99 to 99), IP-based (CIDR collections), Multi-value (up to 8 healthy values; not an ELB).
+- **Health checks**: endpoint (~15 global checkers, every 30 s or 10 s at higher cost, threshold 3, healthy when more than 18% of checkers agree, text match in the first 5,120 bytes), calculated (AND/OR/NOT, up to 256 children), CloudWatch alarm. The endpoint must allow the checker IP ranges. **For a private resource: CloudWatch metric + alarm + health check on the alarm.**
+- Domain at a third-party registrar: create the public hosted zone in Route 53, update the NS records at the registrar.
+- **Hybrid DNS (Resolver)**: *inbound endpoint* = on-premises resolves AWS names; *outbound endpoint* = the VPC forwards to on-premises resolvers (rules per domain). Needs VPN or Direct Connect; ENIs in 2 AZs.
 
-## Limites et quotas
+## Limits and quotas
 
-- Multi-value : 8 valeurs saines maximum.
-- Health check calculated : 256 enfants max.
-- Geoproximity bias : -99 à 99.
+- Multi-value: 8 healthy values max.
+- Calculated health check: 256 children max.
+- Geoproximity bias: -99 to 99.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Hosted zone facturée par mois ; domaines facturés à l'année.
-- Requêtes alias gratuites (CNAME facturées).
-- TTL bas = plus de requêtes = plus de coût.
+- Hosted zones are billed monthly; domain registration yearly.
+- Alias queries are free (CNAME queries are charged).
+- Low TTL = more queries = more cost.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- CNAME vs alias → [[cname-vs-alias]]. Les 8 politiques → [[routage-route-53]]. Failover instantané indépendant du DNS → [[global-accelerator]].
+- CNAME vs alias -> [[cname-vs-alias]]. The 8 policies -> [[route53-routing-policies]]. Failover independent of DNS -> [[global-accelerator]].
 
-## Pièges d'examen
+## Exam traps
 
-- Un record à l'apex vers un LB = alias, jamais CNAME.
-- Health checks ne joignent pas le privé : alarme CloudWatch.
-- Geolocation exige un default record.
-- Multi-value n'est pas un load balancer.
+- A record at the zone apex pointing to a load balancer needs an alias, never a CNAME.
+- Health checks cannot reach private endpoints: use a CloudWatch alarm.
+- Geolocation needs a default record.
+- Multi-value is not a load balancer.
 
-## Voir aussi
+## See also
 
-[[cname-vs-alias]], [[routage-route-53]], [[global-accelerator]], [[cloudfront]], [[acm]], [[vpc]]
+[[cname-vs-alias]], [[route53-routing-policies]], [[global-accelerator]], [[cloudfront]], [[acm]], [[vpc]]

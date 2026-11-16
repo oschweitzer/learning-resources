@@ -4,30 +4,30 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
 # Cognito user pools vs identity pools
 
-Authentification vs autorisation vers AWS.
+Authentication vs authorisation to AWS.
 
 |  | User pools | Identity pools |
 | --- | --- | --- |
-| But | Authentification (sign-in) des users de l'appli | Autorisation d'accéder aux ressources AWS |
-| Donne | Jetons JWT | Credentials AWS temporaires (STS + IAM role) |
-| Fonctions | Mot de passe, reset, vérification, MFA, fédération (Google, Facebook, SAML, OIDC) | Identités des user pools, logins sociaux, SAML ou invité ; policies par user ID |
-| S'intègre à | API Gateway, ALB | Appels directs à S3, DynamoDB, ou via API Gateway |
+| Purpose | Authentication (sign-in) of app users | Authorisation to access AWS resources |
+| Gives | JWT tokens | Temporary AWS credentials (STS + IAM role) |
+| Features | Password, reset, verification, MFA, federation (Google, Facebook, SAML, OIDC) | Identities from user pools, social logins, SAML or guest; policies by user ID |
+| Integrates with | API Gateway, ALB | Direct calls to S3, DynamoDB, or through API Gateway |
 
-## Règle de décision
+## Decision rule
 
-- Se connecter → user pools. Accéder directement à S3/DynamoDB → identity pools.
+- Sign in -> user pools. Direct access to S3/DynamoDB -> identity pools.
 
-## Pièges d'examen
+## Exam traps
 
-- Credentials AWS temporaires = identity pools.
+- Temporary AWS credentials = identity pools.
 
-## Voir aussi
+## See also
 
 [[cognito]]

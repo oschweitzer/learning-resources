@@ -4,40 +4,40 @@ tags:
   - saa-c03
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "11. Containers"
+notion-module: "11. Containers"
 ---
 
 # Amazon EKS
 
-## À quoi ça sert
+## What it is for
 
-Plan de contrôle Kubernetes managé ; alternative à ECS avec une API open source et cloud-agnostique (multi-cloud, migration Kubernetes).
+Managed Kubernetes control plane; an alternative to ECS with an open-source, cloud-agnostic API (multi-cloud, Kubernetes migrations).
 
-## Concepts clés
+## Key concepts
 
-- Exécute les workloads sur nœuds EC2 ou Fargate ; expose les services via ELB.
-- **Types de nœuds** : *managed node groups* (EKS crée/gère les EC2 dans un ASG, On-Demand ou Spot), *self-managed* (vous créez, enregistrez, gérez l'ASG ; AMI optimisée EKS), *Fargate* (aucun nœud visible), *EKS Auto Mode* (AWS gère nœuds, scaling, add-ons : moins d'opérations avec la flexibilité EC2).
-- **Stockage** : StorageClass avec driver **CSI** ; backends EBS, EFS (le seul compatible Fargate), FSx for Lustre, FSx for NetApp ONTAP.
+- Runs workloads on EC2 nodes or Fargate; exposes services through ELB.
+- **Node types**: *managed node groups* (EKS creates and manages EC2 nodes in an ASG, On-Demand or Spot), *self-managed* (you create nodes, register them, run the ASG; EKS optimised AMI), *Fargate* (no nodes to see), *EKS Auto Mode* (AWS manages nodes, scaling and add-ons: least operations with EC2 flexibility).
+- **Storage**: StorageClass using a **CSI** driver; backends EBS, EFS (the only one that works with Fargate), FSx for Lustre, FSx for NetApp ONTAP.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Déjà Kubernetes ou multi-cloud → EKS ; sinon [[ecs-fargate-ecr]] est plus simple.
+- Already Kubernetes or multi-cloud -> EKS; otherwise [[ecs-fargate-ecr]] is simpler.
 
-## Pièges d'examen
+## Exam traps
 
-- Déjà Kubernetes / multi-cloud = EKS.
-- Seul EFS marche avec les pods Fargate.
+- Already Kubernetes / multi-cloud = EKS.
+- Only EFS works with Fargate pods.
 
-## Voir aussi
+## See also
 
 [[ecs-fargate-ecr]], [[efs]]

@@ -5,50 +5,50 @@ tags:
   - resilient
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
-# Amazon DynamoDB (et DAX)
+# Amazon DynamoDB (and DAX)
 
-## À quoi ça sert
+## What it is for
 
-Base NoSQL clé-valeur/document serverless, répliquée sur 3 AZ, latence à un chiffre en ms, millions de requêtes par seconde.
+Serverless key-value/document NoSQL database replicated across 3 AZs, single-digit millisecond latency, millions of requests per second.
 
-## Concepts clés
+## Key concepts
 
-- Clé primaire choisie à la création : *partition key* ou partition key + *sort key*. Items jusqu'à 400 KB. Classes de table : Standard et Standard-IA (stockage moins cher pour tables rarement lues).
-- **Capacité** : *Provisioned* (RCU/WCU, auto scaling optionnel ; trafic prévisible, maîtrise du coût) ; *On-demand* (scale instantané, paiement par requête, plus cher par requête ; trafic imprévisible, nouvelles applis).
-- **DAX** : cache en mémoire pour DynamoDB, lectures en microsecondes, sans changer la logique applicative ; TTL par défaut 5 min ; cache items et résultats de requête (ElastiCache pour des résultats calculés/agrégés).
-- **DynamoDB Streams** : flux ordonné des changements au niveau item, conservé 24 h, lu par Lambda ou KCL. **Kinesis Data Streams for DynamoDB** : jusqu'à 1 an, plus de consommateurs. Usages : emails de bienvenue, analytique temps réel, tables dérivées, indexation OpenSearch.
-- **Global tables** : réplication multi-région active-active (lectures/écritures partout), Streams requis. Défaut : cohérence éventuelle multi-région (1 à 2 s en général). **Multi-region strong consistency** (GA juin 2025, choisie à la création) : **RPO zéro**.
-- **TTL** : suppression auto après un timestamp (sessions, rétention réglementaire). DynamoDB peut remplacer ElastiCache comme session store grâce au TTL.
-- **PITR** : restauration à la seconde sur jusqu'à 35 jours, dans une nouvelle table. Sauvegardes à la demande jusqu'à suppression (gérables par AWS Backup, copies cross-région).
-- **Export vers S3** (PITR requis, sans consommer de lecture) pour Athena/audits ; **import depuis S3** (CSV, DynamoDB JSON, Ion) crée une nouvelle table sans consommer d'écriture.
+- Primary key chosen at creation: *partition key* or partition key + *sort key*. Items up to 400 KB. Table classes: Standard and Standard-IA (cheaper storage for rarely read tables).
+- **Capacity**: *Provisioned* (RCU/WCU, optional auto scaling; predictable traffic, cost control); *On-demand* (instant scaling, pay per request, more expensive per request; unpredictable traffic, new apps).
+- **DAX**: in-memory cache for DynamoDB, microsecond reads, no application logic change; default TTL 5 min; caches items and query results (ElastiCache fits computed/aggregated results).
+- **DynamoDB Streams**: ordered stream of item-level changes, kept 24 h, read by Lambda or KCL. **Kinesis Data Streams for DynamoDB**: up to 1 year, more consumers. Use cases: welcome emails, real-time analytics, derived tables, OpenSearch indexing.
+- **Global tables**: multi-region active-active replication (reads/writes anywhere), Streams required. Default: multi-region eventual consistency (usually 1 to 2 s). **Multi-region strong consistency** (GA June 2025, chosen at creation): **RPO zero**.
+- **TTL**: automatic deletion after an expiry timestamp (sessions, regulatory retention). DynamoDB can replace ElastiCache as a session store thanks to TTL.
+- **PITR**: restore to any second within up to 35 days, into a new table. On-demand backups last until deleted (manageable by AWS Backup with cross-region copies).
+- **Export to S3** (needs PITR, consumes no read capacity) for Athena/audits; **import from S3** (CSV, DynamoDB JSON, Ion) creates a new table without consuming write capacity.
 
-## Limites et quotas
+## Limits and quotas
 
-- Item jusqu'à 400 KB.
-- Streams : rétention 24 h.
-- PITR : jusqu'à 35 jours.
-- DAX : TTL par défaut 5 min.
+- Item up to 400 KB.
+- Streams: 24 h retention.
+- PITR: up to 35 days.
+- DAX: default TTL 5 min.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Provisioned : capacité en RCU/WCU ; on-demand : paiement par requête (plus cher par requête). Standard-IA pour stockage moins cher.
-- Export S3 et import S3 ne consomment pas de capacité.
+- Provisioned: capacity in RCU/WCU; on-demand: pay per request (more expensive per request). Standard-IA for cheaper storage.
+- Export to S3 and import from S3 consume no capacity.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Cache microsecondes → DAX. Recherche plein texte → DynamoDB Streams → Lambda → [[opensearch-emr-et-quick]]. Relationnel/joins → [[rds]] / [[aurora]]. Sessions → ElastiCache ou DynamoDB + TTL ([[elasticache]]).
+- Microsecond cache -> DAX. Full-text search -> DynamoDB Streams -> Lambda -> [[opensearch-emr-and-quick]]. Relational/joins -> [[rds]] / [[aurora]]. Sessions -> ElastiCache or DynamoDB + TTL ([[elasticache]]).
 
-## Pièges d'examen
+## Exam traps
 
-- Pics imprévisibles = on-demand.
-- Microsecondes sans changer le code = DAX.
-- Zéro perte de données multi-région = global tables avec strong consistency.
+- Unpredictable spikes = on-demand.
+- Microseconds without code changes = DAX.
+- Zero data loss across regions = global tables with strong consistency.
 
-## Voir aussi
+## See also
 
-[[elasticache]], [[lambda]], [[kms]], [[aws-backup]], [[bases-specialisees]], [[api-gateway]], [[dr-et-multi-region]], [[opensearch-emr-et-quick]]
+[[elasticache]], [[lambda]], [[kms]], [[aws-backup]], [[specialized-databases]], [[api-gateway]], [[dr-and-multi-region]], [[opensearch-emr-and-quick]]

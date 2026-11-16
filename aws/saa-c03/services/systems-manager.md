@@ -4,42 +4,42 @@ tags:
   - saa-c03
   - secure
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "21. Architecture patterns, other services and Well-Architected"
+notion-module: "21. Architecture patterns, other services and Well-Architected"
 ---
 
 # AWS Systems Manager
 
-## À quoi ça sert
+## What it is for
 
-Gérer et accéder aux instances (EC2 et on-premises) sans SSH.
+Manage and access instances (EC2 and on premises) without SSH.
 
-## Concepts clés
+## Key concepts
 
-- **Session Manager** : shell sécurisé sans clé SSH, bastion ni port 22 ; Linux, macOS, Windows ; logs vers S3/CloudWatch Logs ; contrôle IAM.
-- **Run Command** : exécute un document/commande sur de nombreuses instances, sans SSH ; sortie vers console, S3, CloudWatch ; notifications SNS ; déclenchable par EventBridge.
-- **Patch Manager** : patch OS et applis (EC2 et on-premises), à la demande ou planifié, rapports de conformité. **Maintenance Windows** : planifie des actions avec durée, instances et tâches.
-- **Automation** : runbooks (documents SSM) : redémarrer des instances, créer des AMI, snapshots EBS ; manuel, EventBridge, planifié ou remédiation Config. **Parameter Store** : voir [[secrets-manager-et-parameter-store]].
-- Tout nécessite l'**agent SSM** et un IAM role (instance profile) autorisant Systems Manager.
+- **Session Manager**: secure shell without SSH keys, bastion or port 22; Linux, macOS, Windows; session logs to S3/CloudWatch Logs; IAM-controlled.
+- **Run Command**: run a document/command on many instances, no SSH; output to console, S3, CloudWatch; SNS notifications; can be triggered by EventBridge.
+- **Patch Manager**: patches OS and applications (EC2 and on premises), on demand or scheduled, compliance reports. **Maintenance Windows**: schedule actions with a duration, instances and tasks.
+- **Automation**: runbooks (SSM documents): restart instances, create AMIs, snapshot EBS; manual, EventBridge, scheduled, or Config remediation. **Parameter Store**: see [[secrets-manager-and-parameter-store]].
+- Everything needs the **SSM agent** and an IAM role (instance profile) allowing Systems Manager.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Accès sans port ouvert → Session Manager ; patching planifié → Patch Manager + Maintenance Window.
+- Access without an open port -> Session Manager; scheduled patching -> Patch Manager + Maintenance Window.
 
-## Pièges d'examen
+## Exam traps
 
-- Shell sans ouvrir le port 22 = Session Manager.
-- Patcher 500 instances sans SSH = Patch Manager + Maintenance Window.
+- Shell without opening port 22 = Session Manager.
+- Patching 500 instances without SSH = Patch Manager + Maintenance Window.
 
-## Voir aussi
+## See also
 
-[[ec2]], [[config]], [[eventbridge]], [[secrets-manager-et-parameter-store]]
+[[ec2]], [[config]], [[eventbridge]], [[secrets-manager-and-parameter-store]]

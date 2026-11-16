@@ -5,31 +5,31 @@ tags:
   - comparatif
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "14. Data and analytics"
+notion-module: "14. Data and analytics"
 ---
 
 # Athena vs Redshift
 
-Requêter S3 sur demande ou entreposer pour de l'analytique lourde.
+Query S3 on demand or warehouse for heavy analytics.
 
 |  | Athena | Redshift |
 | --- | --- | --- |
-| Modèle | Serverless, SQL sur fichiers S3, sans chargement | Data warehouse (PostgreSQL), stockage colonnes, MPP, données chargées |
-| Facturation | Au TB scanné | Cluster provisionné ou Serverless |
-| Idéal pour | Requêtes ponctuelles, logs (Flow Logs, ELB, CloudTrail) | Jointures, agrégations, requêtes complexes répétées |
-| Pont | — | Spectrum interroge S3 sans charger |
+| Model | Serverless, SQL on S3 files, no loading | Data warehouse (PostgreSQL), columnar storage, MPP, loaded data |
+| Billing | Per TB scanned | Provisioned cluster or Serverless |
+| Ideal for | Ad hoc queries, logs (Flow Logs, ELB, CloudTrail) | Joins, aggregations, repeated complex queries |
+| Bridge | - | Spectrum queries S3 without loading |
 
-## Règle de décision
+## Decision rule
 
-- Occasionnel sur S3 → Athena.
-- Analytique lourde répétée → Redshift.
+- Occasional on S3 -> Athena.
+- Heavy repeated analytics -> Redshift.
 
-## Pièges d'examen
+## Exam traps
 
-- Athena : Parquet + compression + partitions pour réduire le coût.
+- Athena: Parquet + compression + partitions to cut cost.
 
-## Voir aussi
+## See also
 
 [[athena]], [[redshift]]

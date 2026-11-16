@@ -4,32 +4,32 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
 # KMS vs CloudHSM
 
-Logiciel managé multi-tenant ou matériel dédié.
+Multi-tenant managed software or dedicated hardware.
 
 |  | KMS | CloudHSM |
 | --- | --- | --- |
 | Tenancy | Multi-tenant | Single-tenant |
-| Contrôle des clés | AWS owned, AWS managed, customer managed | Customer managed uniquement |
-| Accès | Multi-region keys possibles, API AWS | Dans votre VPC, partagé via VPC peering |
-| Accélération crypto | Non | SSL/TLS, Oracle TDE |
-| Free tier | Oui | Non |
+| Key control | AWS owned, AWS managed, customer managed | Customer managed only |
+| Access | Multi-region keys possible, AWS API | Inside your VPC, shared with VPC peering |
+| Crypto acceleration | No | SSL/TLS, Oracle TDE |
+| Free tier | Yes | No |
 
-## Règle de décision
+## Decision rule
 
-- Chiffrement standard intégré aux services → KMS.
-- Matériel dédié FIPS niveau 3, contrôle total → CloudHSM.
+- Standard encryption integrated with services -> KMS.
+- Dedicated FIPS level 3 hardware, full control -> CloudHSM.
 
-## Pièges d'examen
+## Exam traps
 
-- CloudHSM intégrable à KMS via custom key store.
+- CloudHSM can integrate with KMS through a custom key store.
 
-## Voir aussi
+## See also
 
 [[kms]]

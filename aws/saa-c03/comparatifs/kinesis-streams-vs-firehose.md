@@ -4,31 +4,31 @@ tags:
   - saa-c03
   - comparatif
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "10. Decoupling"
+notion-module: "10. Decoupling"
 ---
 
 # Kinesis Data Streams vs Amazon Data Firehose
 
-Collecter un flux ou le charger dans une destination.
+Collect a stream or load it into a destination.
 
 | Kinesis Data Streams | Amazon Data Firehose |
 | --- | --- |
-| Collecte des flux, vous écrivez producteurs et consommateurs | Charge des flux dans des destinations, sans code |
-| Temps réel | Near real-time (buffering) |
-| Provisionné ou on-demand | Scaling entièrement automatique |
-| Stockage jusqu'à 365 j, replay possible | Pas de stockage ni de replay |
+| Collects streams, you write producers and consumers | Loads streams into destinations, no code |
+| Real time | Near real-time (buffering) |
+| Provisioned or on-demand | Fully automatic scaling |
+| Storage up to 365 d, replay possible | No storage and no replay |
 
-## Règle de décision
+## Decision rule
 
-- Besoin de replay ou de plusieurs consommateurs → Data Streams.
-- Charger S3/Redshift/OpenSearch sans code → Firehose.
+- Need replay or several consumers -> Data Streams.
+- Load S3/Redshift/OpenSearch without code -> Firehose.
 
-## Pièges d'examen
+## Exam traps
 
-- Flink ne lit pas Firehose.
+- Flink cannot read Firehose.
 
-## Voir aussi
+## See also
 
-[[kinesis-et-firehose]]
+[[kinesis-and-firehose]]

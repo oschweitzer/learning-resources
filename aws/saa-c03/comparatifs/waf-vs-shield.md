@@ -4,32 +4,32 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
 # WAF vs Shield vs Firewall Manager
 
-Applicatif L7, DDoS L3/L4 et gestion centralisée.
+Application layer, L3/L4 DDoS and central management.
 
-| Service | Protège contre | Remarque |
+| Service | Protects against | Remark |
 | --- | --- | --- |
-| WAF | Exploits web L7 (SQL injection, XSS), IP, geo, rate-based | Pas sur NLB ; web ACL régionale sauf CloudFront |
-| Shield Standard | DDoS L3/L4 | Gratuit, automatique |
-| Shield Advanced | DDoS sophistiqués sur EC2, ELB, CloudFront, GA, Route 53 | SRT 24/7, protection des coûts de scaling, règles WAF automatiques |
-| Firewall Manager | Gère WAF, Shield Advanced, SG, Network Firewall, DNS Firewall à l'échelle de l'organisation | S'applique aux nouvelles ressources/comptes |
+| WAF | L7 web exploits (SQL injection, XSS), IPs, geo, rate-based | Not on NLB; web ACL regional except CloudFront |
+| Shield Standard | L3/L4 DDoS | Free, automatic |
+| Shield Advanced | Sophisticated DDoS on EC2, ELB, CloudFront, GA, Route 53 | 24/7 SRT, scaling cost protection, automatic WAF rules |
+| Firewall Manager | Manages WAF, Shield Advanced, SGs, Network Firewall, DNS Firewall across the organisation | Applies to new resources/accounts |
 
-## Règle de décision
+## Decision rule
 
-- SQL injection / XSS → WAF.
-- DDoS support + protection de coûts → Shield Advanced.
-- Multi-comptes → Firewall Manager.
+- SQL injection / XSS -> WAF.
+- DDoS support + cost protection -> Shield Advanced.
+- Multi-account -> Firewall Manager.
 
-## Pièges d'examen
+## Exam traps
 
-- SQL injection ≠ Shield.
+- SQL injection != Shield.
 
-## Voir aussi
+## See also
 
 [[waf-shield-firewall-manager]]

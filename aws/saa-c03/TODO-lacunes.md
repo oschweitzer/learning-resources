@@ -6,21 +6,21 @@ tags:
 source: notion
 ---
 
-# TODO : lacunes détectées
+# TODO: detected gaps
 
-Ce fichier liste ce qui manque dans mon Notion. **Rien n'a été complété de mémoire** : chaque point est à traiter en ajoutant d'abord l'information au Notion (puis en régénérant les notes et les cartes).
+This file lists what is missing from my Notion course. **Nothing was filled in from memory**: each item should be handled by first adding the information to Notion (then regenerating the notes and cards).
 
-## 1. Services ou notions absents du Notion
+## 1. Services or notions absent from Notion
 
-Absents ou à peine cités dans le cours. À vérifier contre l'exam guide officiel (SAA-C03 v1.1), dont je n'ai pas pu lire le PDF : seul son lien figure dans le Notion. Les noms ci-dessous sont des pistes, pas une affirmation qu'ils sont tous au programme.
+Absent or barely mentioned in the course. To check against the official exam guide (SAA-C03 v1.1), whose PDF I could not read: only its link appears in Notion. The names below are leads, not a claim that they are all in the exam scope.
 
 - [ ] AWS App Runner
 - [ ] Amazon Lightsail
 - [ ] AWS Cloud Map
-- [ ] Amazon AppSync (cité seulement comme cible WAF)
-- [ ] Amazon MemoryDB (cité seulement dans un tableau)
+- [ ] Amazon AppSync (only mentioned as a WAF target)
+- [ ] Amazon MemoryDB (only mentioned in a table)
 - [ ] EC2 Image Builder
-- [ ] AWS Fault Injection Service (le chaos testing est cité comme principe, pas l'outil)
+- [ ] AWS Fault Injection Service (chaos testing is mentioned as a principle, not the tool)
 - [ ] Route 53 Application Recovery Controller
 - [ ] AWS Security Lake
 - [ ] Amazon Verified Permissions
@@ -32,52 +32,52 @@ Absents ou à peine cités dans le cours. À vérifier contre l'exam guide offic
 - [ ] IAM Roles Anywhere
 - [ ] VPC IPAM
 - [ ] Global Accelerator custom routing
-- [ ] AWS CodeBuild / CodeDeploy / CodePipeline (cités seulement comme sources d'événements)
+- [ ] AWS CodeBuild / CodeDeploy / CodePipeline (only mentioned as event sources)
 
-## 2. Sections non renseignées dans les notes (le Notion ne donne rien)
+## 2. Sections left empty in the notes (Notion gives nothing)
 
-### Limites et quotas
+### Limits and quotas
 
-- [ ] [[ami-et-instance-store]]
+- [ ] [[ami-and-instance-store]]
 - [ ] [[efs]]
 - [ ] [[elasticache]]
 - [ ] [[cloudfront]]
 - [ ] [[global-accelerator]]
-- [ ] [[fsx-et-s3-files]]
+- [ ] [[fsx-and-s3-files]]
 - [ ] [[storage-gateway]]
 - [ ] [[amazon-mq]]
 - [ ] [[ecs-fargate-ecr]]
 - [ ] [[eks]]
 - [ ] [[api-gateway]]
 - [ ] [[cognito]]
-- [ ] [[services-ml]]
+- [ ] [[ml-services]]
 - [ ] [[athena]]
 - [ ] [[redshift]]
-- [ ] [[glue-et-lake-formation]]
-- [ ] [[opensearch-emr-et-quick]]
+- [ ] [[glue-and-lake-formation]]
+- [ ] [[opensearch-emr-and-quick]]
 - [ ] [[eventbridge]]
 - [ ] [[config]]
-- [ ] [[organizations-et-scp]]
-- [ ] [[iam-avance]]
-- [ ] [[identity-center-et-directory-service]]
+- [ ] [[organizations-and-scp]]
+- [ ] [[advanced-iam]]
+- [ ] [[identity-center-and-directory-service]]
 - [ ] [[control-tower]]
-- [ ] [[detection-et-conformite]]
+- [ ] [[detection-and-compliance]]
 - [ ] [[vpc-endpoints]]
-- [ ] [[vpc-flow-logs-et-network-firewall]]
+- [ ] [[vpc-flow-logs-and-network-firewall]]
 - [ ] [[aws-backup]]
-- [ ] [[dms-et-migration]]
+- [ ] [[dms-and-migration]]
 - [ ] [[elastic-beanstalk]]
 - [ ] [[cloudformation]]
 - [ ] [[systems-manager]]
-- [ ] [[gestion-des-couts]]
-- [ ] [[services-divers]]
-- [ ] [[well-architected-et-trusted-advisor]]
-- [ ] [[architectures-de-reference]]
+- [ ] [[cost-management]]
+- [ ] [[other-services]]
+- [ ] [[well-architected-and-trusted-advisor]]
+- [ ] [[reference-architectures]]
 
-### Tarification (logique)
+### Pricing (logic)
 
 - [ ] [[iam]]
-- [ ] [[ami-et-instance-store]]
+- [ ] [[ami-and-instance-store]]
 - [ ] [[elasticache]]
 - [ ] [[global-accelerator]]
 - [ ] [[storage-gateway]]
@@ -87,29 +87,29 @@ Absents ou à peine cités dans le cours. À vérifier contre l'exam guide offic
 - [ ] [[eks]]
 - [ ] [[api-gateway]]
 - [ ] [[cognito]]
-- [ ] [[bases-specialisees]]
-- [ ] [[services-ml]]
-- [ ] [[glue-et-lake-formation]]
-- [ ] [[streaming-analytique]]
+- [ ] [[specialized-databases]]
+- [ ] [[ml-services]]
+- [ ] [[glue-and-lake-formation]]
+- [ ] [[streaming-analytics]]
 - [ ] [[cloudwatch]]
 - [ ] [[eventbridge]]
-- [ ] [[iam-avance]]
-- [ ] [[identity-center-et-directory-service]]
+- [ ] [[advanced-iam]]
+- [ ] [[identity-center-and-directory-service]]
 - [ ] [[control-tower]]
-- [ ] [[security-groups-et-nacl]]
-- [ ] [[vpc-flow-logs-et-network-firewall]]
+- [ ] [[security-groups-and-nacl]]
+- [ ] [[vpc-flow-logs-and-network-firewall]]
 - [ ] [[aws-backup]]
-- [ ] [[dms-et-migration]]
-- [ ] [[migration-et-outils]]
+- [ ] [[dms-and-migration]]
+- [ ] [[migration-and-tools]]
 - [ ] [[systems-manager]]
-- [ ] [[gestion-des-couts]]
-- [ ] [[services-divers]]
-- [ ] [[architectures-de-reference]]
+- [ ] [[cost-management]]
+- [ ] [[other-services]]
+- [ ] [[reference-architectures]]
 
-## 3. Autres manques
+## 3. Other gaps
 
-- [ ] Exam guide officiel : lien présent dans le Notion mais pas son contenu ; faire le rapprochement service par service.
-- [ ] Aucune question d'examen blanc dans le Notion : seulement les sections « Self-assessment » (déjà converties en cartes). Ajouter des scénarios longs pour le [[quiz-hebdo]].
-- [ ] Le tracker de révision du Notion n'a aucune case cochée : statut de chaque note laissé à `a-revoir`.
-- [ ] Les valeurs de RPO/RTO du Notion pour le DR sont des ordres de grandeur ([[dr-strategies]]) ; à confirmer avec le livre blanc DR cité dans le Notion.
-- [ ] Les prix du Notion n'ont volontairement pas été recopiés (seulement la logique de facturation) ; à compléter si besoin avec la page de tarification AWS.
+- [ ] Official exam guide: the link is in Notion but not its content; reconcile it service by service.
+- [ ] No practice exam questions in Notion: only the "Self-assessment" sections (already converted into cards). Add long scenarios for the [[quiz-hebdo]].
+- [ ] The Notion revision tracker has no box ticked: every note status was left at `to-review`.
+- [ ] The Notion RPO/RTO values for DR are orders of magnitude ([[dr-strategies]]); confirm them with the DR whitepaper cited in Notion.
+- [ ] Prices from Notion were deliberately not copied (billing logic only); complete from the AWS pricing pages if needed.

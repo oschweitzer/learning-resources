@@ -3,41 +3,41 @@ tags:
   - aws
   - saa-c03
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "05. Relational databases and caching"
+notion-module: "05. Relational databases and caching"
 ---
 
 # Amazon ElastiCache
 
-## À quoi ça sert
+## What it is for
 
-Cache en mémoire managé (Valkey, Redis OSS, Memcached), latence sub-milliseconde ; allège les bases lues intensivement et rend les applis stateless (sessions).
+Managed in-memory cache (Valkey, Redis OSS, Memcached), sub-millisecond latency; offloads read-heavy databases and makes applications stateless (sessions).
 
-## Concepts clés
+## Key concepts
 
-- Utiliser un cache **demande des changements de code** dans l'application.
-- **Valkey/Redis OSS** : Multi-AZ avec failover auto, read replicas, persistance AOF, backup/restore, types riches (sets, sorted sets). **Memcached** : pas de réplication, pas de persistance (serverless : backup/restore), key-value simple, multi-thread, sharding.
-- Sécurité : IAM auth pour Valkey/Redis OSS + AUTH tokens + TLS ; SASL pour Memcached ; security groups.
-- **Lazy loading** (cache-aside) : lire le cache, sur miss lire la base puis écrire le cache ; données potentiellement périmées. **Write-through** : écrire dans le cache à chaque écriture en base ; pas de données périmées mais plus d'écritures. **Session store** : sessions avec TTL. **Leaderboards** : sorted sets Valkey/Redis.
+- Using a cache **requires code changes** in the application.
+- **Valkey/Redis OSS**: Multi-AZ with automatic failover, read replicas, AOF persistence, backup/restore, rich types (sets, sorted sets). **Memcached**: no replication, no persistence (serverless: backup/restore), simple key-value, multi-threaded, sharding.
+- Security: IAM auth for Valkey/Redis OSS + AUTH tokens + TLS; SASL for Memcached; security groups.
+- **Lazy loading** (cache-aside): read the cache, on a miss read the database then write the cache; data can be stale. **Write-through**: write to the cache on every database write; no stale data but more writes. **Session store**: temporary session data with a TTL. **Leaderboards**: Valkey/Redis sorted sets.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Leaderboard temps réel → Valkey/Redis OSS (sorted sets). Cache devant DynamoDB sans changer le code → [[dynamodb]] (DAX). Sessions : ElastiCache ou DynamoDB avec TTL.
+- Real-time leaderboard -> Valkey/Redis OSS (sorted sets). Cache in front of DynamoDB without code changes -> [[dynamodb]] (DAX). Sessions: ElastiCache or DynamoDB with TTL.
 
-## Pièges d'examen
+## Exam traps
 
-- Lazy loading = peut servir du périmé.
-- Leaderboard = sorted sets Valkey/Redis.
+- Lazy loading can serve stale data.
+- Leaderboard = Valkey/Redis sorted sets.
 
-## Voir aussi
+## See also
 
-[[rds]], [[dynamodb]], [[architectures-de-reference]]
+[[rds]], [[dynamodb]], [[reference-architectures]]

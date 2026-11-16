@@ -4,31 +4,31 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "17. Advanced identity and governance"
+notion-module: "17. Advanced identity and governance"
 ---
 
-# Options AWS Directory Service
+# AWS Directory Service options
 
-Quel annuaire AD choisir.
+Which AD directory to choose.
 
-| Option | Ce que c'est | À utiliser quand |
+| Option | What it is | Use it when |
 | --- | --- | --- |
-| AWS Managed Microsoft AD | Vrai AD managé par AWS, MFA ; trusts possibles avec l'AD on-premises | Besoin d'AD dans AWS, éventuellement relié au on-premises |
-| AD Connector | Proxy qui relaie l'authentification vers l'AD on-premises ; users restent on-premises | Applis AWS qui utilisent l'AD existant sans copie |
-| Simple AD | Compatible AD, basé sur Samba, sans trust avec le on-premises | Annuaire petit, simple et autonome |
+| AWS Managed Microsoft AD | A real AD managed by AWS, MFA; trusts possible with on-premises AD | You need AD in AWS, possibly trusted with on premises |
+| AD Connector | Proxy forwarding authentication to the on-premises AD; users stay on premises | AWS apps using the existing AD without a copy |
+| Simple AD | AD-compatible, Samba-based, no trust with on premises | Small, simple, standalone directory |
 
-## Règle de décision
+## Decision rule
 
-- AD existant sans réplication → AD Connector.
-- AD complet dans AWS + trust → Managed Microsoft AD.
-- Petit annuaire autonome → Simple AD.
+- Existing AD without replication -> AD Connector.
+- Full AD in AWS + trust -> Managed Microsoft AD.
+- Small standalone directory -> Simple AD.
 
-## Pièges d'examen
+## Exam traps
 
-- Identity Center s'intègre nativement à Managed Microsoft AD.
+- Identity Center integrates natively with Managed Microsoft AD.
 
-## Voir aussi
+## See also
 
-[[identity-center-et-directory-service]]
+[[identity-center-and-directory-service]]

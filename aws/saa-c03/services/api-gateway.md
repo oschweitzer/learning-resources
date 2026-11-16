@@ -4,41 +4,41 @@ tags:
   - saa-c03
   - performant
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
 # Amazon API Gateway
 
-## À quoi ça sert
+## What it is for
 
-Porte d'entrée serverless pour APIs : versions, stages, authentification, clés API, usage plans, throttling, cache, validation, OpenAPI, WebSocket.
+Serverless front door for APIs: versions, stages, authentication, API keys, usage plans, throttling, caching, validation, OpenAPI, WebSocket.
 
-## Concepts clés
+## Key concepts
 
-- Types : **REST** (le plus de fonctions), **HTTP** (moins cher, latence plus basse, moins de fonctions), **WebSocket**.
-- Intégrations : Lambda (REST serverless classique) ; backends HTTP (on-premises, ALB) pour ajouter rate limiting, cache, auth, clés ; services AWS directement (SendMessage SQS, PutRecord Kinesis, démarrage Step Functions) sans Lambda.
-- **Endpoints** : *edge-optimised* (défaut, clients globaux via CloudFront, API dans une région) ; *regional* (clients de la même région ; CloudFront perso possible) ; *private* (depuis votre VPC via interface VPC endpoint + resource policy).
-- **Sécurité** : IAM (SigV4) pour appelants internes/AWS ; **Cognito user pools** pour utilisateurs externes ; **Lambda authorizers** pour logique custom (jetons tiers) ; WAF possible sur REST ; domaines custom avec ACM (edge-optimised : certificat dans **us-east-1** ; regional : région de l'API) puis CNAME/alias Route 53.
+- Types: **REST** (most features), **HTTP** (cheaper, lower latency, fewer features), **WebSocket**.
+- Integrations: Lambda (the classic serverless REST API); HTTP backends (on-premises, ALB) to add rate limiting, caching, auth, keys; AWS services directly (SendMessage to SQS, PutRecord to Kinesis, start a Step Functions execution) without Lambda.
+- **Endpoints**: *edge-optimised* (default, global clients via CloudFront, API stays in one region); *regional* (clients in the same region; own CloudFront possible); *private* (from your VPC through an interface VPC endpoint + resource policy).
+- **Security**: IAM (SigV4) for internal/AWS callers; **Cognito user pools** for external users; **Lambda authorisers** for custom logic (third-party tokens); WAF can protect REST APIs; custom domains with ACM (edge-optimised: certificate in **us-east-1**; regional: the API's region) then CNAME/alias in Route 53.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- API serverless → API Gateway + [[lambda]] ; authentification utilisateurs → [[cognito]] ; cache API → voir [[architectures-de-reference]].
+- Serverless API -> API Gateway + [[lambda]]; user authentication -> [[cognito]]; API caching -> see [[reference-architectures]].
 
-## Pièges d'examen
+## Exam traps
 
-- Certificat d'un endpoint edge-optimised dans us-east-1.
-- API privée = interface VPC endpoint + resource policy.
+- Certificate of an edge-optimised endpoint in us-east-1.
+- Private API = interface VPC endpoint + resource policy.
 
-## Voir aussi
+## See also
 
 [[lambda]], [[cognito]], [[acm]], [[waf-shield-firewall-manager]], [[step-functions]]

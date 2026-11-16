@@ -5,46 +5,46 @@ tags:
   - resilient
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "11. Containers"
+notion-module: "11. Containers"
 ---
 
-# Amazon ECS, Fargate et ECR
+# Amazon ECS, Fargate and ECR
 
-## À quoi ça sert
+## What it is for
 
-Orchestrer des conteneurs sur AWS (ECS), sans serveur (Fargate), avec un registre d'images privé/public (ECR).
+Orchestrate containers on AWS (ECS), without servers (Fargate), with a private/public image registry (ECR).
 
-## Concepts clés
+## Key concepts
 
-- Docker : app + dépendances dans un conteneur ; les conteneurs partagent le noyau de l'hôte (≠ VM). **ECR** : registre privé ou public, adossé à S3, intégré à ECS/EKS, scan de vulnérabilités, lifecycle policies, réplication cross-région/compte. Erreur de pull = instance profile ou task execution role.
-- **Launch types** : *EC2* (vous gérez les instances avec l'agent ECS ; contrôle total : GPU, daemons), *Fargate* (rien à gérer ; moindre effort opérationnel), *ECS Managed Instances* (AWS provisionne et patche l'EC2).
-- **Rôles IAM** : *EC2 instance profile* (launch type EC2 ; l'agent appelle ECS, pousse les logs, tire les images ECR, lit Secrets Manager/Parameter Store) ; **ECS task role** = permissions propres à chaque tâche (moindre privilège au niveau conteneur).
-- **Load balancing** : ALB (dynamic port mapping, cas général) ; NLB (haut débit ou PrivateLink) ; CLB déconseillé.
-- **Volumes** : EFS sur EC2 et Fargate (persistant serverless) ; S3 Files sur Fargate et Managed Instances.
-- **Scaling** : Service Auto Scaling (Application Auto Scaling) sur CPU/mémoire moyens ou RequestCountPerTarget ; target tracking, step, scheduled. Scaler les tâches n'ajoute pas d'EC2 → **capacity provider** lié à un ASG (préféré au scaling CPU simple).
-- **Patterns événementiels** : EventBridge sur upload S3 lance une tâche ; EventBridge Scheduler pour des batchs ; tâches qui lisent SQS avec scaling sur la profondeur ; EventBridge détecte les tâches stoppées/échouées → SNS.
+- Docker: an app and its dependencies in a container; containers share the host kernel (unlike VMs). **ECR**: private or public registry, backed by S3, integrated with ECS/EKS, vulnerability scanning, lifecycle policies, cross-region/account replication. A pull permission error = instance profile or task execution role.
+- **Launch types**: *EC2* (you manage the instances running the ECS agent; full control: GPUs, daemons), *Fargate* (nothing to manage; least operational effort), *ECS Managed Instances* (AWS provisions and patches the EC2).
+- **IAM roles**: *EC2 instance profile* (EC2 launch type; the agent calls ECS, pushes logs, pulls ECR images, reads Secrets Manager/Parameter Store); **ECS task role** = each task's own permissions (least privilege at container level).
+- **Load balancing**: ALB (dynamic port mapping, general case); NLB (high throughput or PrivateLink); CLB not recommended.
+- **Volumes**: EFS on EC2 and Fargate (serverless persistent storage); S3 Files on Fargate and Managed Instances.
+- **Scaling**: Service Auto Scaling (Application Auto Scaling) on average CPU/memory or ALB RequestCountPerTarget; target tracking, step, scheduled. Scaling tasks does not add EC2 -> **capacity provider** linked to an ASG (preferred over plain CPU scaling).
+- **Event-driven patterns**: EventBridge rule on an S3 upload runs a task; EventBridge Scheduler for batches; tasks polling SQS with scaling on queue depth; EventBridge catches stopped/failed tasks -> SNS.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Fargate : on paie les tâches, pas de flotte à gérer. Les Compute Savings Plans couvrent Fargate.
+- Fargate: you pay for tasks, no fleet to manage. Compute Savings Plans cover Fargate.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Sans serveur → Fargate. Matériel spécifique ou coût à haute densité → EC2 launch type. Déjà Kubernetes → [[eks]]. Comparatif → [[ecs-ec2-vs-fargate]]. Job > 15 min → [[services-divers]] (Batch) plutôt que [[lambda]].
+- Serverless -> Fargate. Specific hardware or cost at high density -> EC2 launch type. Already on Kubernetes -> [[eks]]. Comparison -> [[ecs-ec2-vs-fargate]]. Job > 15 min -> [[other-services]] (Batch) rather than [[lambda]].
 
-## Pièges d'examen
+## Exam traps
 
-- Moins d'effort opérationnel = Fargate.
-- Permissions par tâche = task role, pas instance profile.
-- Stockage partagé persistant pour Fargate = EFS.
-- Tâches sur EC2 : capacity provider pour ajouter des instances.
+- Least operational overhead for containers = Fargate.
+- Per-task permissions = task role, not instance profile.
+- Shared persistent storage for Fargate tasks = EFS.
+- Scaling tasks on EC2 needs a capacity provider to add instances.
 
-## Voir aussi
+## See also
 
-[[ecs-ec2-vs-fargate]], [[eks]], [[efs]], [[elb]], [[eventbridge]], [[fsx-et-s3-files]], [[lambda]]
+[[ecs-ec2-vs-fargate]], [[eks]], [[efs]], [[elb]], [[eventbridge]], [[fsx-and-s3-files]], [[lambda]]

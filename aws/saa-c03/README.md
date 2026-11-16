@@ -7,194 +7,196 @@ source: notion
 
 # AWS Solutions Architect Associate (SAA-C03)
 
-Notes de révision Obsidian et cartes Anki, migrées depuis mon cours Notion « AWS Solutions Architect Associate course (SAA-C03) ». Aucune information n'est ajoutée : tout vient du Notion. Les manques sont listés dans [[TODO-lacunes]].
+Obsidian revision notes and Anki cards, migrated from my Notion course "AWS Solutions Architect Associate course (SAA-C03)". Nothing is added from outside: everything comes from the Notion course. What is missing is listed in [[TODO-lacunes]].
 
-## L'examen en bref (source : page racine Notion)
+Note statuses (frontmatter `status`): `to-review`, `seen`, `mastered`.
 
-| Élément | Détail |
+## The exam at a glance (source: Notion root page)
+
+| Item | Detail |
 | --- | --- |
-| Examen | AWS Certified Solutions Architect Associate, SAA-C03 (exam guide 1.1, 29 octobre 2026) |
-| Format | 65 questions en 130 minutes ; 50 notées, 15 non notées (non identifiées) |
-| Types | Choix unique (1 sur 4) et choix multiple (2 ou plus sur 5 ou plus) |
-| Score | Échelle 100 à 1 000, réussite à 720 ; modèle compensatoire ; pas de pénalité pour les mauvaises réponses |
-| Frais et nouvelle tentative | 150 USD ; nouvelle tentative possible après 14 jours |
-| Expérience attendue | Au moins un an d'expérience pratique de conception sur AWS |
+| Exam | AWS Certified Solutions Architect Associate, SAA-C03 (exam guide 1.1, 29 October 2026) |
+| Format | 65 questions in 130 minutes; 50 scored, 15 unscored and not identified |
+| Question types | Multiple choice (one right answer out of four) and multiple response (two or more out of five or more) |
+| Scoring | Scaled score 100 to 1,000, pass at 720; compensatory model; no penalty for guessing |
+| Fee and retake | 150 USD; a failed attempt can be retaken after 14 days |
+| Experience expected | At least one year of hands-on experience designing on AWS |
 
-## Domaines, poids et notes à réviser
+## Domains, weights and notes to review
 
-| Domaine | Poids | Tag | Notes principales |
+| Domain | Weight | Tag | Main notes |
 | --- | --- | --- | --- |
-| 1. Design secure architectures | 30 % | `secure` | [[iam]], [[iam-avance]], [[organizations-et-scp]], [[kms]], [[waf-shield-firewall-manager]], [[vpc]], [[security-groups-et-nacl]], [[s3]] |
-| 2. Design resilient architectures | 26 % | `resilient` | [[elb]], [[auto-scaling]], [[rds]], [[aurora]], [[sqs]], [[sns]], [[lambda]], [[dr-et-multi-region]] |
-| 3. Design high-performing architectures | 24 % | `performant` | [[ec2]], [[ebs]], [[efs]], [[s3]], [[cloudfront]], [[fsx-et-s3-files]], [[athena]] |
-| 4. Design cost-optimised architectures | 20 % | `cost` | [[options-d-achat-ec2]], [[classes-de-stockage-s3]], [[gestion-des-couts]], [[vpc-endpoints]] |
+| 1. Design secure architectures | 30% | `secure` | [[iam]], [[advanced-iam]], [[organizations-and-scp]], [[kms]], [[waf-shield-firewall-manager]], [[vpc]], [[security-groups-and-nacl]], [[s3]] |
+| 2. Design resilient architectures | 26% | `resilient` | [[elb]], [[auto-scaling]], [[rds]], [[aurora]], [[sqs]], [[sns]], [[lambda]], [[dr-and-multi-region]] |
+| 3. Design high-performing architectures | 24% | `performant` | [[ec2]], [[ebs]], [[efs]], [[s3]], [[cloudfront]], [[fsx-and-s3-files]], [[athena]] |
+| 4. Design cost-optimised architectures | 20% | `cost` | [[ec2-purchasing-options]], [[s3-storage-classes]], [[cost-management]], [[vpc-endpoints]] |
 
-Dans Obsidian, filtrer par tag : `#secure`, `#resilient`, `#performant`, `#cost`.
+In Obsidian, filter by tag: `#secure`, `#resilient`, `#performant`, `#cost`.
 
-## Index des services
+## Service index
 
-### Fondations et identité
+### Foundations and identity
 
-- [[infrastructure-globale]] : Infrastructure globale AWS et responsabilité partagée
-- [[iam]] : IAM : users, groups, roles, policies
-- [[iam-avance]] : IAM avancé : conditions, boundaries, évaluation
-- [[organizations-et-scp]] : AWS Organizations, SCP et politiques d'organisation
-- [[identity-center-et-directory-service]] : IAM Identity Center et Directory Service
-- [[control-tower]] : AWS Control Tower
+- [[global-infrastructure]]: AWS global infrastructure and the shared responsibility model
+- [[iam]]: IAM: users, groups, roles, policies
+- [[advanced-iam]]: Advanced IAM: conditions, boundaries, evaluation
+- [[organizations-and-scp]]: AWS Organizations, SCPs and organisation policies
+- [[identity-center-and-directory-service]]: IAM Identity Center and Directory Service
+- [[control-tower]]: AWS Control Tower
 
-### Calcul et scalabilité
+### Compute and scalability
 
-- [[ec2]] : Amazon EC2 : instances, achat, placement
-- [[auto-scaling]] : EC2 Auto Scaling
-- [[elb]] : Elastic Load Balancing (ALB, NLB, GWLB, CLB)
-- [[ecs-fargate-ecr]] : Amazon ECS, Fargate et ECR
-- [[eks]] : Amazon EKS
-- [[lambda]] : AWS Lambda
-- [[step-functions]] : AWS Step Functions
-- [[elastic-beanstalk]] : AWS Elastic Beanstalk
-- [[services-divers]] : Autres services à connaître
+- [[ec2]]: Amazon EC2: instances, purchasing, placement
+- [[auto-scaling]]: EC2 Auto Scaling
+- [[elb]]: Elastic Load Balancing (ALB, NLB, GWLB, CLB)
+- [[ecs-fargate-ecr]]: Amazon ECS, Fargate and ECR
+- [[eks]]: Amazon EKS
+- [[lambda]]: AWS Lambda
+- [[step-functions]]: AWS Step Functions
+- [[elastic-beanstalk]]: AWS Elastic Beanstalk
+- [[other-services]]: Other services worth knowing
 
-### Stockage
+### Storage
 
-- [[ebs]] : Amazon EBS : volumes et snapshots
-- [[ami-et-instance-store]] : AMI et instance store
-- [[efs]] : Amazon EFS
-- [[s3]] : Amazon S3
-- [[fsx-et-s3-files]] : Amazon FSx et Amazon S3 Files
-- [[storage-gateway]] : AWS Storage Gateway
-- [[transfert-de-donnees]] : DataSync, Transfer Family et Snow Family
+- [[ebs]]: Amazon EBS: volumes and snapshots
+- [[ami-and-instance-store]]: AMI and instance store
+- [[efs]]: Amazon EFS
+- [[s3]]: Amazon S3
+- [[fsx-and-s3-files]]: Amazon FSx and Amazon S3 Files
+- [[storage-gateway]]: AWS Storage Gateway
+- [[data-transfer]]: DataSync, Transfer Family and the Snow Family
 
-### Bases de données et cache
+### Databases and caching
 
-- [[rds]] : Amazon RDS (et RDS Proxy)
-- [[aurora]] : Amazon Aurora
-- [[dynamodb]] : Amazon DynamoDB (et DAX)
-- [[elasticache]] : Amazon ElastiCache
-- [[bases-specialisees]] : Bases spécialisées : DocumentDB, Neptune, Keyspaces, Timestream, MemoryDB
+- [[rds]]: Amazon RDS (and RDS Proxy)
+- [[aurora]]: Amazon Aurora
+- [[dynamodb]]: Amazon DynamoDB (and DAX)
+- [[elasticache]]: Amazon ElastiCache
+- [[specialized-databases]]: Specialised databases: DocumentDB, Neptune, Keyspaces, Timestream, MemoryDB
 
-### Réseau, DNS et edge
+### Networking, DNS and edge
 
-- [[vpc]] : Amazon VPC : bases, CIDR, IPv6 et coûts réseau
-- [[nat]] : NAT : instance, NAT gateway zonale et régionale
-- [[security-groups-et-nacl]] : Security groups et NACL
-- [[vpc-endpoints]] : VPC endpoints et PrivateLink
-- [[connectivite-vpc]] : Peering, Transit Gateway, VPN, Direct Connect
-- [[vpc-flow-logs-et-network-firewall]] : VPC Flow Logs, Traffic Mirroring et Network Firewall
-- [[route-53]] : Amazon Route 53
-- [[cloudfront]] : Amazon CloudFront
-- [[global-accelerator]] : AWS Global Accelerator
+- [[vpc]]: Amazon VPC: basics, CIDR, IPv6 and network costs
+- [[nat]]: NAT: instance, zonal NAT gateway and regional NAT gateway
+- [[security-groups-and-nacl]]: Security groups and NACLs
+- [[vpc-endpoints]]: VPC endpoints and PrivateLink
+- [[vpc-connectivity]]: Peering, Transit Gateway, VPN, Direct Connect
+- [[vpc-flow-logs-and-network-firewall]]: VPC Flow Logs, Traffic Mirroring and Network Firewall
+- [[route-53]]: Amazon Route 53
+- [[cloudfront]]: Amazon CloudFront
+- [[global-accelerator]]: AWS Global Accelerator
 
-### Découplage et API
+### Decoupling and APIs
 
-- [[sqs]] : Amazon SQS
-- [[sns]] : Amazon SNS
-- [[kinesis-et-firehose]] : Kinesis Data Streams et Amazon Data Firehose
-- [[amazon-mq]] : Amazon MQ
-- [[api-gateway]] : Amazon API Gateway
-- [[cognito]] : Amazon Cognito
+- [[sqs]]: Amazon SQS
+- [[sns]]: Amazon SNS
+- [[kinesis-and-firehose]]: Kinesis Data Streams and Amazon Data Firehose
+- [[amazon-mq]]: Amazon MQ
+- [[api-gateway]]: Amazon API Gateway
+- [[cognito]]: Amazon Cognito
 
-### Données et analytique
+### Data and analytics
 
-- [[athena]] : Amazon Athena
-- [[redshift]] : Amazon Redshift
-- [[glue-et-lake-formation]] : AWS Glue et AWS Lake Formation
-- [[streaming-analytique]] : Managed Service for Apache Flink et Amazon MSK
-- [[opensearch-emr-et-quick]] : OpenSearch Service, EMR et Amazon Quick
-- [[services-ml]] : Services de machine learning managés
+- [[athena]]: Amazon Athena
+- [[redshift]]: Amazon Redshift
+- [[glue-and-lake-formation]]: AWS Glue and AWS Lake Formation
+- [[streaming-analytics]]: Managed Service for Apache Flink and Amazon MSK
+- [[opensearch-emr-and-quick]]: OpenSearch Service, EMR and Amazon Quick
+- [[ml-services]]: Managed machine learning services
 
-### Sécurité et chiffrement
+### Security and encryption
 
-- [[kms]] : AWS KMS et CloudHSM
-- [[secrets-manager-et-parameter-store]] : Secrets Manager et SSM Parameter Store
-- [[acm]] : AWS Certificate Manager (ACM)
-- [[waf-shield-firewall-manager]] : AWS WAF, Shield et Firewall Manager
-- [[detection-et-conformite]] : GuardDuty, Inspector, Macie, Security Hub, Detective, Artifact
+- [[kms]]: AWS KMS and CloudHSM
+- [[secrets-manager-and-parameter-store]]: Secrets Manager and SSM Parameter Store
+- [[acm]]: AWS Certificate Manager (ACM)
+- [[waf-shield-firewall-manager]]: AWS WAF, Shield and Firewall Manager
+- [[detection-and-compliance]]: GuardDuty, Inspector, Macie, Security Hub, Detective, Artifact
 
-### Monitoring, audit et opérations
+### Monitoring, audit and operations
 
-- [[cloudwatch]] : Amazon CloudWatch (métriques, logs, alarmes)
-- [[eventbridge]] : Amazon EventBridge
-- [[cloudtrail]] : AWS CloudTrail
-- [[config]] : AWS Config
-- [[systems-manager]] : AWS Systems Manager
-- [[cloudformation]] : AWS CloudFormation
-- [[gestion-des-couts]] : Outils de gestion des coûts
-- [[well-architected-et-trusted-advisor]] : Well-Architected Framework et Trusted Advisor
+- [[cloudwatch]]: Amazon CloudWatch (metrics, logs, alarms)
+- [[eventbridge]]: Amazon EventBridge
+- [[cloudtrail]]: AWS CloudTrail
+- [[config]]: AWS Config
+- [[systems-manager]]: AWS Systems Manager
+- [[cloudformation]]: AWS CloudFormation
+- [[cost-management]]: Cost management tools
+- [[well-architected-and-trusted-advisor]]: Well-Architected Framework and Trusted Advisor
 
-### Résilience, DR et migration
+### Resilience, DR and migration
 
-- [[dr-et-multi-region]] : Reprise après sinistre et multi-région
-- [[aws-backup]] : AWS Backup
-- [[dms-et-migration]] : AWS DMS, SCT et migration vers Aurora
-- [[migration-et-outils]] : Migration de serveurs : 7 R, MGN, Application Discovery, VMware
-- [[architectures-de-reference]] : Architectures de référence et patterns
+- [[dr-and-multi-region]]: Disaster recovery and multi-region
+- [[aws-backup]]: AWS Backup
+- [[dms-and-migration]]: AWS DMS, SCT and migrating to Aurora
+- [[migration-and-tools]]: Server migration: the 7 Rs, MGN, Application Discovery, VMware
+- [[reference-architectures]]: Reference architectures and patterns
 
-## Comparatifs
+## Comparisons (`comparatifs/`)
 
-- [[options-d-achat-ec2]] : Options d'achat EC2
-- [[ebs-vs-efs-vs-s3]] : EBS vs EFS vs S3 (et autres stockages)
-- [[ebs-volume-types]] : Types de volumes EBS
-- [[alb-vs-nlb-vs-gwlb]] : ALB vs NLB vs GWLB (vs CLB)
-- [[read-replica-vs-multi-az]] : Read replica vs Multi-AZ (RDS)
-- [[cname-vs-alias]] : CNAME vs Alias (Route 53)
-- [[routage-route-53]] : Les 8 politiques de routage Route 53
-- [[classes-de-stockage-s3]] : Classes de stockage S3
-- [[cloudfront-vs-global-accelerator]] : CloudFront vs Global Accelerator
-- [[fsx-types]] : Les 4 FSx
-- [[storage-gateway-types]] : Types de Storage Gateway
-- [[sqs-vs-sns-vs-kinesis]] : SQS vs SNS vs Kinesis Data Streams
-- [[kinesis-streams-vs-firehose]] : Kinesis Data Streams vs Amazon Data Firehose
-- [[kinesis-vs-msk]] : Kinesis Data Streams vs Amazon MSK
-- [[ecs-ec2-vs-fargate]] : ECS sur EC2 vs Fargate vs Managed Instances
-- [[lambda-vs-batch]] : Lambda vs AWS Batch
-- [[cognito-user-vs-identity-pools]] : Cognito user pools vs identity pools
-- [[athena-vs-redshift]] : Athena vs Redshift
-- [[cloudwatch-vs-cloudtrail-vs-config]] : CloudWatch vs CloudTrail vs Config
-- [[directory-service-options]] : Options AWS Directory Service
-- [[kms-vs-cloudhsm]] : KMS vs CloudHSM
-- [[secrets-manager-vs-parameter-store]] : Secrets Manager vs Parameter Store
-- [[waf-vs-shield]] : WAF vs Shield vs Firewall Manager
-- [[nat-gateway-vs-instance]] : NAT gateway vs NAT instance (vs NAT régionale)
-- [[security-group-vs-nacl]] : Security group vs NACL
-- [[interface-vs-gateway-endpoint]] : Interface endpoint vs Gateway endpoint
-- [[vpn-vs-direct-connect]] : Site-to-Site VPN vs Direct Connect
-- [[dr-strategies]] : Stratégies de DR : backup, pilot light, warm standby, multi-site
-- [[mots-cles-de-l-enonce]] : Mots-clés de l'énoncé et direction probable
-- [[changements-recents-2025-2026]] : Changements récents à connaître (jusqu'en novembre 2026)
+- [[ec2-purchasing-options]]: EC2 purchasing options
+- [[ebs-vs-efs-vs-s3]]: EBS vs EFS vs S3 (and other storage)
+- [[ebs-volume-types]]: EBS volume types
+- [[alb-vs-nlb-vs-gwlb]]: ALB vs NLB vs GWLB (vs CLB)
+- [[read-replica-vs-multi-az]]: Read replica vs Multi-AZ (RDS)
+- [[cname-vs-alias]]: CNAME vs Alias (Route 53)
+- [[route53-routing-policies]]: The 8 Route 53 routing policies
+- [[s3-storage-classes]]: S3 storage classes
+- [[cloudfront-vs-global-accelerator]]: CloudFront vs Global Accelerator
+- [[fsx-types]]: The 4 FSx file systems
+- [[storage-gateway-types]]: Storage Gateway types
+- [[sqs-vs-sns-vs-kinesis]]: SQS vs SNS vs Kinesis Data Streams
+- [[kinesis-streams-vs-firehose]]: Kinesis Data Streams vs Amazon Data Firehose
+- [[kinesis-vs-msk]]: Kinesis Data Streams vs Amazon MSK
+- [[ecs-ec2-vs-fargate]]: ECS on EC2 vs Fargate vs Managed Instances
+- [[lambda-vs-batch]]: Lambda vs AWS Batch
+- [[cognito-user-vs-identity-pools]]: Cognito user pools vs identity pools
+- [[athena-vs-redshift]]: Athena vs Redshift
+- [[cloudwatch-vs-cloudtrail-vs-config]]: CloudWatch vs CloudTrail vs Config
+- [[directory-service-options]]: AWS Directory Service options
+- [[kms-vs-cloudhsm]]: KMS vs CloudHSM
+- [[secrets-manager-vs-parameter-store]]: Secrets Manager vs Parameter Store
+- [[waf-vs-shield]]: WAF vs Shield vs Firewall Manager
+- [[nat-gateway-vs-instance]]: NAT gateway vs NAT instance (vs regional NAT)
+- [[security-group-vs-nacl]]: Security group vs NACL
+- [[interface-vs-gateway-endpoint]]: Interface endpoint vs Gateway endpoint
+- [[vpn-vs-direct-connect]]: Site-to-Site VPN vs Direct Connect
+- [[dr-strategies]]: DR strategies: backup, pilot light, warm standby, multi-site
+- [[exam-keywords]]: Question keywords and the likely direction
+- [[recent-changes-2025-2026]]: Recent changes to know (up to November 2026)
 
-## Outils de suivi
+## Tracking tools
 
-- [[journal-erreurs]] : consigner chaque erreur de quiz.
-- [[quiz-hebdo]] : modèle de quiz blanc hebdomadaire.
-- [[TODO-lacunes]] : notions absentes du Notion ou sections non renseignées.
-- Cartes Anki : [`anki/aws-saa-c03.tsv`](../../anki/aws-saa-c03.tsv) (voir [`anki/README.md`](../../anki/README.md)).
+- [[journal-erreurs]]: log every quiz mistake.
+- [[quiz-hebdo]]: weekly mock quiz template.
+- [[TODO-lacunes]]: notions missing from Notion or sections left empty.
+- Anki cards: [`anki/aws-saa-c03.tsv`](../../anki/aws-saa-c03.tsv) (see [`anki/README.md`](../../anki/README.md)).
 
-## Plan de révision (proposition)
+## Revision plan (proposal)
 
-Le suivi du Notion se termine par « deux examens blancs complets au-dessus de 80 % ». Ce plan est une proposition d'organisation, pas une donnée du Notion.
+The Notion revision tracker ends with "two full practice exams above 80%". This plan is a suggested organisation, not Notion data.
 
-1. **Par domaine, dans l'ordre des poids** : sécurité (30 %), résilience (26 %), performance (24 %), coûts (20 %). Pour chaque note : lire, répondre aux cartes Anki sans regarder, passer le statut `a-revoir` → `vu`.
-2. **Une fois par semaine** : un [[quiz-hebdo]] ; chaque erreur va dans le [[journal-erreurs]] avec la raison de l'erreur.
-3. **Quotidien** : session Anki (réimporter le TSV ne crée pas de doublons grâce aux GUID stables).
-4. **Passage à `maitrise`** : quand les cartes de la note sont acquises et qu'aucune erreur récente n'y renvoie dans le journal.
-5. **Avant l'examen** : deux examens blancs complets, cible > 80 %, puis relire les comparatifs et [[mots-cles-de-l-enonce]].
+1. **By domain, in weight order**: security (30%), resilience (26%), performance (24%), cost (20%). For each note: read it, answer its Anki cards from memory, then move the status from `to-review` to `seen`.
+2. **Once a week**: one [[quiz-hebdo]]; every mistake goes into the [[journal-erreurs]] with the reason for the error.
+3. **Daily**: an Anki session (re-importing the TSV does not create duplicates thanks to stable GUIDs).
+4. **Moving to `mastered`**: when the note's cards are solid and no recent journal entry points back to it.
+5. **Before the exam**: two full practice exams, target > 80%, then re-read the comparisons and [[exam-keywords]].
 
-## Technique d'examen (source Notion)
+## Exam technique (source: Notion)
 
-- Eliminer les réponses fausses, puis retenir celle qui respecte toutes les contraintes.
-- Très peu de questions sont des pièges : une solution qui marche mais bien plus complexe que les autres est probablement fausse.
-- Marquer les questions incertaines et y revenir ; ne jamais laisser une réponse vide.
-- Lire les FAQ des services, survoler le Well-Architected Framework et le livre blanc de DR.
-- Voir [[mots-cles-de-l-enonce]] et [[changements-recents-2025-2026]].
+- Eliminate the answers you know are wrong, then keep the one that respects every constraint.
+- Very few questions are tricks: a solution that works but is far more complex than the others is probably wrong.
+- Flag the questions you hesitate on and come back; never leave a question blank.
+- Read the service FAQs, skim the Well-Architected Framework and the DR whitepaper.
+- See [[exam-keywords]] and [[recent-changes-2025-2026]].
 
-## Questions à poser au client (cadrage d'architecture, source Notion)
+## Questions to ask the client (architecture scoping, source: Notion)
 
-1. RTO et RPO attendus par application ? Vraie exigence multi-région ?
-2. Contraintes réglementaires et de résidence des données (GDPR, secteur régulé) ?
-3. Landing zone et organisation AWS existantes, ou départ de zéro ?
-4. Comment les équipes se connectent (annuaire d'entreprise, SSO) ?
-5. Faut-il relier AWS à un réseau interne (VPN, Direct Connect) ?
-6. Volume d'appels vers Salesforce, et quelle édition (limites d'API) ?
-7. Budget, et qui paie la facture AWS ?
+1. What RTO and RPO do you expect for each application? Is there a real multi-region requirement?
+2. What regulatory and data residency constraints apply (GDPR, regulated sector)?
+3. Do you already have a landing zone and an AWS organisation, or are we starting from scratch?
+4. How do your teams sign in (corporate directory, SSO)?
+5. Do we need to connect AWS to an internal network (VPN, Direct Connect)?
+6. What volume of calls goes to Salesforce, and which edition do you use (for API limits)?
+7. What is the budget, and who pays the AWS bill?
 
-Les décisions structurantes se consignent dans un **ADR** (Architecture Decision Record) : contexte, décision, alternatives écartées et pourquoi.
+Every structural choice goes into an **ADR** (Architecture Decision Record): context, decision, alternatives ruled out and why they were rejected.

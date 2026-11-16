@@ -4,32 +4,32 @@ tags:
   - saa-c03
   - comparatif
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "09. Storage extras and hybrid storage"
+notion-module: "09. Storage extras and hybrid storage"
 ---
 
-# Types de Storage Gateway
+# Storage Gateway types
 
-Quelle gateway pour quel besoin hybride.
+Which gateway for which hybrid need.
 
-| Gateway | Interface on-premises | Adossé à | Usage |
+| Gateway | On-premises interface | Backed by | Use |
 | --- | --- | --- | --- |
-| S3 File Gateway | NFS, SMB | S3 (+ Glacier par lifecycle) | Partages adossés à S3 avec cache local |
-| Volume Gateway cached | iSCSI | S3 + snapshots EBS | Données récentes en cache, le reste dans AWS |
-| Volume Gateway stored | iSCSI | Dataset complet on-premises, backups S3 (snapshots EBS) | Données primaires locales, backups cloud |
-| Tape Gateway | iSCSI VTL | S3 et Glacier | Garder le logiciel/processus de backup à bandes |
+| S3 File Gateway | NFS, SMB | S3 (+ Glacier via lifecycle) | S3-backed shares with local cache |
+| Volume Gateway cached | iSCSI | S3 + EBS snapshots | Recent data cached, the rest in AWS |
+| Volume Gateway stored | iSCSI | Full dataset on premises, backups to S3 (EBS snapshots) | Local primary data, cloud backups |
+| Tape Gateway | iSCSI VTL | S3 and Glacier | Keep tape backup software/processes |
 
-## Règle de décision
+## Decision rule
 
-- Fichiers → S3 File Gateway.
-- Blocs → Volume Gateway.
-- Bandes → Tape Gateway.
+- Files -> S3 File Gateway.
+- Blocks -> Volume Gateway.
+- Tapes -> Tape Gateway.
 
-## Pièges d'examen
+## Exam traps
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Voir aussi
+## See also
 
 [[storage-gateway]]

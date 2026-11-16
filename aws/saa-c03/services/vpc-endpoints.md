@@ -4,42 +4,42 @@ tags:
   - saa-c03
   - secure
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
-# VPC endpoints et PrivateLink
+# VPC endpoints and PrivateLink
 
-## À quoi ça sert
+## What it is for
 
-Atteindre des services AWS depuis des subnets privés par le réseau AWS, sans IGW ni NAT.
+Reach AWS services from private subnets over the AWS network, without IGW or NAT.
 
-## Concepts clés
+## Key concepts
 
-- **Interface endpoint** : une ENI avec IP privée protégée par un SG ; la plupart des services AWS + vos propres services et partenaires via PrivateLink ; payant (heure + GB) ; joignable depuis on-premises/autres VPC (VPN, Direct Connect, peering).
-- **Gateway endpoint** : cible dans les route tables ; **S3 et DynamoDB uniquement** ; **gratuit** ; pas joignable depuis on-premises ni d'autres VPC.
-- S3 dans le VPC → gateway endpoint (gratuit). Interface endpoint préférée si l'accès vient d'on-premises, d'un autre VPC ou d'une autre région. Lambda en VPC vers DynamoDB → gateway endpoint plutôt que NAT.
-- **Endpoint policies** : restreignent ce qui passe (ex. un seul bucket) ; bucket policies peuvent exiger `aws:SourceVpce`.
-- **PrivateLink endpoint services** : exposer votre service (derrière NLB ou GWLB) à des milliers de VPC consommateurs, sans peering, sans conflit de CIDR, sans exposition internet.
+- **Interface endpoint**: an ENI with a private IP protected by an SG; most AWS services + your own and partner services through PrivateLink; paid (hour + GB); reachable from on premises/other VPCs (VPN, Direct Connect, peering).
+- **Gateway endpoint**: a target in route tables; **S3 and DynamoDB only**; **free**; not reachable from on premises or other VPCs.
+- S3 inside the VPC -> gateway endpoint (free). Interface endpoint preferred when access comes from on premises, another VPC or another region. Lambda in a VPC reaching DynamoDB -> gateway endpoint rather than NAT.
+- **Endpoint policies**: restrict what can pass (e.g. one bucket only); bucket policies can require `aws:SourceVpce`.
+- **PrivateLink endpoint services**: expose your service (behind an NLB or GWLB) to thousands of consumer VPCs, without peering, CIDR conflicts or internet exposure.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Interface : à l'heure + au GB ; gateway : gratuit.
+- Interface: per hour + per GB; gateway: free.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Comparatif → [[interface-vs-gateway-endpoint]]. Alternative payante : [[nat]].
+- Comparison -> [[interface-vs-gateway-endpoint]]. Paid alternative: [[nat]].
 
-## Pièges d'examen
+## Exam traps
 
-- Les gateway endpoints n'existent que pour S3 et DynamoDB et sont gratuits.
-- Depuis on-premises vers S3 en privé : interface endpoint.
+- Gateway endpoints exist only for S3 and DynamoDB and are free.
+- Private access to S3 from on premises: interface endpoint.
 
-## Voir aussi
+## See also
 
 [[interface-vs-gateway-endpoint]], [[nat]], [[s3]], [[dynamodb]], [[api-gateway]], [[vpc]]

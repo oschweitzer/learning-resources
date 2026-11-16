@@ -5,45 +5,45 @@ tags:
   - resilient
   - cost
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "04. High availability and scalability"
+notion-module: "04. High availability and scalability"
 ---
 
 # EC2 Auto Scaling
 
-## À quoi ça sert
+## What it is for
 
-Garder le nombre d'instances entre un min et un max, autour d'une capacité désirée, remplacer les instances malsaines et réagir à la charge.
+Keep the number of instances between a minimum and a maximum around a desired capacity, replace unhealthy instances and react to load.
 
-## Concepts clés
+## Key concepts
 
-- Un **ASG** scale out sous charge, scale in quand elle baisse et remplace les instances unhealthy. **Gratuit** (on paie les instances).
-- Repose sur un **launch template** (AMI, type, user data, EBS, SGs, key pair, IAM role, réseau). Les launch configurations sont dépréciées.
-- Avec les health checks ELB activés, une instance jugée unhealthy par le LB est terminée et remplacée. Répartir l'ASG sur plusieurs AZ.
-- **Politiques** : *target tracking* (défaut, ex. CPU moyen à 40 %), *step* (ajustement selon l'ampleur du breach d'alarme), *simple* (legacy), *scheduled* (pics connus), *predictive* (cycles réguliers, scale en avance).
-- Bonnes métriques : CPUUtilization moyen, **RequestCountPerTarget**, réseau in/out, métrique custom (ex. backlog SQS par instance).
-- **Cooldown** (300 s par défaut) évite de réagir avant stabilisation ; *instance warm-up* idem par instance.
-- **Lifecycle hooks** : pause en pending/terminating (installer un logiciel, copier des logs). **Instance refresh** : remplacement progressif après changement de launch template. **Warm pools** : instances pré-initialisées.
-- Instance EC2 unique « HA » : ASG min=max=desired=1 sur 2 AZ, user data attache l'Elastic IP (voir [[architectures-de-reference]]).
+- An **ASG** scales out under load, scales in when load drops and replaces unhealthy instances. It is **free** (you pay for the instances).
+- It relies on a **launch template** (AMI, type, user data, EBS, SGs, key pair, IAM role, network). Launch configurations are deprecated.
+- With ELB health checks enabled, an instance the load balancer marks unhealthy is terminated and replaced. Spread the ASG across several AZs.
+- **Policies**: *target tracking* (default, e.g. average CPU at 40%), *step* (adjustment depending on how far the alarm is breached), *simple* (legacy), *scheduled* (known peaks), *predictive* (regular cycles, scales ahead).
+- Good metrics: average CPUUtilization, **RequestCountPerTarget**, network in/out, custom metric (e.g. SQS backlog per instance).
+- **Cooldown** (300 s by default) stops the group from reacting before metrics stabilise; *instance warm-up* does the same per new instance.
+- **Lifecycle hooks**: pause in pending/terminating (install software, copy logs). **Instance refresh**: gradual replacement after a launch template change. **Warm pools**: pre-initialised instances.
+- 'HA' single EC2 instance: ASG min=max=desired=1 across 2 AZs, user data attaches the Elastic IP (see [[reference-architectures]]).
 
-## Limites et quotas
+## Limits and quotas
 
-- Cooldown par défaut : 300 secondes.
+- Default cooldown: 300 seconds.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- L'ASG est gratuit. Réserver (RI/Savings Plans) la capacité minimale pour économiser.
+- The ASG is free. Reserve (RI/Savings Plans) the minimum capacity to save money.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Target tracking par défaut. Charge connue → scheduled/predictive. Pour des tâches ECS → voir [[ecs-fargate-ecr]] (capacity provider).
+- Target tracking by default. Known load -> scheduled/predictive. For ECS tasks -> see [[ecs-fargate-ecr]] (capacity provider).
 
-## Pièges d'examen
+## Exam traps
 
-- Un ASG est gratuit.
-- Target tracking = politique par défaut.
+- An ASG is free.
+- Target tracking = the default policy.
 
-## Voir aussi
+## See also
 
-[[elb]], [[ami-et-instance-store]], [[cloudwatch]], [[sqs]], [[architectures-de-reference]]
+[[elb]], [[ami-and-instance-store]], [[cloudwatch]], [[sqs]], [[reference-architectures]]

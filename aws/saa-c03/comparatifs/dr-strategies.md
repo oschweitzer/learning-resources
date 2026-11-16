@@ -4,32 +4,32 @@ tags:
   - saa-c03
   - comparatif
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "20. Disaster recovery, migration and multi-region"
+notion-module: "20. Disaster recovery, migration and multi-region"
 ---
 
-# Stratégies de DR : backup, pilot light, warm standby, multi-site
+# DR strategies: backup, pilot light, warm standby, multi-site
 
-Du moins cher au plus cher ; valeurs RPO/RTO = ordres de grandeur.
+Cheapest to most expensive; RPO/RTO values are orders of magnitude.
 
-| Stratégie | Principe | RPO / RTO typiques | Coût |
+| Strategy | Principle | Typical RPO / RTO | Cost |
 | --- | --- | --- | --- |
-| Backup and restore | Backups copiés (snapshots, AMI, S3…), infra reconstruite après l'incident | Heures | Le plus bas |
-| Pilot light | Cœur critique actif (base répliquée), serveurs d'appli prêts mais éteints | Dizaines de minutes | Bas |
-| Warm standby | Copie complète à échelle réduite, montée en charge lors de l'incident | Minutes | Moyen |
-| Multi-site (active-active) | Pleine échelle à deux endroits qui servent du trafic | Proche de zéro, secondes | Le plus élevé |
+| Backup and restore | Backups copied (snapshots, AMIs, S3...), infrastructure rebuilt after the incident | Hours | Lowest |
+| Pilot light | Critical core running (replicated database), app servers ready but off | Tens of minutes | Low |
+| Warm standby | Full copy at reduced scale, scaled up during an incident | Minutes | Medium |
+| Multi-site (active-active) | Full scale in two places both serving traffic | Close to zero, seconds | Highest |
 
-## Règle de décision
+## Decision rule
 
-- Choisir selon RTO/RPO et budget par application.
-- Plus c'est court, plus c'est cher.
+- Choose per application from RTO/RPO and budget.
+- The shorter, the more expensive.
 
-## Pièges d'examen
+## Exam traps
 
-- Un plan de DR non testé est inexistant.
-- Penser aux quotas de la région de secours.
+- An untested DR plan is non-existent.
+- Plan quotas in the standby region.
 
-## Voir aussi
+## See also
 
-[[dr-et-multi-region]], [[aws-backup]]
+[[dr-and-multi-region]], [[aws-backup]]

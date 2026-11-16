@@ -4,41 +4,41 @@ tags:
   - saa-c03
   - performant
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "09. Storage extras and hybrid storage"
+notion-module: "09. Storage extras and hybrid storage"
 ---
 
 # AWS Storage Gateway
 
-## À quoi ça sert
+## What it is for
 
-Relier applications on-premises et stockage AWS : DR, backup/restore, stockage hiérarchisé, cache local à faible latence.
+Bridge on-premises applications and AWS storage: DR, backup and restore, tiered storage, low-latency local cache.
 
-## Concepts clés
+## Key concepts
 
-- **S3 File Gateway** : partages NFS/SMB adossés à S3 (Standard, Standard-IA, One Zone-IA, Intelligent-Tiering, puis Glacier via lifecycle), cache local des données récentes ; SMB avec auth Active Directory.
-- **Volume Gateway cached** : volumes iSCSI, données récentes en cache local, le reste dans AWS (S3, snapshots EBS).
-- **Volume Gateway stored** : dataset complet on-premises, backups planifiés vers S3 en snapshots EBS, restaurables on-premises ou dans EC2.
-- **Tape Gateway** : bibliothèque de bandes virtuelle iSCSI sur S3 et Glacier ; garde les logiciels et processus de backup à bandes.
-- La gateway tourne en VM dans votre data center ou en appliance matérielle achetée à AWS (sans plateforme de virtualisation).
+- **S3 File Gateway**: NFS/SMB file shares backed by S3 (Standard, Standard-IA, One Zone-IA, Intelligent-Tiering, then Glacier through lifecycle), local cache of recent data; SMB supports Active Directory auth.
+- **Volume Gateway cached**: iSCSI volumes, most recent data cached locally, the rest in AWS (S3, EBS snapshots).
+- **Volume Gateway stored**: full dataset on premises, scheduled backups to S3 as EBS snapshots, restorable on premises or in EC2.
+- **Tape Gateway**: iSCSI virtual tape library on S3 and Glacier; keeps existing tape-based backup software and processes.
+- The gateway runs as a VM in your data centre or as a hardware appliance bought from AWS when you have no virtualisation platform.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Comparaison → [[storage-gateway-types]]. Transfert bulk planifié → [[transfert-de-donnees]].
+- Comparison -> [[storage-gateway-types]]. Scheduled bulk transfer -> [[data-transfer]].
 
-## Pièges d'examen
+## Exam traps
 
-- Garder les bandes et logiciels de backup existants = Tape Gateway.
+- Keeping existing backup tapes and software = Tape Gateway.
 
-## Voir aussi
+## See also
 
-[[storage-gateway-types]], [[transfert-de-donnees]], [[s3]], [[fsx-et-s3-files]]
+[[storage-gateway-types]], [[data-transfer]], [[s3]], [[fsx-and-s3-files]]

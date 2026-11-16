@@ -4,39 +4,39 @@ tags:
   - saa-c03
   - cost
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "21. Architecture patterns, other services and Well-Architected"
+notion-module: "21. Architecture patterns, other services and Well-Architected"
 ---
 
 # AWS CloudFormation
 
-## À quoi ça sert
+## What it is for
 
-Infrastructure as code déclarative : décrire les ressources, CloudFormation les crée dans le bon ordre.
+Declarative infrastructure as code: describe resources, CloudFormation creates them in the right order.
 
-## Concepts clés
+## Key concepts
 
-- Bénéfices : contrôle et revue de code des changements, ressources taguées par stack (suivi des coûts), estimation de coût depuis les templates, suppression/recréation planifiée (dev la nuit), diagrammes auto, réutilisation de templates.
-- **Infrastructure Composer** visualise templates et relations. **Service role** : CloudFormation crée/modifie/supprime en votre nom ; les users n'ont besoin que d'`iam:PassRole` (moindre privilège). **StackSets** : stacks sur plusieurs comptes et régions.
-- CDK hors scope de l'examen, mais synthétise des templates CloudFormation.
+- Benefits: control and code review of all changes, resources tagged per stack (cost tracking), cost estimates from templates, scheduled deletion and recreation (dev environments at night), automatic diagrams, reuse of existing templates.
+- **Infrastructure Composer** visualises templates and relations between resources. **Service role**: CloudFormation creates/updates/deletes on the user's behalf; users only need `iam:PassRole` (least privilege). **StackSets**: stacks across accounts and regions.
+- CDK is out of scope for the exam, but it synthesises CloudFormation templates.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Estimation de coût possible depuis les templates ; tags par stack pour l'allocation des coûts.
+- Cost estimates possible from templates; tags per stack for cost allocation.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- IaC pour recréer vite un environnement (DR) ; Beanstalk plus guidé ([[elastic-beanstalk]]).
+- IaC to recreate an environment quickly (DR); Beanstalk is more guided ([[elastic-beanstalk]]).
 
-## Pièges d'examen
+## Exam traps
 
-- Déployer sans permissions directes sur les ressources = service role + iam:PassRole.
+- Deploy without direct permissions on resources = service role + iam:PassRole.
 
-## Voir aussi
+## See also
 
-[[control-tower]], [[dr-et-multi-region]], [[elastic-beanstalk]]
+[[control-tower]], [[dr-and-multi-region]], [[elastic-beanstalk]]

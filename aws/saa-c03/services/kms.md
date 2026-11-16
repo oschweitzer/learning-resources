@@ -3,49 +3,49 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
-# AWS KMS et CloudHSM
+# AWS KMS and CloudHSM
 
-## À quoi ça sert
+## What it is for
 
-Gérer le chiffrement : KMS (logiciel managé par AWS) ou CloudHSM (matériel dédié, vous gérez les clés).
+Manage encryption: KMS (software managed by AWS) or CloudHSM (dedicated hardware, you manage the keys).
 
-## Concepts clés
+## Key concepts
 
-- Chiffrement : *in flight* (TLS/HTTPS), *at rest server-side* (clé de données gérée côté serveur), *client-side* (le serveur ne peut jamais déchiffrer ; souvent envelope encryption).
-- **KMS** : IAM autorise, **CloudTrail audite chaque usage**, intégration transparente. Les KMS keys sont **régionales**. Jamais de secrets en clair dans le code.
-- **Types** : *symétrique* AES-256 (utilisé par tous les services intégrés, vous ne voyez jamais la clé) ; *asymétrique* RSA/ECC (clé publique téléchargeable, utile hors AWS).
-- **Propriété** : AWS owned (gratuit, invisible : SSE-S3, SSE-SQS, DynamoDB par défaut) ; AWS managed (gratuit hors appels API ; rotation auto annuelle ; aws/rds, aws/ebs, aws/s3) ; customer managed (mensuel + appels API ; rotation auto optionnelle tous les 365 j par défaut, configurable de 90 à 2 560 j, + rotation on-demand) ; imported key material (rotation manuelle uniquement).
-- Rotation auto : seulement symétriques dont KMS a généré le matériel (pas asymétriques, HMAC, imported, custom key store CloudHSM). Garde le même key ID, ARN et policies.
-- **Key policy** : sans key policy, personne n'utilise la clé (≠ S3). La default key policy donne au compte (root) l'accès complet, les policies IAM peuvent alors accorder l'usage. Custom key policy nécessaire pour le cross-account.
-- **Déplacer des données chiffrées** : copie d'un snapshot EBS chiffré vers une autre région = re-chiffré avec une clé de la région cible. Partage d'un snapshot/AMI chiffré cross-account : partager l'objet, ajouter le compte dans la key policy, donner DescribeKey/ReEncrypt/CreateGrant/Decrypt, puis copier (idéalement re-chiffrer avec sa clé).
-- **Multi-region keys** : primary + replicas avec même key ID (`mrk-`), même matériel et rotation ; chiffrer dans une région, déchiffrer dans une autre sans re-chiffrer ni appel cross-région ; pas des clés globales (policy indépendante par réplica). Usages : chiffrement client-side global, DynamoDB global tables, Aurora Global Database.
-- **Réplication S3 et chiffrement** : non chiffrés et SSE-S3 répliqués par défaut ; SSE-C possible ; SSE-KMS exige l'option, une clé KMS de destination, une key policy adaptée et un IAM role avec kms:Decrypt (source) et kms:Encrypt (destination) ; attention aux quotas KMS.
-- **CloudHSM** : AWS provisionne des **HSM dédiés** (single-tenant, matériel tamper-resistant FIPS niveau 3), vous gérez entièrement les clés (users, clés, opérations). Symétrique/asymétrique, signature, hachage. Clusters multi-AZ. S'intègre à KMS via un **custom key store** (EBS, S3, RDS peuvent utiliser des clés dans vos HSM). Accélération SSL/TLS, Oracle TDE.
+- Encryption: *in flight* (TLS/HTTPS), *at rest server-side* (data key managed on the server), *client-side* (the server can never decrypt; often envelope encryption).
+- **KMS**: IAM authorises, **CloudTrail audits every use**, seamless integration. KMS keys are **regional**. Never store secrets in plain text in code.
+- **Types**: *symmetric* AES-256 (used by all integrated services, you never see the key); *asymmetric* RSA/ECC (public key downloadable, useful outside AWS).
+- **Ownership**: AWS owned (free, invisible: SSE-S3, SSE-SQS, DynamoDB default); AWS managed (free except API calls; automatic yearly rotation; aws/rds, aws/ebs, aws/s3); customer managed (monthly + API calls; optional automatic rotation every 365 days by default, configurable 90 to 2,560 days, + on-demand rotation); imported key material (manual rotation only).
+- Automatic rotation: only symmetric keys whose material KMS generated (not asymmetric, HMAC, imported, custom key store/CloudHSM). Keeps the same key ID, ARN and policies.
+- **Key policy**: without a key policy nobody can use the key (unlike S3). The default key policy gives the account (root) full access so IAM policies can grant use. A custom key policy is needed for cross-account access.
+- **Moving encrypted data**: copying an encrypted EBS snapshot to another region = re-encrypted with a key in the destination region. Sharing an encrypted snapshot/AMI cross-account: share the object, add the account in the key policy, grant DescribeKey/ReEncrypt/CreateGrant/Decrypt, then copy (ideally re-encrypt with its own key).
+- **Multi-region keys**: a primary + replicas with the same key ID (`mrk-`), key material and rotation; encrypt in one region, decrypt in another without re-encryption or cross-region calls; not global keys (each replica has its own policy). Uses: global client-side encryption, DynamoDB global tables, Aurora Global Database.
+- **S3 replication and encryption**: unencrypted and SSE-S3 objects replicate by default; SSE-C can replicate; SSE-KMS needs the option enabled, a destination KMS key, a suitable key policy and an IAM role with kms:Decrypt (source) and kms:Encrypt (destination); watch KMS quotas.
+- **CloudHSM**: AWS provisions **dedicated HSMs** (single-tenant, tamper-resistant FIPS level 3 hardware); you manage the keys entirely (users, keys, operations). Symmetric/asymmetric, signing, hashing. Multi-AZ clusters. Integrates with KMS through a **custom key store** (EBS, S3, RDS can use keys in your HSMs). SSL/TLS acceleration, Oracle TDE.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rotation auto customer managed : 365 j par défaut, configurable de 90 à 2 560 j.
+- Automatic rotation of customer managed keys: 365 days by default, configurable 90 to 2,560 days.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- AWS owned gratuit ; AWS managed gratuit hors appels API ; customer managed : frais mensuels + appels API ; chaque rotation supplémentaire ajoute un coût pour les deux premières. Imported : frais mensuels.
-- CloudHSM : pas de free tier.
+- AWS owned free; AWS managed free except API calls; customer managed: monthly fee + API calls; each additional rotation adds a cost for the first two. Imported: monthly fee.
+- CloudHSM: no free tier.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Chiffrement « normal » → KMS. Matériel single-tenant, contrôle total des clés → CloudHSM. Comparatif → [[kms-vs-cloudhsm]].
+- 'Normal' encryption -> KMS. Single-tenant hardware, full key control -> CloudHSM. Comparison -> [[kms-vs-cloudhsm]].
 
-## Pièges d'examen
+## Exam traps
 
-- Les clés KMS sont régionales : copie cross-région = re-chiffrement.
-- Partager une AMI/snapshot chiffré = partager aussi la clé KMS.
-- Hardware single-tenant = CloudHSM.
+- KMS keys are regional: cross-region copies are re-encrypted.
+- Sharing an encrypted AMI/snapshot = also share the KMS key.
+- Single-tenant hardware = CloudHSM.
 
-## Voir aussi
+## See also
 
-[[kms-vs-cloudhsm]], [[secrets-manager-et-parameter-store]], [[ebs]], [[s3]], [[dynamodb]], [[iam-avance]]
+[[kms-vs-cloudhsm]], [[secrets-manager-and-parameter-store]], [[ebs]], [[s3]], [[dynamodb]], [[advanced-iam]]

@@ -4,41 +4,41 @@ tags:
   - saa-c03
   - performant
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "08. CloudFront and Global Accelerator"
+notion-module: "08. CloudFront and Global Accelerator"
 ---
 
 # AWS Global Accelerator
 
-## À quoi ça sert
+## What it is for
 
-Amener les utilisateurs sur le réseau AWS au edge le plus proche (moins de sauts internet publics).
+Bring users onto the AWS network at the nearest edge location (fewer public internet hops).
 
-## Concepts clés
+## Key concepts
 
-- Donne **2 IP anycast statiques** (anycast = plusieurs serveurs partagent la même IP, le client atteint le plus proche).
-- Endpoints : Elastic IP, EC2, ALB, NLB, publics ou privés, dans une ou plusieurs régions.
-- Health checks → failover vers une région saine **en moins d'une minute** ; les IP ne changent jamais, donc pas de problème de cache DNS.
-- Sécurité : seulement 2 IP à allowlister ; protection Shield.
+- Gives you **two static anycast IPs** (anycast = many servers share the same IP, the client reaches the nearest).
+- Endpoints: Elastic IPs, EC2, ALBs, NLBs, public or private, in one or more regions.
+- Health checks drive failover to a healthy region **in under a minute**; the IPs never change, so no DNS cache problem.
+- Security: only two IPs to allowlist; Shield protection.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- TCP/UDP quelconque, jeux (UDP), IoT (MQTT), VoIP, appli HTTP avec IP statiques ou failover régional déterministe → Global Accelerator. Cache → [[cloudfront]].
+- Any TCP/UDP, gaming (UDP), IoT (MQTT), voice over IP, HTTP apps needing static IPs or deterministic regional failover -> Global Accelerator. Caching -> [[cloudfront]].
 
-## Pièges d'examen
+## Exam traps
 
-- IP statiques ou UDP = Global Accelerator.
-- Il ne met rien en cache.
+- Static IPs or UDP = Global Accelerator.
+- It caches nothing.
 
-## Voir aussi
+## See also
 
 [[cloudfront]], [[cloudfront-vs-global-accelerator]], [[elb]], [[route-53]]

@@ -5,30 +5,30 @@ tags:
   - comparatif
   - performant
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "08. CloudFront and Global Accelerator"
+notion-module: "08. CloudFront and Global Accelerator"
 ---
 
 # CloudFront vs Global Accelerator
 
-Tous deux utilisent le réseau mondial et les edge locations et s'intègrent à Shield.
+Both use the global network and edge locations and integrate with Shield.
 
 |  | CloudFront | Global Accelerator |
 | --- | --- | --- |
-| Contenu | Cacheable (images, vidéo) et dynamique (accélération d'API), servi depuis l'edge | Pas de cache ; proxifie les paquets vers l'appli dans une ou plusieurs régions |
-| Protocoles | HTTP et HTTPS | TCP ou UDP |
-| Convient à | Sites, média, APIs | Jeux (UDP), IoT (MQTT), VoIP, apps HTTP avec IP statiques ou failover régional rapide |
+| Content | Cacheable (images, video) and dynamic (API acceleration), served from the edge | No caching; proxies packets to the app in one or more regions |
+| Protocols | HTTP and HTTPS | TCP or UDP |
+| Fits | Websites, media, APIs | Gaming (UDP), IoT (MQTT), VoIP, HTTP apps needing static IPs or fast regional failover |
 
-## Règle de décision
+## Decision rule
 
-- Cache → CloudFront.
-- IP statiques / UDP / failover déterministe → Global Accelerator.
+- Caching -> CloudFront.
+- Static IPs / UDP / deterministic failover -> Global Accelerator.
 
-## Pièges d'examen
+## Exam traps
 
-- Certificats CloudFront dans us-east-1.
+- CloudFront certificates in us-east-1.
 
-## Voir aussi
+## See also
 
 [[cloudfront]], [[global-accelerator]]

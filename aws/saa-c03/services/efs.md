@@ -4,44 +4,44 @@ tags:
   - saa-c03
   - performant
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "03. EC2 storage"
+notion-module: "03. EC2 storage"
 ---
 
 # Amazon EFS
 
-## À quoi ça sert
+## What it is for
 
-File system NFS managé, partagé entre des centaines d'instances Linux sur plusieurs AZ.
+Managed NFS file system that hundreds of Linux instances can mount at once, across AZs.
 
-## Concepts clés
+## Key concepts
 
-- NFS v4.1, **POSIX, Linux uniquement** (pas Windows). Accès par security groups sur les mount targets. Chiffrement au repos via KMS.
-- Croît et décroît automatiquement, pas de planification de capacité. Usages : CMS, web serving, données partagées, WordPress.
-- **Performance mode** (à la création) : General Purpose (défaut, recommandé) ; Max I/O (legacy, latence plus haute).
-- **Throughput modes** : Elastic (auto, recommandé pour trafic spiky/imprévisible), Provisioned (débit fixe indépendant de la taille), Bursting (lié à la quantité stockée).
-- **Classes** : Standard, Infrequent Access (stockage moins cher + frais de lecture), Archive (quelques accès par an). Lifecycle policies : déplacement après N jours sans accès.
-- **Regional** (plusieurs AZ, production) vs **One Zone** (une AZ, dev/backup, moins cher). One Zone + IA : plus de 90 % d'économie.
-- Montable sur tâches ECS (EC2 et Fargate) et pods EKS Fargate (via CSI) → stockage persistant serverless.
+- NFS v4.1, **POSIX, Linux only** (not Windows). Access controlled by security groups on mount targets. Encryption at rest with KMS.
+- Grows and shrinks automatically, no capacity planning. Use cases: CMS, web serving, shared data, WordPress.
+- **Performance mode** (set at creation): General Purpose (default, recommended); Max I/O (legacy, higher latency).
+- **Throughput modes**: Elastic (automatic, recommended for spiky/unpredictable access), Provisioned (fixed throughput regardless of size), Bursting (tied to stored amount).
+- **Classes**: Standard, Infrequent Access (lower storage price, retrieval fee), Archive (read a few times a year). Lifecycle policies move files after N days without access.
+- **Regional** (several AZs, production) vs **One Zone** (one AZ, dev/backup, cheaper). One Zone + IA: savings above 90%.
+- Mountable on ECS tasks (EC2 and Fargate) and EKS Fargate pods (via CSI) -> serverless persistent storage.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Paiement au GB utilisé, plus cher par GB qu'EBS. Classes IA/Archive : stockage moins cher, frais de lecture. One Zone moins cher que Regional.
+- Pay per GB used, more expensive per GB than EBS. IA/Archive classes: cheaper storage, retrieval fees. One Zone is cheaper than Regional.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Partagé Linux multi-AZ → EFS. Windows/SMB → [[fsx-et-s3-files]]. Disque d'une instance → [[ebs]]. Objets → [[s3]]. Comparaison → [[ebs-vs-efs-vs-s3]].
+- Shared Linux multi-AZ -> EFS. Windows/SMB -> [[fsx-and-s3-files]]. One instance's disk -> [[ebs]]. Objects -> [[s3]]. Comparison -> [[ebs-vs-efs-vs-s3]].
 
-## Pièges d'examen
+## Exam traps
 
-- EFS ne fonctionne pas pour des instances Windows.
-- Max I/O n'est plus la réponse par défaut : General Purpose + Elastic throughput.
+- EFS does not work for Windows instances.
+- Max I/O is no longer the default answer: General Purpose with Elastic throughput is.
 
-## Voir aussi
+## See also
 
-[[ebs]], [[fsx-et-s3-files]], [[ebs-vs-efs-vs-s3]], [[ecs-fargate-ecr]], [[eks]]
+[[ebs]], [[fsx-and-s3-files]], [[ebs-vs-efs-vs-s3]], [[ecs-fargate-ecr]], [[eks]]

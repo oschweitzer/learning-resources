@@ -5,57 +5,57 @@ tags:
   - performant
   - cost
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "02. EC2 fundamentals"
+notion-module: "02. EC2 fundamentals"
 ---
 
-# Amazon EC2 : instances, achat, placement
+# Amazon EC2: instances, purchasing, placement
 
-## À quoi ça sert
+## What it is for
 
-Serveurs virtuels : choisir la famille d'instance, l'option d'achat, le placement et le réseau.
+Virtual servers: pick the instance family, the purchasing option, the placement and the networking.
 
-## Concepts clés
+## Key concepts
 
-- Config d'une instance : OS, CPU/RAM via le type, stockage (EBS, EFS ou instance store), security groups, IAM role, key pair, **user data**.
-- **User data** : script de bootstrap exécuté **une seule fois**, en root, au tout premier démarrage.
-- **IMDS** (169.254.169.254) expose infos d'instance et credentials de role. Imposer **IMDSv2** (tokens de session, bloque une classe d'attaques SSRF).
-- Nom d'instance m7g.2xlarge = classe m, génération 7, attribut g (Graviton/ARM), taille 2xlarge. Attributs : a (AMD), i (Intel), d (NVMe local), n (réseau amélioré).
-- Familles : général (t, m ; t = burstable avec CPU credits), compute (c), mémoire (r, x, z, u), stockage (i, d, h), accéléré (p, g, inf, trn). Graviton = souvent le meilleur rapport prix/perf si l'appli tourne sur ARM.
-- **Security group** : firewall stateful attaché à une ENI, règles *allow* uniquement ; inbound refusé et outbound autorisé par défaut. Peut référencer une IP/CIDR ou un autre SG. Un timeout = problème de SG/NACL ; « connection refused » = l'application.
-- Ports à connaître : 22 SSH/SFTP, 21 FTP, 80/443 HTTP(S), 3389 RDP, 3306 MySQL/MariaDB/Aurora MySQL, 5432 PostgreSQL/Aurora PostgreSQL, 1433 SQL Server, 1521 Oracle.
-- Connexion : SSH (port 22), EC2 Instance Connect (port 22 ouvert quand même), **Session Manager** (aucun port, aucune clé, aucun bastion, sessions loguées → réponse préférée).
-- **Spot** : préavis de 2 minutes avant reprise (stop ou terminate) → prévoir des checkpoints. Requête Spot persistante : annuler la requête **puis** terminer les instances. Spot Fleet / EC2 Fleet : stratégie recommandée `price-capacity-optimized`.
-- **IP** : IP privée ; IPv4 publique change à chaque stop/start. **Elastic IP** = IPv4 publique statique, remappable (masquer une panne). Toutes les IPv4 publiques sont facturées, attachées ou non. Préférer DNS ou load balancer.
-- **ENI** : carte réseau virtuelle, liée à **une AZ**, IP privée primaire + secondaires, une Elastic IP par IP privée, SGs, MAC. Déplaçable entre instances pour du failover.
-- **Hibernate** : écrit la RAM sur le volume root EBS, redémarrage rapide avec processus et caches. Exige root EBS chiffré assez grand pour la RAM, RAM < 150 GB, pas de bare metal. Dure au maximum 60 jours.
+- Instance configuration: OS, CPU/RAM through the instance type, storage (EBS, EFS or instance store), security groups, IAM role, key pair, **user data**.
+- **User data**: a bootstrap script that runs **once**, as root, at the very first start.
+- **IMDS** (169.254.169.254) exposes instance information and role credentials. Enforce **IMDSv2** (session tokens, blocks a class of SSRF attacks).
+- The name m7g.2xlarge reads as class m, generation 7, attribute g (Graviton, ARM), size 2xlarge. Other attributes: a (AMD), i (Intel), d (local NVMe), n (enhanced networking).
+- Families: general purpose (t, m; t = burstable with CPU credits), compute (c), memory (r, x, z, u), storage (i, d, h), accelerated (p, g, inf, trn). Graviton usually gives the best price/performance if the workload runs on ARM.
+- **Security group**: stateful firewall attached to an ENI, *allow* rules only; inbound denied and outbound allowed by default. Rules reference an IP range or another SG. A timeout points to an SG/NACL problem; 'connection refused' points to the application.
+- Ports to know: 22 SSH/SFTP, 21 FTP, 80/443 HTTP(S), 3389 RDP, 3306 MySQL/MariaDB/Aurora MySQL, 5432 PostgreSQL/Aurora PostgreSQL, 1433 SQL Server, 1521 Oracle.
+- Connecting: SSH (port 22), EC2 Instance Connect (port 22 still open), **Session Manager** (no port, no key, no bastion, sessions logged -> the preferred answer).
+- **Spot**: two-minute warning before reclaim (stop or terminate) -> design jobs to checkpoint. Persistent Spot request: cancel the request **first**, then terminate the instances. Spot Fleet / EC2 Fleet: `price-capacity-optimized` is the recommended strategy.
+- **IPs**: private IP; public IPv4 changes on every stop/start. **Elastic IP** = static public IPv4, remappable (masks a failure). Every public IPv4 is billed, attached or not. Prefer DNS or a load balancer.
+- **ENI**: virtual network card bound to **one AZ**, primary private IPv4 + secondary IPs, one Elastic IP per private IP, SGs, MAC. Movable between instances for failover.
+- **Hibernate**: writes RAM to the root EBS volume, so restart resumes processes and warm caches. Needs an encrypted root EBS volume large enough for RAM, RAM < 150 GB, no bare metal. Max 60 days hibernated.
 
-## Limites et quotas
+## Limits and quotas
 
-- Elastic IP : 5 par région par défaut.
-- Placement group spread : 7 instances par AZ par groupe.
-- Hibernation : 60 jours max, RAM < 150 GB.
+- Elastic IP: 5 per region by default.
+- Spread placement group: 7 instances per AZ per group.
+- Hibernation: 60 days max, RAM < 150 GB.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- On-Demand : facturation à la seconde (Linux/Windows) après la première minute, aucun engagement.
-- Plus l'engagement est long et le paiement anticipé (all upfront, 3 ans), plus la remise est forte.
-- Capacity Reservation : facturée utilisée ou non, sans remise (à combiner avec Savings Plans ou RI régionaux).
-- Dedicated Host : option la plus chère.
+- On-Demand: per-second billing for Linux and Windows after the first minute, no commitment.
+- The longer the commitment and the more paid upfront (all upfront, 3 years), the bigger the discount.
+- Capacity Reservation: billed whether used or not, no discount (combine with Savings Plans or regional RIs).
+- Dedicated Host: the most expensive option.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Options d'achat → [[options-d-achat-ec2]].
-- Pour du conteneur sans serveur → [[ecs-fargate-ecr]] ; pour du code événementiel → [[lambda]].
+- Purchasing options -> [[ec2-purchasing-options]].
+- Serverless containers -> [[ecs-fargate-ecr]]; event-driven code -> [[lambda]].
 
-## Pièges d'examen
+## Exam traps
 
-- Spot : jamais pour une base critique ni un job non interruptible.
-- Capacity Reservation = capacité garantie, pas de remise.
-- Dedicated Host = licences par socket/core.
-- User data ne s'exécute qu'au premier boot.
+- Spot is never right for a critical database or an uninterruptible job.
+- Capacity Reservations give capacity, not a discount.
+- Dedicated Host = licences per socket/core.
+- User data runs only at first boot.
 
-## Voir aussi
+## See also
 
-[[options-d-achat-ec2]], [[ebs]], [[ami-et-instance-store]], [[security-groups-et-nacl]], [[auto-scaling]], [[systems-manager]]
+[[ec2-purchasing-options]], [[ebs]], [[ami-and-instance-store]], [[security-groups-and-nacl]], [[auto-scaling]], [[systems-manager]]

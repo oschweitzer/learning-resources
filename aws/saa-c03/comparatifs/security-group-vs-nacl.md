@@ -4,33 +4,33 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
 # Security group vs NACL
 
-Deux niveaux de filtrage.
+Two levels of filtering.
 
 | Security group | NACL |
 | --- | --- |
-| Niveau instance (ENI) | Niveau subnet |
-| Règles allow uniquement | Règles allow et deny |
-| Stateful : retour automatique | Stateless : retour à autoriser |
-| Toutes les règles évaluées ensemble | Évaluées dans l'ordre, première correspondance gagne |
-| S'applique aux instances auxquelles il est attaché | S'applique à toutes les instances du subnet |
+| Instance (ENI) level | Subnet level |
+| Allow rules only | Allow and deny rules |
+| Stateful: return traffic automatic | Stateless: return traffic must be allowed |
+| All rules evaluated together | Evaluated in order, first match wins |
+| Applies to the instances it is attached to | Applies to every instance in the subnet |
 
-## Règle de décision
+## Decision rule
 
-- Bloquer une IP → NACL.
-- Autoriser seulement le LB → SG référençant le SG du LB.
+- Block an IP -> NACL.
+- Allow only the LB -> SG referencing the LB's SG.
 
-## Pièges d'examen
+## Exam traps
 
-- NACL : ports éphémères.
-- SG ne peuvent pas refuser.
+- NACL: ephemeral ports.
+- SGs cannot deny.
 
-## Voir aussi
+## See also
 
-[[security-groups-et-nacl]]
+[[security-groups-and-nacl]]

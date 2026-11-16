@@ -4,40 +4,40 @@ tags:
   - saa-c03
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "14. Data and analytics"
+notion-module: "14. Data and analytics"
 ---
 
 # Amazon Athena
 
-## À quoi ça sert
+## What it is for
 
-Requêtes SQL serverless directement sur des fichiers dans S3 (CSV, JSON, ORC, Avro, Parquet), basé sur Trino/Presto.
+Serverless SQL queries directly on files in S3 (CSV, JSON, ORC, Avro, Parquet), built on Trino/Presto.
 
-## Concepts clés
+## Key concepts
 
-- Usages : ad hoc, BI, reporting, analyse des VPC Flow Logs, ELB logs, CloudTrail logs. Souvent associé à Amazon Quick pour les dashboards.
-- **Réduire le coût/accélérer** : formats colonnes (Parquet, ORC ; Glue peut convertir), compression (gzip, snappy, zstd…), **partitionnement** (s3://bucket/year=2026/month=11/day=03/), moins de fichiers plus gros (> 128 MB).
-- **Federated queries** : data source connectors (fonctions Lambda) vers relationnel, NoSQL, objet, sources custom, sur AWS ou on-premises (CloudWatch Logs, DynamoDB, RDS, DocumentDB, Redshift). Résultats stockés dans S3.
+- Use cases: ad hoc queries, BI, reporting, analysing VPC Flow Logs, ELB logs, CloudTrail logs. Often paired with Amazon Quick for dashboards.
+- **Cut cost / speed up**: columnar formats (Parquet, ORC; Glue can convert), compression (gzip, snappy, zstd...), **partitioning** (s3://bucket/year=2026/month=11/day=03/), fewer, larger files (> 128 MB).
+- **Federated queries**: data source connectors (Lambda functions) to relational, NoSQL, object and custom sources on AWS or on premises (CloudWatch Logs, DynamoDB, RDS, DocumentDB, Redshift). Results stored in S3.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Facturé au TB scanné (d'où colonnes, compression, partitions).
+- Billed per TB scanned (hence columnar formats, compression, partitions).
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Requêtes occasionnelles sur S3 sans chargement → Athena ; jointures/agrégations lourdes et répétées → [[redshift]]. Comparatif → [[athena-vs-redshift]].
+- Occasional queries on S3 without loading -> Athena; heavy repeated joins/aggregations -> [[redshift]]. Comparison -> [[athena-vs-redshift]].
 
-## Pièges d'examen
+## Exam traps
 
-- SQL sur S3 sans serveur = Athena.
-- Rendre Athena moins cher = Parquet, compression, partitions.
+- SQL on S3 with no servers = Athena.
+- Make Athena cheaper = Parquet, compression, partitions.
 
-## Voir aussi
+## See also
 
-[[redshift]], [[athena-vs-redshift]], [[glue-et-lake-formation]], [[s3]], [[opensearch-emr-et-quick]]
+[[redshift]], [[athena-vs-redshift]], [[glue-and-lake-formation]], [[s3]], [[opensearch-emr-and-quick]]

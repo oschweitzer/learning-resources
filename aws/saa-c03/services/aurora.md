@@ -4,50 +4,50 @@ tags:
   - saa-c03
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "05. Relational databases and caching"
+notion-module: "05. Relational databases and caching"
 ---
 
 # Amazon Aurora
 
-## À quoi ça sert
+## What it is for
 
-Moteur AWS compatible MySQL/PostgreSQL : plus de performance et de flexibilité que RDS.
+AWS engine compatible with MySQL/PostgreSQL: more performance and flexibility than RDS.
 
-## Concepts clés
+## Key concepts
 
-- Jusqu'à 5x MySQL sur RDS et 3x PostgreSQL sur RDS (selon AWS). Coûte environ 20 % de plus que RDS mais plus efficace.
-- Stockage auto de 10 GB en 10 GB jusqu'à 256 TiB. **6 copies sur 3 AZ** : écriture = 4 sur 6, lecture = 3 sur 6 ; self-healing ; striping sur des centaines de volumes.
-- 1 writer + jusqu'à **15 replicas**, failover < 30 s, replicas cross-région et auto scaling.
-- **Endpoints** : *writer/cluster* (toujours le primary), *reader* (load-balance sur les replicas), *custom* (sous-ensemble, ex. gros replicas pour l'analytique).
-- **Aurora Serverless v2** : capacité auto selon la charge, facturation à la seconde ; usage rare/intermittent/imprévisible.
-- **Global Database** : 1 région primaire (R/W) + jusqu'à **10** régions secondaires en lecture, jusqu'à 16 replicas par région secondaire, lag < 1 s, **RTO < 1 min** pour promotion DR ; réduit la latence de lecture des utilisateurs distants.
-- **Cloning** : nouveau cluster en copy-on-write, plus rapide que snapshot/restore ; staging depuis la prod.
-- **Backtrack** (Aurora MySQL) : remonter dans le temps sans restaurer.
-- **Machine learning** : appel de SageMaker AI ou Comprehend depuis SQL. **Babelfish** : Aurora PostgreSQL comprend T-SQL (migration SQL Server). **I/O-Optimised** : pas de frais par I/O.
-- Backups : rétention 1 à 35 jours, **ne peut pas être désactivée**, PITR. Migration MySQL externe : Percona XtraBackup → S3.
+- Up to 5x the performance of MySQL on RDS and 3x that of PostgreSQL on RDS (AWS claim). Costs about 20% more than RDS but is more efficient.
+- Storage grows automatically in 10 GB steps up to 256 TiB. **Six copies across three AZs**: writes need 4 of 6, reads 3 of 6; self-healing; striped across hundreds of volumes.
+- One writer + up to **15 replicas**, failover in under 30 s, cross-region replicas and auto scaling.
+- **Endpoints**: *writer/cluster* (always the primary), *reader* (load-balances across replicas), *custom* (a subset, e.g. larger replicas for analytics).
+- **Aurora Serverless v2**: capacity scales automatically with load, billed per second; infrequent, intermittent or unpredictable workloads.
+- **Global Database**: one primary region (R/W) + up to **10** read-only secondary regions, up to 16 replicas per secondary region, lag typically under a second, **RTO under a minute** when promoting a secondary for DR; also cuts read latency for distant users.
+- **Cloning**: new cluster by copy-on-write, faster than snapshot/restore; staging from production.
+- **Backtrack** (Aurora MySQL): rewind to a point in time without restoring.
+- **Machine learning**: call SageMaker AI or Comprehend from SQL. **Babelfish**: Aurora PostgreSQL understands T-SQL (SQL Server migrations). **I/O-Optimised**: no per-I/O charges.
+- Backups: retention 1 to 35 days, **cannot be disabled**, point-in-time recovery. External MySQL migration: Percona XtraBackup -> S3.
 
-## Limites et quotas
+## Limits and quotas
 
-- Stockage jusqu'à 256 TiB ; jusqu'à 15 replicas ; Global Database : 10 régions secondaires, 16 replicas/région.
-- Backups : 1 à 35 jours, non désactivables.
+- Storage up to 256 TiB; up to 15 replicas; Global Database: 10 secondary regions, 16 replicas per region.
+- Backups: 1 to 35 days, cannot be disabled.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- ~20 % plus cher que RDS mais plus efficace.
-- Serverless v2 : facturation à la seconde.
-- I/O-Optimised supprime les frais par I/O (utile pour charges très I/O).
+- ~20% more expensive than RDS but more efficient.
+- Serverless v2: billed per second.
+- I/O-Optimised removes per-I/O charges (useful for very I/O-heavy workloads).
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Besoin de plus de perf ou de fonctions que [[rds]] → Aurora. Cross-région avec RPO ~1 s et RTO < 1 min → Global Database. Usage sporadique → Serverless v2.
+- Need more performance or features than [[rds]] -> Aurora. Cross-region with RPO ~1 s and RTO < 1 min -> Global Database. Sporadic usage -> Serverless v2.
 
-## Pièges d'examen
+## Exam traps
 
-- DR cross-région avec RPO d'environ une seconde et RTO < 1 min = Aurora Global Database.
-- Staging rapide depuis la prod = cloning, pas snapshot/restore.
+- Cross-region DR with RPO around a second and RTO under a minute = Aurora Global Database.
+- Fast staging copy from prod = cloning, not snapshot/restore.
 
-## Voir aussi
+## See also
 
-[[rds]], [[dms-et-migration]], [[dr-et-multi-region]], [[dynamodb]]
+[[rds]], [[dms-and-migration]], [[dr-and-multi-region]], [[dynamodb]]

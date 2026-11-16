@@ -4,31 +4,31 @@ tags:
   - saa-c03
   - comparatif
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
 # Secrets Manager vs Parameter Store
 
-Rotation intégrée ou stockage de configuration économique.
+Built-in rotation or cheap configuration storage.
 
 |  | Secrets Manager | Parameter Store |
 | --- | --- | --- |
-| Rotation | Automatique via Lambda, natif RDS/Aurora/Redshift/DocumentDB | Pas de rotation native (parameter policies advanced : TTL/notifications) |
-| Multi-région | Secrets multi-région avec réplicas promouvables | — |
-| Coût | Par secret + appels API | Standard gratuit ; advanced par paramètre |
-| Taille | — | 4 KB standard, 8 KB advanced |
+| Rotation | Automatic via Lambda, native for RDS/Aurora/Redshift/DocumentDB | No native rotation (advanced parameter policies: TTL/notifications) |
+| Multi-region | Multi-region secrets with promotable replicas | - |
+| Cost | Per secret + API calls | Standard free; advanced per parameter |
+| Size | - | 4 KB standard, 8 KB advanced |
 
-## Règle de décision
+## Decision rule
 
-- Rotation de mots de passe de base → Secrets Manager.
-- Config pas chère, hiérarchique → Parameter Store.
+- Database password rotation -> Secrets Manager.
+- Cheap, hierarchical configuration -> Parameter Store.
 
-## Pièges d'examen
+## Exam traps
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Voir aussi
+## See also
 
-[[secrets-manager-et-parameter-store]]
+[[secrets-manager-and-parameter-store]]

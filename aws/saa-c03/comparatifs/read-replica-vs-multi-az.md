@@ -5,34 +5,34 @@ tags:
   - comparatif
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "05. Relational databases and caching"
+notion-module: "05. Relational databases and caching"
 ---
 
 # Read replica vs Multi-AZ (RDS)
 
-Ils ne sont pas interchangeables : l'un scale les lectures, l'autre assure la disponibilité.
+They are not interchangeable: one scales reads, the other provides availability.
 
 |  | Read replicas | Multi-AZ (instance) |
 | --- | --- | --- |
-| But | Scale des lectures | Disponibilité et DR |
-| Réplication | Asynchrone, éventuellement cohérente | Synchrone |
-| Emplacement | Même AZ, cross-AZ ou cross-région | Standby dans une autre AZ de la même région |
-| Lisible | Oui (endpoint propre) | Non (le standby ne fait que prendre le relais) |
-| Failover | Promotion manuelle | Automatique, même DNS |
-| Nombre | Jusqu'à 15 | Un standby |
+| Purpose | Scale reads | Availability and DR |
+| Replication | Asynchronous, eventually consistent | Synchronous |
+| Location | Same AZ, cross-AZ or cross-region | Standby in another AZ of the same region |
+| Readable | Yes (own endpoint) | No (the standby only takes over) |
+| Failover | Manual promotion | Automatic, same DNS |
+| Count | Up to 15 | One standby |
 
-## Règle de décision
+## Decision rule
 
-- Reporting/analytique lourde sans ralentir la prod → read replica.
-- Résister à la perte d'une AZ → Multi-AZ.
-- Les deux → read replica en Multi-AZ.
+- Reporting/heavy analytics without slowing prod -> read replica.
+- Survive the loss of an AZ -> Multi-AZ.
+- Both -> a read replica set up as Multi-AZ.
 
-## Pièges d'examen
+## Exam traps
 
-- Multi-AZ standby non lisible (sauf Multi-AZ DB cluster).
+- The Multi-AZ standby is not readable (except Multi-AZ DB clusters).
 
-## Voir aussi
+## See also
 
 [[rds]], [[aurora]]

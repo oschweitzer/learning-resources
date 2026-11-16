@@ -4,33 +4,33 @@ tags:
   - saa-c03
   - comparatif
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "09. Storage extras and hybrid storage"
+notion-module: "09. Storage extras and hybrid storage"
 ---
 
-# Les 4 FSx
+# The 4 FSx file systems
 
-Choisir le bon file system FSx.
+Pick the right FSx file system.
 
-| FSx | Protocoles | Forces | Usages |
+| FSx | Protocols | Strengths | Use cases |
 | --- | --- | --- | --- |
-| Windows File Server | SMB, NTFS | AD, ACL, quotas, DFS, Multi-AZ, backups S3 | Partages Windows, SharePoint, lift & shift |
-| Lustre | Lustre (POSIX) | Centaines de GB/s, millions d'IOPS, lié à S3 ; scratch ou persistent | HPC, ML, vidéo, finance, EDA |
-| NetApp ONTAP | NFS, SMB, iSCSI | Snapshots, réplication, compression, dédup, clonage ; Linux/Windows/macOS/VMware | Migration NetApp/NAS |
-| OpenZFS | NFS v3 à v4.2 | Jusqu'à 1 M d'IOPS sub-ms, snapshots, clonage instantané | Migration ZFS, clones dev/test |
+| Windows File Server | SMB, NTFS | AD, ACLs, quotas, DFS, Multi-AZ, backups to S3 | Windows shares, SharePoint, lift and shift |
+| Lustre | Lustre (POSIX) | Hundreds of GB/s, millions of IOPS, linked to S3; scratch or persistent | HPC, ML, video, finance, EDA |
+| NetApp ONTAP | NFS, SMB, iSCSI | Snapshots, replication, compression, dedup, cloning; Linux/Windows/macOS/VMware | NetApp/NAS migration |
+| OpenZFS | NFS v3 to v4.2 | Up to 1M IOPS sub-ms, snapshots, instant cloning | ZFS migration, dev/test clones |
 
-## Règle de décision
+## Decision rule
 
-- Windows + AD → Windows File Server.
-- HPC + S3 → Lustre.
-- NAS NetApp / multi-protocoles → ONTAP.
-- ZFS → OpenZFS.
+- Windows + AD -> Windows File Server.
+- HPC + S3 -> Lustre.
+- NetApp NAS / multi-protocol -> ONTAP.
+- ZFS -> OpenZFS.
 
-## Pièges d'examen
+## Exam traps
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Voir aussi
+## See also
 
-[[fsx-et-s3-files]]
+[[fsx-and-s3-files]]

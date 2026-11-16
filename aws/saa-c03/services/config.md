@@ -3,41 +3,41 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "16. Monitoring and audit"
+notion-module: "16. Monitoring and audit"
 ---
 
 # AWS Config
 
-## À quoi ça sert
+## What it is for
 
-Enregistrer la configuration des ressources et ses changements dans le temps ; vérifier la conformité. Répond à « quelle config, comment a-t-elle changé, est-elle conforme ? ».
+Record the configuration of resources and its changes over time; check compliance. Answers 'what is the configuration, how did it change, does it comply?'.
 
-## Concepts clés
+## Key concepts
 
-- Par région (agrégable cross-région/compte), snapshots dans S3. Pour chaque ressource : conformité dans le temps, config dans le temps, appels CloudTrail à l'origine du changement. Notifications SNS lors de changements.
-- Questions : SSH ouvert à tous dans mes SG ? buckets publics ? comment cet ALB a-t-il changé ?
-- **Config rules** : managées ou custom (Lambda, Guard) ; évaluées à chaque changement et/ou périodiquement. Ex. EBS tous en gp3 ? types d'instance autorisés ? certificat bientôt expiré (`acm-certificate-expiration-check`) ? **Ne bloquent rien** (pas de deny) → pour bloquer : SCP ou IAM.
-- **Remédiation** via documents SSM Automation (managés ou custom, pouvant appeler Lambda), avec retries ; ex. révoquer les access keys de plus de 90 jours. Notifications EventBridge en cas de non-conformité.
+- Per region (aggregatable across regions/accounts), snapshots in S3. For each resource: compliance over time, configuration over time, the CloudTrail API calls that changed it. SNS notifications on changes.
+- Questions: is there unrestricted SSH in my SGs? do my buckets have public access? how did this ALB change?
+- **Config rules**: managed or custom (Lambda, Guard); evaluated on every configuration change and/or periodically. E.g. is every EBS volume gp3? allowed instance types? certificate about to expire (`acm-certificate-expiration-check`)? **They do not prevent anything** (no deny) -> to block use SCPs or IAM.
+- **Remediation** through SSM Automation documents (managed or custom, may call Lambda), with retries; e.g. revoke IAM access keys older than 90 days. Notifications through EventBridge on non-compliance.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Facturé par configuration item enregistré et par évaluation de rule.
+- Billed per configuration item recorded and per rule evaluation.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Conformité/historique de configuration → Config ; bloquer → [[organizations-et-scp]]. Comparatif → [[cloudwatch-vs-cloudtrail-vs-config]].
+- Compliance/configuration history -> Config; blocking -> [[organizations-and-scp]]. Comparison -> [[cloudwatch-vs-cloudtrail-vs-config]].
 
-## Pièges d'examen
+## Exam traps
 
-- Config rules ne bloquent jamais une action.
-- Conforme ? = Config.
+- Config rules never block actions.
+- Is it compliant? = Config.
 
-## Voir aussi
+## See also
 
 [[cloudtrail]], [[cloudwatch]], [[systems-manager]], [[control-tower]], [[cloudwatch-vs-cloudtrail-vs-config]]

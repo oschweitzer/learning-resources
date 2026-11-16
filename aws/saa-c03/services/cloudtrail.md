@@ -3,42 +3,42 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "16. Monitoring and audit"
+notion-module: "16. Monitoring and audit"
 ---
 
 # AWS CloudTrail
 
-## À quoi ça sert
+## What it is for
 
-Audit et gouvernance : enregistre les appels d'API du compte (console, SDK, CLI, services AWS). Répond à « qui a fait quoi, quand, d'où ? ».
+Audit and governance: records API calls made in the account (console, SDK, CLI, AWS services). Answers 'who did what, when, from where?'.
 
-## Concepts clés
+## Key concepts
 
-- **Activé par défaut**. *Event history* conserve les management events **90 jours** ; un **trail** envoie vers S3 (et CloudWatch Logs) pour la rétention longue, puis Athena. Trail toutes régions (recommandé) ou une seule ; **organization trail** pour tous les comptes.
-- **Types d'événements** : *management* (IAM AttachRolePolicy, EC2 CreateSubnet… ; logués par défaut ; read/write) ; *data events* (S3 GetObject/PutObject/DeleteObject, Lambda Invoke ; **non** par défaut, volume élevé) ; *Insights* (activité inhabituelle ; non par défaut, payant ; baseline sur les write management events, vers console, S3, EventBridge).
-- **CloudTrail Lake** : stockage et requêtes SQL sur longue durée.
-- Question typique : quelqu'un a supprimé une ressource, qui ? → CloudTrail.
+- **Enabled by default**. *Event history* keeps management events for **90 days**; a **trail** sends events to S3 (and optionally CloudWatch Logs) for long-term retention, then Athena. A trail can cover all regions (recommended) or one; an **organisation trail** covers every account.
+- **Event types**: *management* (IAM AttachRolePolicy, EC2 CreateSubnet...; logged by default; read/write); *data events* (S3 GetObject/PutObject/DeleteObject, Lambda Invoke; **not** by default, high volume); *Insights* (unusual activity; not by default, paid; baseline on write management events, to console, S3, EventBridge).
+- **CloudTrail Lake**: store and query events with SQL over a longer period.
+- Typical question: someone deleted a resource, who was it? -> CloudTrail.
 
-## Limites et quotas
+## Limits and quotas
 
-- Event history : 90 jours.
+- Event history: 90 days.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Data events et Insights payants/optionnels (volume élevé).
+- Data events and Insights are optional/paid (high volume).
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Qui a fait quoi → CloudTrail ; performance → [[cloudwatch]] ; conformité → [[config]]. Comparatif → [[cloudwatch-vs-cloudtrail-vs-config]].
+- Who did what -> CloudTrail; performance -> [[cloudwatch]]; compliance -> [[config]]. Comparison -> [[cloudwatch-vs-cloudtrail-vs-config]].
 
-## Pièges d'examen
+## Exam traps
 
-- CloudTrail ne garde que 90 jours sans trail.
-- Appels S3 objet = data events, à activer.
-- Qui a supprimé = CloudTrail.
+- CloudTrail only keeps 90 days unless you create a trail.
+- S3 object-level calls = data events, to be enabled.
+- Who deleted it = CloudTrail.
 
-## Voir aussi
+## See also
 
-[[cloudwatch]], [[config]], [[eventbridge]], [[athena]], [[cloudwatch-vs-cloudtrail-vs-config]], [[organizations-et-scp]]
+[[cloudwatch]], [[config]], [[eventbridge]], [[athena]], [[cloudwatch-vs-cloudtrail-vs-config]], [[organizations-and-scp]]

@@ -5,36 +5,36 @@ tags:
   - comparatif
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "03. EC2 storage"
+notion-module: "03. EC2 storage"
 ---
 
-# Types de volumes EBS
+# EBS volume types
 
-Choisir le type de volume selon IOPS, débit, taille et coût.
+Pick the volume type by IOPS, throughput, size and cost.
 
-| Type | Taille | Performance | Usage |
+| Type | Size | Performance | Use |
 | --- | --- | --- | --- |
-| gp3 (SSD) | 1 GiB à 64 TiB | 3 000 IOPS / 125 MiB/s de base ; jusqu'à 80 000 IOPS et 2 000 MiB/s indépendants de la taille | Défaut : boot, dev/test, la plupart des bases |
-| gp2 (SSD) | 1 GiB à 16 TiB | 3 IOPS/GiB, burst 3 000, max 16 000 | Legacy → migrer vers gp3 |
-| io1 (SSD) | 4 GiB à 16 TiB | Jusqu'à 64 000 IOPS Nitro (32 000 sinon), 50 IOPS/GiB | Anciens volumes IOPS provisionnés |
-| io2 Block Express (SSD) | 4 GiB à 64 TiB | Jusqu'à 256 000 IOPS, 1 000 IOPS/GiB, sub-ms, durabilité 99,999 % | Bases critiques, > 80 000 IOPS |
-| st1 (HDD) | 125 GiB à 16 TiB | Jusqu'à 500 MiB/s et 500 IOPS | Big data, warehouses, logs (séquentiel) |
-| sc1 (HDD) | 125 GiB à 16 TiB | Jusqu'à 250 MiB/s et 250 IOPS | Données froides, le moins cher |
+| gp3 (SSD) | 1 GiB to 64 TiB | 3,000 IOPS / 125 MiB/s baseline; up to 80,000 IOPS and 2,000 MiB/s independent of size | Default: boot, dev/test, most databases |
+| gp2 (SSD) | 1 GiB to 16 TiB | 3 IOPS/GiB, burst 3,000, max 16,000 | Legacy -> migrate to gp3 |
+| io1 (SSD) | 4 GiB to 16 TiB | Up to 64,000 IOPS on Nitro (32,000 otherwise), 50 IOPS/GiB | Older provisioned-IOPS volumes |
+| io2 Block Express (SSD) | 4 GiB to 64 TiB | Up to 256,000 IOPS, 1,000 IOPS/GiB, sub-ms, 99.999% durability | Critical databases, > 80,000 IOPS |
+| st1 (HDD) | 125 GiB to 16 TiB | Up to 500 MiB/s and 500 IOPS | Big data, warehouses, logs (sequential) |
+| sc1 (HDD) | 125 GiB to 16 TiB | Up to 250 MiB/s and 250 IOPS | Cold data, cheapest |
 
-## Règle de décision
+## Decision rule
 
-- Par défaut → gp3.
-- > 80 000 IOPS, latence minimale ou durabilité max → io2 Block Express.
-- Débit séquentiel économique → st1 ; froid → sc1.
-- Multi-Attach → io1/io2.
+- Default -> gp3.
+- > 80,000 IOPS, lowest latency or max durability -> io2 Block Express.
+- Cheap sequential throughput -> st1; cold -> sc1.
+- Multi-Attach -> io1/io2.
 
-## Pièges d'examen
+## Exam traps
 
-- Seuls les SSD bootent.
-- gp3 a monté ses limites en septembre 2025.
+- Only SSDs boot.
+- gp3 limits were raised in September 2025.
 
-## Voir aussi
+## See also
 
 [[ebs]]

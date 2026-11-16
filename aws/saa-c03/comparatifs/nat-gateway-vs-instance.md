@@ -5,35 +5,35 @@ tags:
   - comparatif
   - resilient
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
-# NAT gateway vs NAT instance (vs NAT régionale)
+# NAT gateway vs NAT instance (vs regional NAT)
 
-Trois façons d'offrir une sortie internet aux subnets privés.
+Three ways to give private subnets outbound internet access.
 
-|  | NAT instance | NAT gateway zonale | NAT gateway régionale |
+|  | NAT instance | Zonal NAT gateway | Regional NAT gateway |
 | --- | --- | --- | --- |
-| Statut | Legacy, encore à l'examen | Option managée classique | Lancée en novembre 2025 |
-| Placement | EC2 en subnet public + Elastic IP, source/dest check off | Subnet public d'une AZ + Elastic IP | Attachée au VPC, pas de subnet public |
-| Disponibilité | À votre charge | HA dans une AZ ; une par AZ, pas de failover cross-AZ | S'étend sur les AZ avec workloads |
-| Bande passante | Selon le type d'instance | 5 Gbps, jusqu'à 100 Gbps | Gérée par AWS |
-| Sécurité | Security groups | NACL seulement | NACL |
-| Autre | Peut servir de bastion, port forwarding | Pas pour les instances de son subnet ; IGW requis ; private NAT possible | Un NAT ID pour toutes les AZ, 5 par VPC ; pas de private NAT |
-| Coût | Heures d'instance + trafic | Heure + GB traité | Heure + GB traité |
+| Status | Legacy, still on the exam | Classic managed option | Launched November 2025 |
+| Placement | EC2 in a public subnet + Elastic IP, source/dest check off | Public subnet of one AZ + Elastic IP | Attached to the VPC, no public subnet |
+| Availability | Up to you | HA within one AZ; one per AZ, no cross-AZ failover | Expands across the AZs with workloads |
+| Bandwidth | Depends on instance type | 5 Gbps, up to 100 Gbps | Managed by AWS |
+| Security | Security groups | NACLs only | NACLs |
+| Other | Can act as a bastion, port forwarding | Not for instances in its own subnet; IGW required; private NAT possible | One NAT ID for all AZs, 5 per VPC; no private NAT |
+| Cost | Instance hours + traffic | Hour + per GB processed | Hour + per GB processed |
 
-## Règle de décision
+## Decision rule
 
-- Managé et résilient sans effort → NAT régionale (ou une zonale par AZ).
-- NAT instance seulement pour bastion/port forwarding/contraintes de coût.
+- Managed and resilient without effort -> regional NAT (or one zonal per AZ).
+- NAT instance only for bastion/port forwarding/cost constraints.
 
-## Pièges d'examen
+## Exam traps
 
-- NAT gateway : pas de SG.
-- Une zonale par AZ pour la résilience.
+- NAT gateway: no SG.
+- One zonal NAT per AZ for resilience.
 
-## Voir aussi
+## See also
 
 [[nat]], [[vpc-endpoints]]

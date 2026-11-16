@@ -5,35 +5,35 @@ tags:
   - comparatif
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "10. Decoupling"
+notion-module: "10. Decoupling"
 ---
 
 # SQS vs SNS vs Kinesis Data Streams
 
-File, pub/sub ou flux : quel modèle de découplage.
+Queue, pub/sub or stream: which decoupling model.
 
 |  | SQS | SNS | Kinesis Data Streams |
 | --- | --- | --- | --- |
-| Modèle | Les consommateurs tirent (pull) | Poussé vers de nombreux abonnés | Pull (standard) ou push (enhanced fan-out) |
-| Persistance | Jusqu'à suppression (14 j max) | Aucune, perdu si non livré | Jusqu'à 365 j, rejouable |
-| Consommateurs | Workers partageant une file | Jusqu'à 12,5 M d'abonnements par topic | Plusieurs applis lisant les mêmes données |
-| Ordre | FIFO uniquement | FIFO topics uniquement | Par shard |
-| Débit | Sans provisioning (standard) | Sans provisioning | Shards provisionnés ou on-demand |
-| Usage typique | Découpler et tamponner | Notifier et fan-out | Analytique temps réel, flux ordonnés, replay |
+| Model | Consumers pull | Pushed to many subscribers | Pull (standard) or push (enhanced fan-out) |
+| Persistence | Until deleted (14 d max) | None, lost if not delivered | Up to 365 d, replayable |
+| Consumers | Workers sharing one queue | Up to 12.5 M subscriptions per topic | Several applications reading the same data |
+| Ordering | FIFO queues only | FIFO topics only | Per shard |
+| Throughput | No provisioning (standard) | No provisioning | Provisioned shards or on-demand |
+| Typical use | Decouple and buffer | Notify and fan out | Real-time analytics, ordered streams, replay |
 
-## Règle de décision
+## Decision rule
 
-- Tampon de travail → SQS.
-- Un événement → plusieurs consommateurs → SNS + SQS fan-out.
-- Replay / multi-consommateurs d'un flux → Kinesis.
-- AMQP/MQTT existant → Amazon MQ.
+- Work buffer -> SQS.
+- One event -> several consumers -> SNS + SQS fan-out.
+- Replay / multiple consumers of a stream -> Kinesis.
+- Existing AMQP/MQTT -> Amazon MQ.
 
-## Pièges d'examen
+## Exam traps
 
-- Doublons de traitement : visibility timeout + idempotence.
+- Duplicate processing: visibility timeout + idempotency.
 
-## Voir aussi
+## See also
 
-[[sqs]], [[sns]], [[kinesis-et-firehose]], [[amazon-mq]]
+[[sqs]], [[sns]], [[kinesis-and-firehose]], [[amazon-mq]]

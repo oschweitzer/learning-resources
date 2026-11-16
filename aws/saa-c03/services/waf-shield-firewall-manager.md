@@ -4,42 +4,42 @@ tags:
   - saa-c03
   - secure
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
-# AWS WAF, Shield et Firewall Manager
+# AWS WAF, Shield and Firewall Manager
 
-## À quoi ça sert
+## What it is for
 
-Protéger les applications web (WAF, couche 7), contre le DDoS (Shield) et gérer ces règles à l'échelle de l'organisation (Firewall Manager).
+Protect web apps (WAF, layer 7), protect against DDoS (Shield) and manage these rules across the organisation (Firewall Manager).
 
-## Concepts clés
+## Key concepts
 
-- **WAF** : firewall L7 sur ALB, API Gateway, CloudFront, AppSync GraphQL, Cognito user pools… **pas sur NLB** (L4). Web ACL : IP sets (jusqu'à 10 000 IP), headers, body, URI, injection SQL, XSS, taille, geo-match ; **rate-based rules** ; managed rule groups. Web ACL régionale (sauf CloudFront). IP fixe + WAF : Global Accelerator devant un ALB avec WAF.
-- **Shield Standard** : gratuit et automatique, couches 3 et 4 (SYN/UDP floods, reflection). **Shield Advanced** : protège EC2, ELB, CloudFront, Global Accelerator, Route 53 contre des attaques plus sophistiquées ; équipe SRT 24/7 ; protection des coûts de scaling pendant l'attaque ; mitigation L7 automatique via règles WAF.
-- **Firewall Manager** : règles de sécurité sur tous les comptes d'une organisation : WAF, Shield Advanced, security groups (EC2, ALB, ENI), Network Firewall, DNS Firewall, firewalls tiers ; policies régionales appliquées aux nouvelles ressources/comptes. WAF seul = granulaire par ressource ; Firewall Manager = automatise à l'échelle ; Shield Advanced ajoute réponse DDoS et protection des coûts.
-- **Bonnes pratiques DDoS** : edge (CloudFront, Route 53, Global Accelerator) ; infrastructure (ASG, ELB, grosses instances) ; application (cache CloudFront, WAF rate-based/managed, geo restriction, règles auto Shield Advanced) ; réduction de la surface d'attaque (cacher les backends derrière CloudFront/API Gateway/ELB, SG et NACL, protéger les Elastic IP, API Gateway + WAF).
+- **WAF**: L7 firewall on ALB, API Gateway, CloudFront, AppSync GraphQL, Cognito user pools... **not on NLB** (L4). Web ACL: IP sets (up to 10,000 IPs), headers, body, URI, SQL injection, XSS, size, geo-match; **rate-based rules**; managed rule groups. A web ACL is regional (except CloudFront). Fixed IP + WAF: Global Accelerator in front of an ALB with WAF.
+- **Shield Standard**: free and automatic, layers 3 and 4 (SYN/UDP floods, reflection). **Shield Advanced**: (fixed monthly cost per organisation) protects EC2, ELB, CloudFront, Global Accelerator, Route 53 against more sophisticated attacks; 24/7 Shield Response Team; cost protection against scaling bills during attacks; automatic L7 mitigation through WAF rules.
+- **Firewall Manager**: security rules across all accounts of an organisation: WAF, Shield Advanced, security groups (EC2, ALB, ENI), Network Firewall, DNS Firewall, third-party firewalls; regional policies applied to new resources/accounts. WAF alone = granular per resource; Firewall Manager = automates at scale; Shield Advanced adds DDoS response and cost protection.
+- **DDoS best practices**: edge (CloudFront, Route 53, Global Accelerator); infrastructure (ASG, ELB, large instances); application (CloudFront cache, WAF rate-based/managed rules, geo restriction, Shield Advanced automatic rules); reduce the attack surface (hide backends behind CloudFront/API Gateway/ELB, SGs and NACLs, protect Elastic IPs, API Gateway + WAF).
 
-## Limites et quotas
+## Limits and quotas
 
-- IP sets WAF : jusqu'à 10 000 IP.
+- WAF IP sets: up to 10,000 IPs.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Shield Standard gratuit ; Shield Advanced : coût mensuel fixe par organisation, avec protection des coûts de scaling lors d'une attaque.
+- Shield Standard free; Shield Advanced: fixed monthly cost per organisation, with cost protection for scaling during an attack.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Injection SQL / XSS → WAF (jamais Shield). Support DDoS 24/7 + protection de coûts → Shield Advanced. Multi-comptes → Firewall Manager. Comparatif → [[waf-vs-shield]].
+- SQL injection / XSS -> WAF (never Shield). 24/7 DDoS support + cost protection -> Shield Advanced. Multi-account -> Firewall Manager. Comparison -> [[waf-vs-shield]].
 
-## Pièges d'examen
+## Exam traps
 
-- Protection SQL injection = WAF, jamais Shield.
-- WAF ne s'attache pas à un NLB.
-- Bloquer une IP derrière CloudFront = WAF.
+- SQL injection protection = WAF, never Shield.
+- WAF cannot attach to an NLB.
+- Blocking an IP behind CloudFront = WAF.
 
-## Voir aussi
+## See also
 
-[[waf-vs-shield]], [[cloudfront]], [[elb]], [[api-gateway]], [[global-accelerator]], [[vpc-flow-logs-et-network-firewall]], [[security-groups-et-nacl]]
+[[waf-vs-shield]], [[cloudfront]], [[elb]], [[api-gateway]], [[global-accelerator]], [[vpc-flow-logs-and-network-firewall]], [[security-groups-and-nacl]]

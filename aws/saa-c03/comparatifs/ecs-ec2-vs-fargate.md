@@ -5,32 +5,32 @@ tags:
   - comparatif
   - cost
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "11. Containers"
+notion-module: "11. Containers"
 ---
 
-# ECS sur EC2 vs Fargate vs Managed Instances
+# ECS on EC2 vs Fargate vs Managed Instances
 
-Choisir le mode de capacité d'ECS.
+Choose the ECS capacity mode.
 
 |  | EC2 launch type | Fargate | ECS Managed Instances |
 | --- | --- | --- | --- |
-| Infra | Vous gérez les EC2 avec l'agent ECS | Aucune | AWS provisionne et patche l'EC2 |
-| Scaling | Tâches + instances (ASG, capacity provider) | Nombre de tâches seulement | Géré par AWS |
-| Contrôle | Total (types, GPU, daemons) | Le moins | Plus de choix de types que Fargate |
-| Réponse typique | Matériel spécifique ou coût à haute densité | Serverless, moindre effort opérationnel | EC2 managé sans gérer la flotte |
+| Infrastructure | You manage EC2 instances running the ECS agent | None | AWS provisions and patches EC2 |
+| Scaling | Tasks + instances (ASG, capacity provider) | Number of tasks only | Managed by AWS |
+| Control | Full (types, GPUs, daemons) | Least | More instance choice than Fargate |
+| Typical answer | Specific hardware or cost at high density | Serverless, least operational effort | Managed EC2 without running the fleet |
 
-## Règle de décision
+## Decision rule
 
-- Moins d'opérations → Fargate.
-- GPU / hardware spécifique → EC2.
-- EC2 managé → Managed Instances.
+- Less operations -> Fargate.
+- GPU / specific hardware -> EC2.
+- Managed EC2 -> Managed Instances.
 
-## Pièges d'examen
+## Exam traps
 
-- S3 Files : Fargate et Managed Instances, pas le launch type EC2.
+- S3 Files: Fargate and Managed Instances, not the EC2 launch type.
 
-## Voir aussi
+## See also
 
 [[ecs-fargate-ecr]], [[eks]]

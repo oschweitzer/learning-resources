@@ -3,39 +3,39 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
 # Amazon Cognito
 
-## À quoi ça sert
+## What it is for
 
-Authentification (user pools) et autorisation vers les ressources AWS (identity pools) pour les utilisateurs d'applis web/mobiles.
+Authentication (user pools) and authorisation to AWS resources (identity pools) for web/mobile app users.
 
-## Concepts clés
+## Key concepts
 
-- **User pools** : *qui es-tu* ; sign-in utilisateur ; donne des **jetons JWT** ; mot de passe, reset, vérification email/téléphone, MFA, fédération (Google, Facebook, SAML, OIDC) ; s'intègre à API Gateway et ALB.
-- **Identity pools** : *à quoi as-tu accès dans AWS* ; donne des **credentials AWS temporaires via STS** et un IAM role ; identités depuis user pools, logins sociaux, SAML ou accès invité ; policies pouvant utiliser l'ID utilisateur pour limiter à son préfixe S3 ou ses lignes DynamoDB ; appels directs à S3, DynamoDB, ou via API Gateway.
-- Architecture mobile avec stockage par utilisateur : user pool pour le sign-in, API Gateway + Lambda + DynamoDB pour l'API, identity pool pour écrire directement dans son préfixe S3.
+- **User pools**: *who are you*; user sign-in; gives **JWT tokens**; password, reset, email/phone verification, MFA, federation (Google, Facebook, SAML, OIDC); integrates with API Gateway and ALB.
+- **Identity pools**: *what can you access in AWS*; gives **temporary AWS credentials through STS** and an IAM role; identities from user pools, social logins, SAML or guest access; policies can use the user ID to restrict to the user's own S3 prefix or DynamoDB rows; direct calls to S3, DynamoDB, or through API Gateway.
+- Mobile app with per-user storage: user pool for sign-in, API Gateway + Lambda + DynamoDB for the API, identity pool so users write directly to their own S3 prefix.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Authentification d'app users → user pools. Accès AWS direct → identity pools. Personnel/workforce → [[identity-center-et-directory-service]]. Comparatif → [[cognito-user-vs-identity-pools]].
+- App user authentication -> user pools. Direct AWS access -> identity pools. Workforce -> [[identity-center-and-directory-service]]. Comparison -> [[cognito-user-vs-identity-pools]].
 
-## Pièges d'examen
+## Exam traps
 
-- Les credentials AWS temporaires pour les utilisateurs d'appli viennent des identity pools, pas des user pools.
+- Temporary AWS credentials for app users come from identity pools, not user pools.
 
-## Voir aussi
+## See also
 
-[[cognito-user-vs-identity-pools]], [[api-gateway]], [[iam]], [[identity-center-et-directory-service]]
+[[cognito-user-vs-identity-pools]], [[api-gateway]], [[iam]], [[identity-center-and-directory-service]]

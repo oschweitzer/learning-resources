@@ -5,31 +5,31 @@ tags:
   - comparatif
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "21. Architecture patterns, other services and Well-Architected"
+notion-module: "21. Architecture patterns, other services and Well-Architected"
 ---
 
 # Lambda vs AWS Batch
 
-Quand un job ne rentre plus dans Lambda.
+When a job no longer fits in Lambda.
 
 | Lambda | AWS Batch |
 | --- | --- |
-| Limite de 15 minutes | Pas de limite de temps |
-| Runtimes limités | Tout runtime packagé en image Docker |
-| Disque temporaire limité (/tmp jusqu'à 10 Go) | EBS ou instance store pour le disque |
-| Serverless | S'appuie sur EC2 (géré par AWS) ou Fargate |
+| 15-minute limit | No time limit |
+| Limited runtimes | Any runtime packaged as a Docker image |
+| Limited temporary disk (/tmp up to 10 GB) | EBS or instance store for disk |
+| Serverless | Relies on EC2 (managed by AWS) or Fargate |
 
-## Règle de décision
+## Decision rule
 
-- Court, événementiel → Lambda.
-- Long, gros disque, image custom → Batch (ou Fargate).
+- Short, event-driven -> Lambda.
+- Long, big disk, custom image -> Batch (or Fargate).
 
-## Pièges d'examen
+## Exam traps
 
-- Job > 15 min ne tourne pas sur Lambda.
+- A job over 15 minutes cannot run on Lambda.
 
-## Voir aussi
+## See also
 
-[[lambda]], [[services-divers]], [[ecs-fargate-ecr]]
+[[lambda]], [[other-services]], [[ecs-fargate-ecr]]

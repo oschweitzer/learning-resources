@@ -3,41 +3,41 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "18. Security and encryption"
+notion-module: "18. Security and encryption"
 ---
 
 # AWS Certificate Manager (ACM)
 
-## À quoi ça sert
+## What it is for
 
-Provisionner, gérer et déployer des certificats TLS (publics gratuits et renouvelés automatiquement ; privés via AWS Private CA).
+Provision, manage and deploy TLS certificates (public ones free and auto-renewed; private ones via AWS Private CA).
 
-## Concepts clés
+## Key concepts
 
-- S'intègre à ELB (ALB, NLB, CLB), CloudFront, API Gateway… **Pas aux instances EC2 directement** : un certificat public ACM ne s'extrait pas (certificats publics exportables : option payante).
-- Demande publique : FQDN ou wildcard (`*.example.com`), validation **DNS** (préférée : un CNAME, idéale avec Route 53) ou email, attente de validation. Renouvellement auto **60 jours avant expiration**.
-- Certificats **importés** (générés ailleurs) : pas de renouvellement auto ; ACM envoie des événements d'expiration quotidiens à EventBridge (dès 45 jours par défaut, configurable) ; la Config rule `acm-certificate-expiration-check` les signale.
-- **Régions** : CloudFront et API Gateway edge-optimised → certificat en **us-east-1** ; API regional → région de l'API ; puis CNAME/alias Route 53.
+- Integrates with ELB (ALB, NLB, CLB), CloudFront, API Gateway... **Not directly with EC2 instances**: a public ACM certificate cannot be extracted (exportable public certificates exist as a paid option).
+- Requesting a public certificate: list FQDNs or wildcards (`*.example.com`), choose **DNS** validation (preferred, a CNAME record, ideal with Route 53) or email validation, wait for validation. Automatic renewal **60 days before expiry**.
+- **Imported** certificates (generated elsewhere): no automatic renewal; ACM sends daily expiry events to EventBridge (from 45 days by default, configurable); the Config rule `acm-certificate-expiration-check` flags them.
+- **Regions**: CloudFront and edge-optimised API Gateway -> certificate in **us-east-1**; regional API -> the API's region; then CNAME/alias in Route 53.
 
-## Limites et quotas
+## Limits and quotas
 
-- Renouvellement auto 60 jours avant expiration ; événements d'expiration dès 45 jours (configurable).
+- Automatic renewal 60 days before expiry; expiry events from 45 days (configurable).
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Certificats publics gratuits ; privés via AWS Private CA.
+- Public certificates are free; private ones via AWS Private CA.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- TLS sur ELB/CloudFront/API Gateway → ACM. Installer sur EC2 → impossible avec ACM public.
+- TLS on ELB/CloudFront/API Gateway -> ACM. Installing on EC2 -> not possible with a public ACM certificate.
 
-## Pièges d'examen
+## Exam traps
 
-- ACM ne peut pas installer de certificats sur EC2.
-- CloudFront : us-east-1.
+- ACM cannot install certificates on EC2.
+- CloudFront: us-east-1.
 
-## Voir aussi
+## See also
 
 [[elb]], [[cloudfront]], [[api-gateway]], [[route-53]], [[config]]

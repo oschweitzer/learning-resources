@@ -4,52 +4,52 @@ tags:
   - saa-c03
   - resilient
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "04. High availability and scalability"
+notion-module: "04. High availability and scalability"
 ---
 
 # Elastic Load Balancing (ALB, NLB, GWLB, CLB)
 
-## À quoi ça sert
+## What it is for
 
-Répartir le trafic sur plusieurs cibles, avec un DNS unique, des health checks, TLS, stickiness et multi-AZ. ELB est managé (upgrades, scaling, disponibilité).
+Spread traffic over several targets with one DNS name, health checks, TLS, stickiness and multi-AZ. ELB is managed (upgrades, scaling, availability).
 
-## Concepts clés
+## Key concepts
 
-- **ALB** (L7) : HTTP/HTTPS/WebSocket/HTTP2/gRPC, routage par path, host, query string, header ; redirections ; DNS fixe, **pas d'IP statique**. Cibles : EC2, tâches ECS (dynamic port mapping), Lambda, IP privées (y compris on-premises).
-- **NLB** (L4) : TCP/UDP/TLS, millions de req/s, ultra faible latence, **une IP statique par AZ** (Elastic IP possible), conserve l'IP source, supporte les security groups. Cibles : EC2, IP privées, un ALB.
-- **GWLB** (L3) : paquets IP, GENEVE port 6081, passe le trafic par une flotte d'appliances tierces (firewalls, IDS/IPS, DPI).
-- **CLB** : legacy (L4 et L7), un seul certificat.
-- Derrière un ALB, l'IP client est dans `X-Forwarded-For` (+ `X-Forwarded-Port`, `X-Forwarded-Proto`).
-- **Health checks** par target group (port + path, ex. /health) ; non-200 = unhealthy. Un NLB supporte TCP, HTTP, HTTPS.
-- Pattern sécurité : SG du LB ouvre 80/443 à tous ; SG des instances n'autorise que le SG du LB.
-- **Sticky sessions** (CLB, ALB, NLB) : cookies application (custom ou AWSALBAPP) ou durée (AWSALB, AWSELB pour CLB). Noms réservés : AWSALB, AWSALBAPP, AWSALBTG. Peut déséquilibrer ; mieux : appli stateless avec sessions dans ElastiCache/DynamoDB.
-- **Cross-zone** : ALB activé par défaut (désactivable par target group, gratuit) ; NLB et GWLB désactivé par défaut (frais inter-AZ si activé) ; CLB désactivé par défaut, sans frais.
-- **TLS** : certificat X.509, en général via ACM. **SNI** : plusieurs certificats sur un listener (ALB, NLB, CloudFront). CLB ne le supporte pas.
-- **Deregistration delay** (connection draining sur CLB) : laisse finir les requêtes en vol. Défaut 300 s, plage 0 à 3 600 s, 0 = désactivé ; descendre à ~30 s pour des requêtes courtes.
+- **ALB** (L7): HTTP/HTTPS/WebSocket/HTTP2/gRPC, routing by path, host, query string, header; redirects; fixed DNS name, **no static IP**. Targets: EC2, ECS tasks (dynamic port mapping), Lambda, private IPs (including on premises).
+- **NLB** (L4): TCP/UDP/TLS, millions of requests per second, ultra-low latency, **one static IP per AZ** (Elastic IP possible), keeps the client source IP, supports security groups. Targets: EC2, private IPs, an ALB.
+- **GWLB** (L3): IP packets, GENEVE port 6081, sends traffic through a fleet of third-party appliances (firewalls, IDS/IPS, DPI).
+- **CLB**: legacy (L4 and L7), one certificate only.
+- Behind an ALB the client IP is in `X-Forwarded-For` (+ `X-Forwarded-Port`, `X-Forwarded-Proto`).
+- **Health checks** per target group (port + path, e.g. /health); non-200 = unhealthy. An NLB supports TCP, HTTP, HTTPS.
+- Security pattern: the LB's SG allows 80/443 from anywhere; the instances' SG only allows the LB's SG.
+- **Sticky sessions** (CLB, ALB, NLB): application cookies (custom or AWSALBAPP) or duration cookies (AWSALB, AWSELB for CLB). Reserved names: AWSALB, AWSALBAPP, AWSALBTG. Can unbalance load; better: stateless app with sessions in ElastiCache/DynamoDB.
+- **Cross-zone**: ALB on by default (can be off per target group, free); NLB and GWLB off by default (inter-AZ charges if on); CLB off by default, no charge.
+- **TLS**: X.509 certificate, usually from ACM. **SNI**: several certificates on one listener (ALB, NLB, CloudFront). CLB does not support it.
+- **Deregistration delay** (connection draining on CLB): lets in-flight requests finish. Default 300 s, range 0 to 3,600 s, 0 disables; lower it (~30 s) for short requests.
 
-## Limites et quotas
+## Limits and quotas
 
-- Deregistration delay : 0 à 3 600 s (défaut 300).
-- NLB : une IP statique par AZ.
+- Deregistration delay: 0 to 3,600 s (default 300).
+- NLB: one static IP per AZ.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Cross-zone : ALB gratuit ; NLB/GWLB facturent les données inter-AZ si activé.
+- Cross-zone: free on ALB; NLB/GWLB charge inter-AZ data when it is turned on.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Comparaison détaillée → [[alb-vs-nlb-vs-gwlb]].
-- IP statique devant une appli HTTP : NLB devant un ALB, ou [[global-accelerator]].
+- Detailed comparison -> [[alb-vs-nlb-vs-gwlb]].
+- Static IP in front of an HTTP app: an NLB in front of an ALB, or [[global-accelerator]].
 
-## Pièges d'examen
+## Exam traps
 
-- Routage par path/host = ALB.
-- IP statique, UDP ou perf extrême = NLB.
-- Firewalls tiers = GWLB.
-- Plusieurs certificats TLS sur un LB = ALB/NLB avec SNI.
+- Routing by path/host = ALB.
+- Static IP, UDP or extreme performance = NLB.
+- Third-party firewall appliances = GWLB.
+- Several TLS certificates on one LB = ALB/NLB with SNI.
 
-## Voir aussi
+## See also
 
 [[alb-vs-nlb-vs-gwlb]], [[auto-scaling]], [[acm]], [[global-accelerator]], [[route-53]]

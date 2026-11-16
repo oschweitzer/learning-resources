@@ -5,46 +5,46 @@ tags:
   - comparatif
   - performant
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "03, 07, 09"
+notion-module: "03, 07, 09"
 ---
 
-# EBS vs EFS vs S3 (et autres stockages)
+# EBS vs EFS vs S3 (and other storage)
 
-Quel stockage pour quel besoin.
+Which storage for which need.
 
-| Service | Type | En une ligne |
+| Service | Type | In one line |
 | --- | --- | --- |
-| S3 | Objet | Stockage d'objets durable pour tout |
-| S3 Glacier | Objet archive | Archives long terme au moindre coût |
-| EBS | Bloc | Disque réseau pour une instance (Multi-Attach mis à part), une AZ |
-| Instance store | Bloc | Physique, très rapide, éphémère |
-| EFS | Fichier (NFS) | POSIX partagé Linux, multi-AZ |
-| FSx for Windows | Fichier (SMB) | Partages Windows avec AD |
-| FSx for Lustre | Fichier | Parallèle HPC lié à S3 |
-| FSx for NetApp ONTAP | Fichier et bloc | Compatibilité protocolaire la plus large |
-| FSx for OpenZFS | Fichier (NFS) | ZFS managé |
-| S3 Files | Fichier sur S3 | Accès fichier à un bucket existant |
-| Storage Gateway | Hybride | Accès on-premises à S3, snapshots EBS, bandes virtuelles |
-| Transfer Family | Transfert | FTP/FTPS/SFTP vers S3 ou EFS |
-| DataSync | Transfert | Synchronisation en ligne planifiée, garde les métadonnées |
-| Snowball Edge | Transfert | Migration offline et edge compute (clients existants) |
+| S3 | Object | Durable object storage for anything |
+| S3 Glacier | Object archive | Cheapest long-term archives |
+| EBS | Block | Network disk for one instance (Multi-Attach aside), one AZ |
+| Instance store | Block | Physical, very fast, ephemeral |
+| EFS | File (NFS) | Shared POSIX for Linux, multi-AZ |
+| FSx for Windows | File (SMB) | Windows file shares with AD |
+| FSx for Lustre | File | HPC parallel file system linked to S3 |
+| FSx for NetApp ONTAP | File and block | Broadest protocol compatibility |
+| FSx for OpenZFS | File (NFS) | Managed ZFS |
+| S3 Files | File on S3 | File access to an existing bucket |
+| Storage Gateway | Hybrid | On-premises access to S3, EBS snapshots, virtual tapes |
+| Transfer Family | Transfer | FTP/FTPS/SFTP into S3 or EFS |
+| DataSync | Transfer | Scheduled online sync, keeps metadata |
+| Snowball Edge | Transfer | Offline migration and edge compute (existing customers) |
 
-## Règle de décision
+## Decision rule
 
-- Disque persistant pour une instance → EBS.
-- IOPS local maximal, perte acceptable → instance store.
-- POSIX partagé Linux multi-AZ → EFS.
-- Windows/Lustre/ONTAP/ZFS → FSx.
-- Objets, data lake, statique → S3.
-- Fichiers sur des données déjà dans S3 → S3 Files.
+- Persistent disk for one instance -> EBS.
+- Maximum local IOPS, loss acceptable -> instance store.
+- Shared POSIX Linux multi-AZ -> EFS.
+- Windows/Lustre/ONTAP/ZFS -> FSx.
+- Objects, data lake, static -> S3.
+- Files on data already in S3 -> S3 Files.
 
-## Pièges d'examen
+## Exam traps
 
-- EBS lié à une AZ.
-- EFS pas pour Windows.
+- EBS is tied to one AZ.
+- EFS is not for Windows.
 
-## Voir aussi
+## See also
 
-[[ebs]], [[efs]], [[s3]], [[fsx-et-s3-files]], [[ami-et-instance-store]]
+[[ebs]], [[efs]], [[s3]], [[fsx-and-s3-files]], [[ami-and-instance-store]]

@@ -3,39 +3,39 @@ tags:
   - aws
   - saa-c03
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "10. Decoupling"
+notion-module: "10. Decoupling"
 ---
 
 # Amazon MQ
 
-## À quoi ça sert
+## What it is for
 
-Broker de messages managé pour RabbitMQ et ActiveMQ (protocoles ouverts : MQTT, AMQP, STOMP, OpenWire, WSS).
+Managed message broker for RabbitMQ and ActiveMQ (open protocols: MQTT, AMQP, STOMP, OpenWire, WSS).
 
-## Concepts clés
+## Key concepts
 
-- À utiliser pour migrer une application on-premises qui utilise déjà ces protocoles, sans la réécrire pour SQS/SNS.
-- **Pas serverless** : tourne sur des serveurs, ne scale pas comme SQS/SNS. Propose files et topics.
-- Haute dispo : broker actif + standby dans 2 AZ avec stockage partagé (EFS pour ActiveMQ).
+- Use it when migrating an on-premises application that already uses these protocols, instead of re-engineering it for SQS and SNS.
+- **Not serverless**: runs on servers, does not scale as SQS and SNS do. Offers queues and topics.
+- High availability: an active and a standby broker in two AZs sharing storage (EFS for ActiveMQ).
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Appli existante AMQP/MQTT → Amazon MQ ; nouvelle appli cloud-native → [[sqs]] / [[sns]].
+- Existing AMQP/MQTT app -> Amazon MQ; new cloud-native app -> [[sqs]] / [[sns]].
 
-## Pièges d'examen
+## Exam traps
 
-- Applis AMQP ou MQTT existantes = Amazon MQ.
+- Existing AMQP or MQTT apps = Amazon MQ.
 
-## Voir aussi
+## See also
 
 [[sqs]], [[sns]], [[sqs-vs-sns-vs-kinesis]]

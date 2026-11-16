@@ -5,31 +5,31 @@ tags:
   - comparatif
   - secure
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "19. VPC networking"
+notion-module: "19. VPC networking"
 ---
 
 # Interface endpoint vs Gateway endpoint
 
-Deux types de VPC endpoints.
+Two types of VPC endpoints.
 
 |  | Interface endpoint | Gateway endpoint |
 | --- | --- | --- |
-| Mécanisme | ENI avec IP privée, protégée par SG | Cible dans les route tables |
-| Services | La plupart des services AWS + vos services via PrivateLink | S3 et DynamoDB uniquement |
-| Coût | Heure + GB | Gratuit |
-| Depuis on-premises / autres VPC | Oui (VPN, DX, peering) | Non |
+| Mechanism | ENI with a private IP, protected by an SG | Target in route tables |
+| Services | Most AWS services + your services via PrivateLink | S3 and DynamoDB only |
+| Cost | Hour + GB | Free |
+| From on premises / other VPCs | Yes (VPN, DX, peering) | No |
 
-## Règle de décision
+## Decision rule
 
-- S3/DynamoDB depuis le VPC → gateway (gratuit).
-- Depuis on-premises, autre VPC ou autre région → interface.
+- S3/DynamoDB from the VPC -> gateway (free).
+- From on premises, another VPC or another region -> interface.
 
-## Pièges d'examen
+## Exam traps
 
-- Gateway uniquement S3 et DynamoDB.
+- Gateway only for S3 and DynamoDB.
 
-## Voir aussi
+## See also
 
 [[vpc-endpoints]]

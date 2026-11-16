@@ -3,42 +3,42 @@ tags:
   - aws
   - saa-c03
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "16. Monitoring and audit"
+notion-module: "16. Monitoring and audit"
 ---
 
 # Amazon EventBridge
 
-## À quoi ça sert
+## What it is for
 
-Réagir aux événements (event patterns) et planifier des actions (schedules). Ex-CloudWatch Events.
+React to events (event patterns) and schedule actions (schedules). Formerly CloudWatch Events.
 
-## Concepts clés
+## Key concepts
 
-- Sources : presque tous les services AWS (changements d'état EC2, uploads S3, findings GuardDuty, échecs CodeBuild, Trusted Advisor), partenaires SaaS, vos applis. Cibles : Lambda, SQS, SNS, Kinesis, Step Functions, tâches ECS, Batch, actions EC2, API destinations…
-- **Event buses** : default (événements AWS), partner (SaaS), custom ; partageables cross-account par resource-based policies (agréger les événements d'une organisation).
-- **Archive et replay** (tout ou filtré, durée choisie). **Schema registry** : infère les schémas, génère des bindings de code, versioning.
-- **Sécurité** : cibles Lambda/SNS/SQS/S3-related → resource-based policy sur la cible ; cibles ECS/Kinesis/action ASG → IAM role.
-- **EventBridge Scheduler** et **Pipes** : planifications ponctuelles/récurrentes et intégrations point à point avec filtrage/enrichissement.
-- Avec CloudTrail : intercepte n'importe quel appel d'API (ex. suppression d'une table DynamoDB) et alerte via SNS. Exemple : connexion du root user → SNS email.
+- Sources: almost every AWS service (EC2 state changes, S3 uploads, GuardDuty findings, CodeBuild failures, Trusted Advisor), SaaS partners, your own apps. Targets: Lambda, SQS, SNS, Kinesis, Step Functions, ECS tasks, Batch, EC2 actions, API destinations...
+- **Event buses**: default (AWS events), partner (SaaS), custom (your apps); shareable across accounts with resource-based policies (aggregate an organisation's events).
+- **Archive and replay** (all or filtered, for a chosen period). **Schema registry**: infers schemas, generates code bindings, versioning.
+- **Security**: Lambda/SNS/SQS/S3-related targets -> resource-based policy on the target; ECS/Kinesis/ASG-action targets -> IAM role.
+- **EventBridge Scheduler** and **Pipes**: one-off/recurring schedules and point-to-point integrations with filtering and enrichment.
+- With CloudTrail: intercepts any API call (e.g. deleting a DynamoDB table) and alerts via SNS. Example: root user sign-in -> SNS email.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Réagir à un événement ou planifier → EventBridge ; notifier plusieurs abonnés → [[sns]] ; S3 vers EventBridge pour filtrage avancé et replay.
+- React to an event or schedule -> EventBridge; notify several subscribers -> [[sns]]; S3 to EventBridge for advanced filtering and replay.
 
-## Pièges d'examen
+## Exam traps
 
-- Notifier la sécurité à la connexion du root = règle EventBridge + SNS.
+- Notify security on root sign-in = EventBridge rule + SNS.
 
-## Voir aussi
+## See also
 
 [[cloudtrail]], [[sns]], [[lambda]], [[ecs-fargate-ecr]], [[s3]]

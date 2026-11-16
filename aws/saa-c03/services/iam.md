@@ -3,48 +3,48 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "01. Global infrastructure and IAM"
+notion-module: "01. Global infrastructure and IAM"
 ---
 
-# IAM : users, groups, roles, policies
+# IAM: users, groups, roles, policies
 
-## À quoi ça sert
+## What it is for
 
-Contrôler qui peut faire quoi sur quelles ressources AWS (authentification + autorisation).
+Control who can do what on which AWS resources (authentication + authorisation).
 
-## Concepts clés
+## Key concepts
 
-- IAM est un service **global**. Le **root user** sert à quelques tâches de niveau compte ; MFA obligatoire, jamais de clés d'accès.
-- **User** = une personne physique. **Group** = contient des users uniquement (pas d'autres groupes). Un user peut être dans 0, 1 ou plusieurs groupes.
-- **Policy** = document JSON attaché à un user, group ou role. Principe du moindre privilège.
-- Structure : `Version` (toujours 2012-10-17), `Statement` avec `Effect` (Allow/Deny), `Action`, `Resource`, `Condition` optionnelle. `Principal` seulement dans les resource-based policies (ex. bucket policy).
-- **Explicit Deny > Allow**. Ce qui n'est pas explicitement autorisé est refusé par défaut.
-- **Role** = credentials temporaires pour des services AWS (instance profile EC2, execution role Lambda) ou pour des personnes / comptes via **STS**.
-- Accès : console = mot de passe + MFA ; CLI/SDK = access keys (ID + secret), propres à un user, jamais partagées.
-- MFA : app virtuelle, clé FIDO2, passkey, token TOTP matériel. Password policy : longueur, types de caractères, expiration, réutilisation.
-- Audit : **credentials report** (compte : état des mots de passe/clés/MFA), **Access Advisor** (user ou role : services accessibles et dernière utilisation, pour réduire les policies), **Access Analyzer** (ressources partagées hors zone de confiance, accès inutilisés, validation de policy).
+- IAM is a **global** service. The **root user** is only for a handful of account-level tasks; protect it with MFA and never create access keys for it.
+- A **user** maps to one physical person. A **group** contains users only (no nested groups). A user can belong to zero, one or several groups.
+- A **policy** is a JSON document attached to a user, group or role. Apply least privilege.
+- Structure: `Version` (always 2012-10-17), `Statement` with `Effect` (Allow/Deny), `Action`, `Resource`, optional `Condition`. `Principal` only appears in resource-based policies (e.g. S3 bucket policies).
+- **Explicit Deny beats Allow**. Anything not explicitly allowed is denied by default.
+- A **role** gives temporary credentials to AWS services (EC2 instance profile, Lambda execution role) or to people and other accounts through **STS**.
+- Access: console = password + MFA; CLI/SDK = access keys (ID + secret), owned by one user and never shared.
+- MFA options: virtual authenticator app, FIDO2 security key, passkey, hardware TOTP token. Password policy: minimum length, character types, expiry, reuse.
+- Auditing: **credentials report** (account level: status of passwords, keys, MFA), **Access Advisor** (user or role: services reachable and last used, to trim policies), **Access Analyzer** (resources shared outside your zone of trust, unused access, policy validation).
 
-## Limites et quotas
+## Limits and quotas
 
-- Les groupes ne peuvent pas être imbriqués.
+- Groups cannot be nested.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Accès workforce multi-comptes → préférer [[identity-center-et-directory-service]].
-- Accès cross-account ou pour un service → role. Conditions avancées, boundaries, évaluation → [[iam-avance]].
+- Workforce access across several accounts -> prefer [[identity-center-and-directory-service]].
+- Cross-account access or access for a service -> a role. Conditions, boundaries, evaluation -> [[advanced-iam]].
 
-## Pièges d'examen
+## Exam traps
 
-- Une appli sur EC2 qui a besoin d'AWS reçoit un **role**, jamais de clés en dur.
-- Explicit Deny bat tout Allow.
-- IAM est global : on ne choisit pas de région.
+- An application on EC2 that needs AWS access gets an **IAM role**, never hard-coded keys.
+- Explicit Deny beats any Allow.
+- IAM is global, so you do not pick a region for it.
 
-## Voir aussi
+## See also
 
-[[iam-avance]], [[identity-center-et-directory-service]], [[organizations-et-scp]]
+[[advanced-iam]], [[identity-center-and-directory-service]], [[organizations-and-scp]]

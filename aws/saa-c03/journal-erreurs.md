@@ -6,14 +6,14 @@ tags:
 source: notion
 ---
 
-# Journal d'erreurs
+# Error journal
 
-Une ligne par erreur (quiz hebdo, examen blanc, carte Anki ratée plusieurs fois). La colonne « pourquoi » compte plus que la bonne réponse : mot-clé raté, confusion entre deux services, limite oubliée, question mal lue…
+One line per mistake (weekly quiz, practice exam, Anki card failed several times). The "why" column matters more than the right answer: missed keyword, confusion between two services, forgotten limit, misread question...
 
-| Date | Question | Ma réponse | Bonne réponse | Pourquoi je me suis trompé |
+| Date | Question | My answer | Right answer | Why I got it wrong |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 |  |  |  |  |  |
 |  |  |  |  |  |
 
-Après chaque entrée : lier la note ou le comparatif concerné, par exemple [[sqs-vs-sns-vs-kinesis]], et repasser son statut à `a-revoir` si besoin.
+After each entry: link the related note or comparison, for example [[sqs-vs-sns-vs-kinesis]], and set its status back to `to-review` if needed.

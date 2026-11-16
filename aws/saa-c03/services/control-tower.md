@@ -3,39 +3,39 @@ tags:
   - aws
   - saa-c03
   - secure
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "17. Advanced identity and governance"
+notion-module: "17. Advanced identity and governance"
 ---
 
 # AWS Control Tower
 
-## À quoi ça sert
+## What it is for
 
-Mettre en place et gouverner un environnement multi-comptes sécurisé et conforme (landing zone) en quelques clics, sur Organizations.
+Set up and govern a secure, compliant multi-account environment (landing zone) in a few clicks, on top of Organizations.
 
-## Concepts clés
+## Key concepts
 
-- Crée une **Security OU** avec un compte *Log Archive* (logs centraux) et un compte *Audit* (accès de l'équipe sécurité) ; configure en général IAM Identity Center ; **Account Factory** pour créer de nouveaux comptes conformes.
-- **Controls (guardrails)** : *préventifs* (SCP, ex. restreindre les régions), *détectifs* (Config rules, ex. ressources sans tag, buckets publics), *proactifs* (CloudFormation hooks, bloquent une ressource non conforme avant déploiement).
-- Dashboard de conformité multi-comptes ; détection et remédiation de la dérive (drift).
+- Creates a **Security OU** with a *Log Archive* account (central logs) and an *Audit* account (security team access); usually configures IAM Identity Center; **Account Factory** creates new compliant accounts.
+- **Controls (guardrails)**: *preventive* (SCPs, e.g. restrict regions), *detective* (Config rules, e.g. untagged resources, public buckets), *proactive* (CloudFormation hooks, block a non-compliant resource before deployment).
+- Compliance dashboard across accounts; detects and remediates drift.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Landing zone + gouvernance continue → Control Tower ; garde-fous manuels → [[organizations-et-scp]].
+- Landing zone + ongoing governance -> Control Tower; manual guardrails -> [[organizations-and-scp]].
 
-## Pièges d'examen
+## Exam traps
 
-- Détectif = Config ; préventif = SCP ; proactif = CloudFormation hooks.
+- Detective = Config; preventive = SCP; proactive = CloudFormation hooks.
 
-## Voir aussi
+## See also
 
-[[organizations-et-scp]], [[config]], [[identity-center-et-directory-service]], [[cloudformation]]
+[[organizations-and-scp]], [[config]], [[identity-center-and-directory-service]], [[cloudformation]]

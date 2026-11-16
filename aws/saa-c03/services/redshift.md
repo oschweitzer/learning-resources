@@ -3,42 +3,42 @@ tags:
   - aws
   - saa-c03
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "14. Data and analytics"
+notion-module: "14. Data and analytics"
 ---
 
 # Amazon Redshift
 
-## À quoi ça sert
+## What it is for
 
-Data warehouse basé sur PostgreSQL, pour l'OLAP (pas l'OLTP) : stockage colonnes, moteur massivement parallèle, pétaoctets.
+PostgreSQL-based data warehouse for OLAP (not OLTP): columnar storage, massively parallel engine, petabytes.
 
-## Concepts clés
+## Key concepts
 
-- Deux modes : **provisionné** (types de nœuds, réservable) et **Serverless**. Cluster = leader node (planification, agrégation) + compute nodes.
-- Plus rapide qu'Athena pour jointures, agrégations et requêtes complexes répétées (données chargées, index) ; Athena mieux pour du ponctuel sans chargement.
-- **Snapshots / DR** : Multi-AZ pour certains types de nœuds ; snapshots incrémentaux dans S3 ; restauration = **nouveau cluster** ; automatiques toutes les 8 h, tous les 5 GB ou planifiés ; manuels conservés ; copie auto vers une autre région.
-- **Chargement** : Firehose → S3 puis `COPY` ; `COPY` depuis S3 avec IAM role (idéalement **enhanced VPC routing**) ; inserts JDBC possibles mais à grouper.
-- **Redshift Spectrum** : interroge S3 sans charger, depuis un cluster existant, avec des milliers de nœuds Spectrum.
+- Two modes: **provisioned** (node types, reservable) and **Serverless**. A cluster = leader node (planning, aggregation) + compute nodes.
+- Faster than Athena for joins, aggregations and repeated complex queries (loaded data, indexes); Athena is better for occasional queries without loading.
+- **Snapshots / DR**: Multi-AZ for some node types; incremental snapshots in S3; a restore creates a **new cluster**; automated every 8 hours, every 5 GB or on a schedule; manual snapshots kept; automatic copy to another region.
+- **Loading**: Firehose -> S3 then `COPY`; `COPY` from S3 with an IAM role (ideally **enhanced VPC routing**); JDBC inserts possible but batch them.
+- **Redshift Spectrum**: queries S3 without loading, from an existing Redshift cluster, pushing work to thousands of Spectrum nodes.
 
-## Limites et quotas
+## Limits and quotas
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Provisionné : réserver pour économiser ; Serverless disponible.
+- Provisioned: reserve to save; Serverless available.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Analytique lourde et répétée → Redshift. Requêter S3 depuis Redshift sans charger → Spectrum. Occasionnel sur S3 → [[athena]].
+- Heavy repeated analytics -> Redshift. Query S3 from Redshift without loading -> Spectrum. Occasional on S3 -> [[athena]].
 
-## Pièges d'examen
+## Exam traps
 
-- Analytique complexe répétée = Redshift.
-- Query S3 depuis Redshift sans charger = Spectrum.
+- Complex repeated analytics = Redshift.
+- Query S3 from Redshift without loading = Spectrum.
 
-## Voir aussi
+## See also
 
-[[athena]], [[athena-vs-redshift]], [[kinesis-et-firehose]], [[s3]], [[glue-et-lake-formation]]
+[[athena]], [[athena-vs-redshift]], [[kinesis-and-firehose]], [[s3]], [[glue-and-lake-formation]]

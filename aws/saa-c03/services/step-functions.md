@@ -3,39 +3,39 @@ tags:
   - aws
   - saa-c03
   - resilient
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
 # AWS Step Functions
 
-## À quoi ça sert
+## What it is for
 
-Workflows visuels serverless qui orchestrent Lambda et d'autres services (ECS, Batch, DynamoDB, SQS, activités on-premises).
+Serverless visual workflows that orchestrate Lambda and other services (ECS, Batch, DynamoDB, SQS, on-premises activities).
 
-## Concepts clés
+## Key concepts
 
-- Séquences, branches parallèles, choix, retries, timeouts, gestion d'erreurs, attentes, étapes d'approbation humaine.
-- **Standard** : jusqu'à 1 an, exactly-once. **Express** : moins cher, grand volume, courtes durées (jusqu'à 5 min), traitement d'événements.
-- Usages : traitement de commandes, pipelines de données, workflows ML, flux d'applications web.
+- Sequences, parallel branches, choices, retries, timeouts, error handling, waits, human approval steps.
+- **Standard**: up to a year, exactly-once execution. **Express**: cheaper, high-volume, short (up to 5 minutes) event processing.
+- Use cases: order fulfilment, data processing pipelines, ML workflows, web application flows.
 
-## Limites et quotas
+## Limits and quotas
 
-- Standard : jusqu'à 1 an. Express : jusqu'à 5 minutes.
+- Standard: up to 1 year. Express: up to 5 minutes.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Express : moins cher, pour du volume élevé.
+- Express: cheaper, for high-volume workloads.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Orchestrer plusieurs étapes/services → Step Functions ; découper un job long qui dépasse 15 min de [[lambda]].
+- Orchestrate several steps/services -> Step Functions; split a job that exceeds [[lambda]]'s 15 minutes.
 
-## Pièges d'examen
+## Exam traps
 
-- Standard = exactly-once jusqu'à 1 an ; Express = volume élevé et court.
+- Standard = exactly-once up to 1 year; Express = high volume and short.
 
-## Voir aussi
+## See also
 
 [[lambda]], [[api-gateway]]

@@ -4,33 +4,33 @@ tags:
   - saa-c03
   - comparatif
   - performant
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "14. Data and analytics"
+notion-module: "14. Data and analytics"
 ---
 
 # Kinesis Data Streams vs Amazon MSK
 
-AWS natif ou Kafka.
+AWS-native or Kafka.
 
 | Kinesis Data Streams | Amazon MSK |
 | --- | --- |
-| Records jusqu'à 10 MiB, typiquement petits | 1 MB par défaut, configurable |
-| Streams avec shards (split/merge) | Topics avec partitions (ajout seulement) |
-| TLS en transit | Plaintext ou TLS |
-| KMS au repos | KMS au repos |
-| Rétention jusqu'à 365 j | Rétention aussi longue que le stockage payé |
-| API AWS | API Kafka, portable |
+| Records up to 10 MiB, typically small | 1 MB by default, configurable |
+| Streams with shards (split/merge) | Topics with partitions (add only) |
+| TLS in flight | Plaintext or TLS |
+| KMS at rest | KMS at rest |
+| Retention up to 365 d | Retention as long as the storage you pay for |
+| AWS API | Kafka API, portable |
 
-## Règle de décision
+## Decision rule
 
-- Besoin de l'API Kafka / portabilité → MSK.
-- Intégration AWS native simple → Kinesis.
+- Need the Kafka API / portability -> MSK.
+- Simple AWS-native integration -> Kinesis.
 
-## Pièges d'examen
+## Exam traps
 
-- Rien de précis dans mes notes Notion.
+- Nothing specific in my Notion notes.
 
-## Voir aussi
+## See also
 
-[[kinesis-et-firehose]], [[streaming-analytique]]
+[[kinesis-and-firehose]], [[streaming-analytics]]

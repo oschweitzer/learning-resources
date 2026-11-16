@@ -5,56 +5,56 @@ tags:
   - performant
   - resilient
   - cost
-statut: a-revoir
+status: to-review
 source: notion
-module-notion: "12. Serverless"
+notion-module: "12. Serverless"
 ---
 
 # AWS Lambda
 
-## À quoi ça sert
+## What it is for
 
-Fonctions à la demande, scaling automatique, intégrées à la plupart des services AWS (monitoring CloudWatch).
+On-demand functions with automatic scaling, integrated with most AWS services (monitoring through CloudWatch).
 
-## Concepts clés
+## Key concepts
 
-- EC2 = serveur virtuel limité par RAM/CPU, en continu. Lambda = fonction limitée par la durée, à la demande, scale auto.
-- Runtimes : Node.js, Python, Java, .NET, Ruby, runtimes custom (Rust, Go), images de conteneur implémentant la Lambda Runtime API. Docker arbitraire → ECS/Fargate.
-- **Invocation** : *synchrone* (API Gateway, ALB, SDK ; si throttlé → 429, l'appelant réessaie) ; *asynchrone* (S3, SNS, EventBridge ; queue + retries jusqu'à 6 h, échecs vers DLQ ou on-failure destination) ; *event source mapping* (SQS, Kinesis, DynamoDB Streams : Lambda poll par lots).
-- **Reserved concurrency** : garantit et plafonne une fonction (sans elle, une fonction peut throttler toutes les autres). **Provisioned concurrency** : environnements pré-initialisés, plus de cold start, payant, scalable via Application Auto Scaling. **SnapStart** (Java, Python, .NET) : snapshot après init, jusqu'à 10x plus rapide, sans coût.
-- **Cold start** : nouvel environnement charge le code et exécute l'init hors handler.
-- **Dans un VPC** : par défaut Lambda tourne dans un VPC AWS (internet oui, ressources privées non). Attachée à votre VPC (subnets + SGs) → ENI ; accès internet via **NAT gateway** ; services AWS via VPC endpoints (DynamoDB : gateway endpoint gratuit). Beaucoup de connexions DB → **RDS Proxy** (la fonction doit être dans le VPC).
-- RDS PostgreSQL / Aurora MySQL peuvent invoquer Lambda depuis la base. Les RDS event notifications portent sur l'instance, pas sur les données (SNS/EventBridge).
-- Nouveautés : Lambda Managed Instances (EC2 géré par Lambda), durable functions (checkpoint/reprise). Bon à connaître ; l'examen reste sur les limites classiques.
-- **Edge** : CloudFront Functions (JS ; millions req/s ; < 1 ms ; 2 MB ; sans réseau/fichiers ; ~1/6 du coût de Lambda@Edge ; viewer request/response ; normalisation de cache key, headers, rewrites d'URL, auth simple) vs Lambda@Edge (Node.js/Python ; milliers req/s ; jusqu'à 30 s ; 128 MB viewer, jusqu'à 10 GB origin ; réseau + fichiers ; viewer et origin ; logique longue, services externes, body).
+- EC2 = a virtual server limited by RAM/CPU, running continuously. Lambda = a virtual function limited by duration, on demand, auto-scaled.
+- Runtimes: Node.js, Python, Java, .NET, Ruby, custom runtimes (Rust, Go), container images implementing the Lambda Runtime API. Arbitrary Docker images -> ECS/Fargate.
+- **Invocation**: *synchronous* (API Gateway, ALB, SDK; when throttled -> 429, the caller retries); *asynchronous* (S3, SNS, EventBridge; queued, retries up to 6 hours, failures go to a DLQ or on-failure destination); *event source mapping* (SQS, Kinesis, DynamoDB Streams: Lambda polls in batches).
+- **Reserved concurrency**: guarantees and caps one function (without it a runaway function can throttle all others). **Provisioned concurrency**: pre-initialised environments, no cold starts, paid, scalable with Application Auto Scaling. **SnapStart** (Java, Python, .NET): snapshot after init, up to 10x faster starts at no extra cost.
+- **Cold start**: a new execution environment loads code and runs initialisation outside the handler.
+- **In a VPC**: by default Lambda runs in an AWS-owned VPC (internet yes, your private resources no). Attached to your VPC (subnets + SGs) -> ENIs; internet via **NAT gateway**; AWS services via VPC endpoints (DynamoDB: free gateway endpoint). Many database connections -> **RDS Proxy** (the function must be in the VPC).
+- RDS for PostgreSQL and Aurora MySQL can invoke Lambda from inside the database. RDS event notifications report on the instance, not the data (SNS/EventBridge).
+- Newer options: Lambda Managed Instances (EC2 managed by Lambda), durable functions (checkpoint/resume). Good to know; the exam still revolves around the classic limits.
+- **Edge**: CloudFront Functions (JavaScript; millions of req/s; < 1 ms; 2 MB; no network/file access; ~1/6 the cost of Lambda@Edge; viewer request/response; cache key normalisation, header manipulation, URL rewrites, simple auth) vs Lambda@Edge (Node.js/Python; thousands of req/s; up to 30 s; 128 MB for viewer, up to 10 GB for origin events; network + file access; viewer and origin; longer logic, external services, body access).
 
-## Limites et quotas
+## Limits and quotas
 
-- Mémoire 128 MB à 10 240 MB (CPU proportionnel).
-- Timeout **900 s (15 min)**, non extensible.
-- /tmp 512 MB à 10 240 MB.
-- Variables d'environnement 4 KB.
-- Concurrency 1 000 par région par défaut (augmentable ; nouveaux comptes plus bas).
-- Package 50 MB zippé, 250 MB décompressé ; images de conteneur jusqu'à 10 GB.
-- Payload : 6 MB synchrone, 1 MB asynchrone, 200 MB en réponse streamée.
+- Memory 128 MB to 10,240 MB (CPU grows with memory).
+- Timeout **900 s (15 min)**, cannot be raised.
+- /tmp 512 MB to 10,240 MB.
+- Environment variables 4 KB.
+- Concurrency 1,000 per region by default (can be raised; new accounts start lower).
+- Package 50 MB zipped, 250 MB unzipped; container images up to 10 GB.
+- Payload: 6 MB synchronous, 1 MB asynchronous, 200 MB streamed response.
 
-## Tarification (logique)
+## Pricing (logic)
 
-- Paiement par requête et par durée (incréments de 1 ms) ; free tier mensuel (1 million de requêtes, 400 000 GB-secondes).
-- Provisioned concurrency : payant. SnapStart : sans coût.
+- Pay per request and per duration (1 ms increments); monthly free tier (1 million requests, 400,000 GB-seconds).
+- Provisioned concurrency: paid. SnapStart: no extra cost.
 
-## Quand l'utiliser vs alternatives
+## When to use it vs alternatives
 
-- Job > 15 min, > 10 GB RAM ou grosse image → ECS/Fargate ou AWS Batch ([[lambda-vs-batch]]). Orchestration → [[step-functions]]. API → [[api-gateway]].
+- Job > 15 min, > 10 GB RAM or big image -> ECS/Fargate or AWS Batch ([[lambda-vs-batch]]). Orchestration -> [[step-functions]]. API -> [[api-gateway]].
 
-## Pièges d'examen
+## Exam traps
 
-- Un job de plus de 15 minutes ne tourne pas sur Lambda.
-- Une fonction qui affame les autres = reserved concurrency.
-- Cold starts = provisioned concurrency ou SnapStart.
-- Lambda en VPC a besoin d'une NAT pour internet.
-- Certificats edge-optimised dans us-east-1.
+- A job longer than 15 minutes cannot run on Lambda.
+- One function starving others = reserved concurrency.
+- Cold starts = provisioned concurrency or SnapStart.
+- Lambda in a VPC needs a NAT gateway for internet.
+- Edge-optimised API certificates in us-east-1.
 
-## Voir aussi
+## See also
 
 [[lambda-vs-batch]], [[api-gateway]], [[step-functions]], [[dynamodb]], [[rds]], [[sqs]], [[cloudfront]], [[ecs-fargate-ecr]]
