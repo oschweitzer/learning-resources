@@ -9,6 +9,7 @@
 - [Nestjs](nestjs_lesson.md)
 - [React](react_lesson.md)
 - [GraphQL](graphql-lesson.md)
+- [AWS Solutions Architect Associate (SAA-C03)](aws/saa-c03/README.md) - Obsidian notes and [Anki cards](anki/README.md)
 
 ## External resources
 
