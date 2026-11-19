@@ -1,0 +1,647 @@
+#separator:tab
+#html:false
+#guid column:1
+#notetype column:2
+#deck column:3
+#tags column:6
+e0d8c81fb4530ef7	Basic (with Why)	AWS::SAA-C03	Which four criteria drive the choice of a region?	Compliance, latency, availability of the services you need, and price.	aws saa-c03 global-infrastructure secure	
+fa10395498a1291d	Basic (with Why)	AWS::SAA-C03	How many AZs does a region have?	Usually three (at least three, at most six).	aws saa-c03 global-infrastructure secure	
+2c1142381bcd4b00	Basic (with Why)	AWS::SAA-C03	Who patches the OS of an EC2 instance, and who patches the engine of an RDS database?	EC2 OS: you. RDS engine: AWS.	aws saa-c03 global-infrastructure secure	In a managed service AWS covers its part; network, encryption and users remain yours.
+9b00809493da0c08	Basic (with Why)	AWS::SAA-C03	Which service puts AWS racks in your own data centre?	AWS Outposts.	aws saa-c03 global-infrastructure secure	
+3b34f2bb1f619829	Basic (with Why)	AWS::SAA-C03	Which service puts compute inside 5G networks?	AWS Wavelength.	aws saa-c03 global-infrastructure secure	
+a8f98c4973dbda6c	Basic (with Why)	AWS::SAA-C03	Which service puts compute close to large cities?	Local Zones.	aws saa-c03 global-infrastructure secure	
+9fd170c48ba4ac5f	Basic (with Why)	AWS::SAA-C03	Does data leave a region automatically?	No, never, unless you move it.	aws saa-c03 global-infrastructure secure	A compliance and data residency argument.
+2bdebc78326b46b6	Basic (with Why)	AWS::SAA-C03	Name three global AWS services.	IAM, Route 53, CloudFront (and WAF when used with CloudFront).	aws saa-c03 global-infrastructure secure	
+415e7a1a25b4d5b5	Cloze	AWS::SAA-C03	Security {{c1::of}} the cloud is AWS's job; security {{c2::in}} the cloud is the customer's job.		aws saa-c03 global-infrastructure secure	
+0b9d167f6fe3ec12	Basic (with Why)	AWS::SAA-C03	An EC2 application needs to read from S3. How do you give it access?	Attach an IAM role (instance profile) with a least-privilege policy.	aws saa-c03 iam secure	Never copy access keys onto the instance.
+ef67946141520ca3	Basic (with Why)	AWS::SAA-C03	Can an IAM group contain another group?	No, users only.	aws saa-c03 iam secure	
+d85b123bffa44936	Basic (with Why)	AWS::SAA-C03	A policy allows s3:*, another denies s3:DeleteObject. Can the user delete objects?	No. An explicit Deny always wins.	aws saa-c03 iam secure	
+06f915e046b4a33a	Basic (with Why)	AWS::SAA-C03	Which tool tells you which services a user actually used, and when?	IAM Access Advisor.	aws saa-c03 iam secure	The credentials report is account-wide and focuses on credential status.
+7abf4b3e8b0ebe5d	Basic (with Why)	AWS::SAA-C03	Which tool lists the status of passwords, keys and MFA for every user?	The IAM credentials report.	aws saa-c03 iam secure	
+fb18b8e39a73d0a4	Basic (with Why)	AWS::SAA-C03	Which tool finds resources shared outside your zone of trust?	IAM Access Analyzer.	aws saa-c03 iam secure	
+61e158c8283588ce	Basic (with Why)	AWS::SAA-C03	Which Version value goes in an IAM policy?	2012-10-17.	aws saa-c03 iam secure	
+a7a7219f05b4c6c0	Basic (with Why)	AWS::SAA-C03	In which type of policy does the Principal element appear?	Resource-based policies (e.g. a bucket policy).	aws saa-c03 iam secure	
+e4d87147963f2bda	Basic (with Why)	AWS::SAA-C03	Who are the credentials of an IAM role for?	AWS services, people or other accounts (via STS); they are temporary.	aws saa-c03 iam secure	
+c1ad3bb3bd633ff4	Basic (with Why)	AWS::SAA-C03	What should you do with the root user?	Use it only for account-level tasks, enable MFA, never create access keys.	aws saa-c03 iam secure	
+f166d0fda6c11412	Cloze	AWS::SAA-C03	IAM policies follow the principle of {{c1::least privilege}}; an {{c2::explicit Deny}} always wins.		aws saa-c03 iam secure	
+a057c7155915d3de	Basic (with Why)	AWS::SAA-C03	A nightly batch job can restart from a checkpoint. Cheapest option?	Spot Instances (ideally through a fleet with price-capacity-optimized).	aws saa-c03 ec2 performant cost resilient	
+1d67cdbc7264359f	Basic (with Why)	AWS::SAA-C03	Windows Server licences counted per physical core: which option?	Dedicated Hosts.	aws saa-c03 ec2 performant cost resilient	They expose sockets and cores for licence compliance.
+048979496949a4a9	Basic (with Why)	AWS::SAA-C03	Guaranteed capacity in one AZ for two weeks, no long commitment?	An On-Demand Capacity Reservation.	aws saa-c03 ec2 performant cost resilient	Billed whether used or not, no discount.
+6d62775dfa28e5f8	Basic (with Why)	AWS::SAA-C03	Your EC2 app times out. Where do you look first?	Security groups (and NACLs).	aws saa-c03 ec2 performant cost resilient	Connection refused would point to the application.
+6eba217719f88163	Basic (with Why)	AWS::SAA-C03	Which placement group for a 200-node Cassandra cluster?	Partition.	aws saa-c03 ec2 performant cost resilient	
+c617956b83b5fc1e	Basic (with Why)	AWS::SAA-C03	What does hibernation require?	An encrypted EBS root volume large enough to store the RAM.	aws saa-c03 ec2 performant cost resilient	
+f2adc7948dfb972a	Basic (with Why)	AWS::SAA-C03	How do you stop a persistent Spot request from relaunching instances?	Cancel the Spot request first, then terminate the instances.	aws saa-c03 ec2 performant cost resilient	
+bdf239ff27ca08b4	Basic (with Why)	AWS::SAA-C03	Which Savings Plan also covers Fargate and Lambda?	Compute Savings Plans.	aws saa-c03 ec2 performant cost resilient	
+f276a247f30296f0	Basic (with Why)	AWS::SAA-C03	When does user data run?	Only once, at the very first start, as root.	aws saa-c03 ec2 performant cost resilient	
+f4749e0505b5c3ed	Basic (with Why)	AWS::SAA-C03	Secure shell access with no port 22, no key, no bastion?	Systems Manager Session Manager.	aws saa-c03 ec2 performant cost resilient	
+7a036486a3654c66	Basic (with Why)	AWS::SAA-C03	Which IMDS version should be enforced?	IMDSv2 (session tokens).	aws saa-c03 ec2 performant cost resilient	
+3d9ca3436bcbcd4c	Basic (with Why)	AWS::SAA-C03	How many Elastic IPs per region by default?	5.	aws saa-c03 ec2 performant cost resilient	
+d1111da9d60c2ede	Basic (with Why)	AWS::SAA-C03	Does a non-Elastic public IPv4 survive a stop/start?	No, it changes on every stop/start.	aws saa-c03 ec2 performant cost resilient	
+b6e38e1684740681	Cloze	AWS::SAA-C03	Placement group {{c1::Cluster}} = lowest latency, one AZ; {{c2::Spread}} = 7 instances per AZ; {{c3::Partition}} = hundreds of instances (Hadoop, Cassandra, Kafka).		aws saa-c03 ec2 performant cost resilient	
+02502a987eae2285	Cloze	AWS::SAA-C03	Instance family: t, m = {{c1::general purpose}}; c = {{c2::compute}}; r, x, z, u = {{c3::memory}}; i, d, h = {{c4::storage}}.		aws saa-c03 ec2 performant cost resilient	
+9a39102734124101	Basic (with Why)	AWS::SAA-C03	How do you move an EBS volume from eu-west-3a to eu-west-3b?	Snapshot it, then create a new volume from the snapshot in eu-west-3b.	aws saa-c03 ebs performant resilient cost	
+faeffb55326e2bf9	Basic (with Why)	AWS::SAA-C03	A database needs 150,000 IOPS on one volume. Which type?	io2 Block Express.	aws saa-c03 ebs performant resilient cost	gp3 stops at 80,000 IOPS.
+9e7bdc7a69289142	Basic (with Why)	AWS::SAA-C03	Which EBS types can be boot volumes?	SSD types: gp2, gp3, io1, io2 (not st1 or sc1).	aws saa-c03 ebs performant resilient cost	
+bcbfcf90775bc561	Basic (with Why)	AWS::SAA-C03	How do you encrypt an existing unencrypted EBS volume?	Snapshot, copy the snapshot with encryption, create a volume from it, attach it.	aws saa-c03 ebs performant resilient cost	
+8219d0d8fc8dccfe	Basic (with Why)	AWS::SAA-C03	What protects snapshots from accidental deletion?	The Recycle Bin (retention from 1 day to 1 year).	aws saa-c03 ebs performant resilient cost	
+5e43c4b1f0041a57	Basic (with Why)	AWS::SAA-C03	Which EBS types support Multi-Attach?	io1 and io2 only.	aws saa-c03 ebs performant resilient cost	Up to 16 Nitro instances, same AZ.
+7b266429e2b68854	Basic (with Why)	AWS::SAA-C03	Default EBS type for boot, dev/test and most databases?	gp3.	aws saa-c03 ebs performant resilient cost	
+e04af459435a2900	Basic (with Why)	AWS::SAA-C03	Which EBS type for cheap sequential big-data throughput?	st1 (HDD). sc1 for cold data.	aws saa-c03 ebs performant resilient cost	
+efc9639d2a1bbe55	Basic (with Why)	AWS::SAA-C03	Delete on termination: default for the root volume?	On (off for additional volumes).	aws saa-c03 ebs performant resilient cost	
+2866021fa1f3e971	Basic (with Why)	AWS::SAA-C03	What is Fast Snapshot Restore for?	Pre-initialising a snapshot so the first reads have no latency penalty.	aws saa-c03 ebs performant resilient cost	Expensive.
+ae1435f7463a21db	Basic (with Why)	AWS::SAA-C03	How much cheaper is the snapshot archive tier and how long does a restore take?	~75% cheaper; 24 to 72 hours to restore.	aws saa-c03 ebs performant resilient cost	
+a840082f831cf2af	Cloze	AWS::SAA-C03	EBS Multi-Attach = {{c1::io1 and io2}} only, up to {{c2::16}} Nitro instances, same {{c3::AZ}}.		aws saa-c03 ebs performant resilient cost	
+7a8954012a308eb9	Basic (with Why)	AWS::SAA-C03	What happens to instance store data when you stop the instance?	It is lost.	aws saa-c03 ami-and-instance-store performant resilient	
+b0e9f6d94aaffc97	Basic (with Why)	AWS::SAA-C03	Is an AMI regional or global?	Regional; it can be copied to other regions.	aws saa-c03 ami-and-instance-store performant resilient	
+4e404596901c90be	Basic (with Why)	AWS::SAA-C03	How do you shorten the boot time of ASG instances?	Bake the software into a golden AMI (and use warm pools if needed).	aws saa-c03 ami-and-instance-store performant resilient	
+e2b7552a415ab60b	Basic (with Why)	AWS::SAA-C03	Which storage for a very fast scratch cache whose loss is acceptable?	Instance store.	aws saa-c03 ami-and-instance-store performant resilient	
+d3acca26d32f6319	Basic (with Why)	AWS::SAA-C03	Why stop the instance before creating an AMI?	To guarantee data integrity.	aws saa-c03 ami-and-instance-store performant resilient	
+43c7384c54dd7be8	Basic (with Why)	AWS::SAA-C03	What does creating an AMI create on the storage side?	EBS snapshots.	aws saa-c03 ami-and-instance-store performant resilient	
+6dbc7d3cc6f1d016	Basic (with Why)	AWS::SAA-C03	Twenty Linux web servers across three AZs must share uploaded files. What do you use?	Amazon EFS (regional), mounted on every instance.	aws saa-c03 efs performant resilient	
+9ae05facef12c91e	Basic (with Why)	AWS::SAA-C03	Which EFS throughput mode fits a spiky, unpredictable workload?	Elastic throughput.	aws saa-c03 efs performant resilient	
+48c5790b852ff07f	Basic (with Why)	AWS::SAA-C03	Does EFS work with Windows instances?	No, Linux/POSIX only.	aws saa-c03 efs performant resilient	For Windows: FSx for Windows File Server.
+84d3725f989b5e01	Basic (with Why)	AWS::SAA-C03	Which EFS performance mode should you recommend?	General Purpose (Max I/O is legacy).	aws saa-c03 efs performant resilient	
+5ab45510485cddb9	Basic (with Why)	AWS::SAA-C03	Which EFS option for cheaper dev/backup?	One Zone (with IA: > 90% savings).	aws saa-c03 efs performant resilient	
+5823c108f375b6c2	Basic (with Why)	AWS::SAA-C03	How do you automatically move rarely used EFS files to cheaper storage?	A lifecycle policy to Infrequent Access / Archive.	aws saa-c03 efs performant resilient	
+c1220b0960de472c	Basic (with Why)	AWS::SAA-C03	Which persistent shared storage for Fargate tasks across several AZs?	EFS.	aws saa-c03 efs performant resilient	
+69f24e238b0508a4	Basic (with Why)	AWS::SAA-C03	Route /api to one target group and /images to another. Which load balancer?	ALB, with path-based routing rules.	aws saa-c03 elb resilient performant	
+e1ea2ef5d8b45469	Basic (with Why)	AWS::SAA-C03	A client must allowlist fixed IPs for your HTTP service. What do you put in front?	An NLB (static IP per AZ), possibly in front of an ALB, or Global Accelerator.	aws saa-c03 elb resilient performant	
+6a436d70e2a7aa84	Basic (with Why)	AWS::SAA-C03	How does a backend behind an ALB know the client IP?	Through the X-Forwarded-For header.	aws saa-c03 elb resilient performant	
+d41667eecb2b8a10	Basic (with Why)	AWS::SAA-C03	Inspect all traffic with a fleet of third-party virtual firewalls. Which service?	Gateway Load Balancer (GENEVE, port 6081).	aws saa-c03 elb resilient performant	
+40eca4eb786f397a	Basic (with Why)	AWS::SAA-C03	Is cross-zone load balancing on by default for an NLB, and is it free?	No, it is off by default and inter-AZ data is charged when you turn it on.	aws saa-c03 elb resilient performant	On an ALB it is on and free.
+5c863874c98b3076	Basic (with Why)	AWS::SAA-C03	How do you host three HTTPS domains with three certificates behind one load balancer?	An ALB or NLB with SNI and one certificate per domain.	aws saa-c03 elb resilient performant	
+f13c4af173519a15	Basic (with Why)	AWS::SAA-C03	Default deregistration delay?	300 seconds (0 to 3,600).	aws saa-c03 elb resilient performant	
+910d4fdfa3196c4d	Basic (with Why)	AWS::SAA-C03	Which IP does an ALB have?	No static IP: only a fixed DNS name.	aws saa-c03 elb resilient performant	
+4fbd5381d0eedb8c	Basic (with Why)	AWS::SAA-C03	Which LB keeps the client source IP?	The NLB.	aws saa-c03 elb resilient performant	
+5fae3555d361c0c7	Basic (with Why)	AWS::SAA-C03	Why avoid sticky sessions?	They can unbalance the load; prefer a stateless app with sessions in ElastiCache/DynamoDB.	aws saa-c03 elb resilient performant	
+9c06816b760c928b	Cloze	AWS::SAA-C03	ALB = layer {{c1::7}}; NLB = layer {{c2::4}}; GWLB = layer {{c3::3}}.		aws saa-c03 elb resilient performant	
+b780aaa6a20aed66	Basic (with Why)	AWS::SAA-C03	The ASG must keep about 1,000 requests per instance. Which policy and metric?	Target tracking on RequestCountPerTarget.	aws saa-c03 auto-scaling resilient cost performant	
+920deb255fcc7465	Basic (with Why)	AWS::SAA-C03	Traffic doubles every Monday at 9:00. How do you prepare?	Scheduled scaling, or predictive scaling if the pattern is regular.	aws saa-c03 auto-scaling resilient cost performant	
+899dd8c76939d19d	Basic (with Why)	AWS::SAA-C03	New instances take ten minutes to be ready. How do you shorten it?	Bake a golden AMI with the software pre-installed, and use warm pools if needed.	aws saa-c03 auto-scaling resilient cost performant	
+a36f8a6cad254220	Basic (with Why)	AWS::SAA-C03	Does an ASG cost anything?	No, it is free; you pay for the instances.	aws saa-c03 auto-scaling resilient cost performant	
+8efe490e9f3f0e93	Basic (with Why)	AWS::SAA-C03	Which policy is the simplest and the default?	Target tracking.	aws saa-c03 auto-scaling resilient cost performant	
+6271a8f0730d8e29	Basic (with Why)	AWS::SAA-C03	What is a lifecycle hook for?	Pausing the instance (pending/terminating) to act: install software, copy logs before termination.	aws saa-c03 auto-scaling resilient cost performant	
+d5d6972b99db2f41	Basic (with Why)	AWS::SAA-C03	Default cooldown value?	300 seconds.	aws saa-c03 auto-scaling resilient cost performant	
+17d3214476379775	Basic (with Why)	AWS::SAA-C03	What replaced launch configurations?	Launch templates (launch configurations are deprecated).	aws saa-c03 auto-scaling resilient cost performant	
+71df5b09a5d81215	Basic (with Why)	AWS::SAA-C03	How can the ASG react to the backlog of an SQS queue?	A custom CloudWatch metric (backlog per instance) for a scaling policy.	aws saa-c03 auto-scaling resilient cost performant	
+c7e3a9257b179867	Basic (with Why)	AWS::SAA-C03	Reporting queries slow down production. What do you add?	A read replica, and point the reporting tool at its endpoint.	aws saa-c03 rds resilient performant secure	
+395d66d4c1f8fa61	Basic (with Why)	AWS::SAA-C03	Is Multi-AZ replication synchronous or asynchronous?	Synchronous; read replicas are asynchronous.	aws saa-c03 rds resilient performant secure	
+29fb88c1e728f54a	Basic (with Why)	AWS::SAA-C03	How do you encrypt an existing unencrypted RDS database?	Snapshot, copy the snapshot with encryption, restore a new encrypted database, switch the app.	aws saa-c03 rds resilient performant secure	
+a7ccbd45064c1cc5	Basic (with Why)	AWS::SAA-C03	Maximum RDS automated backup retention?	35 days.	aws saa-c03 rds resilient performant secure	
+dc981c64dbebbd73	Basic (with Why)	AWS::SAA-C03	Hundreds of Lambda functions exhaust database connections. Fix?	Put RDS Proxy between Lambda and the database.	aws saa-c03 rds resilient performant secure	
+2f11547c2854ba39	Basic (with Why)	AWS::SAA-C03	Is read replica failover automatic?	No, manual promotion; automatic failover is Multi-AZ.	aws saa-c03 rds resilient performant secure	
+40673dbbf6d5468d	Basic (with Why)	AWS::SAA-C03	Is the standby of a Multi-AZ instance readable?	No (except Multi-AZ DB clusters with 2 readable standbys).	aws saa-c03 rds resilient performant secure	
+269a55f7e53cc056	Basic (with Why)	AWS::SAA-C03	Maximum number of RDS read replicas?	15.	aws saa-c03 rds resilient performant secure	
+296389920e915e94	Basic (with Why)	AWS::SAA-C03	Can you SSH into an RDS instance?	No, except with RDS Custom.	aws saa-c03 rds resilient performant secure	
+656982d987aaaed8	Basic (with Why)	AWS::SAA-C03	What does restoring a backup/snapshot do?	It always creates a new database.	aws saa-c03 rds resilient performant secure	
+21c8372c95f8bd30	Basic (with Why)	AWS::SAA-C03	Does going from Single-AZ to Multi-AZ cause downtime?	No: snapshot, restore in the other AZ, synchronous replication.	aws saa-c03 rds resilient performant secure	
+a3b41efc334882e7	Basic (with Why)	AWS::SAA-C03	Which RDS option gives access to the OS of an Oracle or SQL Server database?	RDS Custom.	aws saa-c03 rds resilient performant secure	
+4f7844d390429250	Basic (with Why)	AWS::SAA-C03	You need a staging copy of a 2 TB Aurora production database quickly. What do you use?	Aurora database cloning (copy-on-write).	aws saa-c03 aurora resilient performant	
+eb65123fef01513a	Basic (with Why)	AWS::SAA-C03	Which Aurora option fits an internal tool used a few hours a week with unpredictable spikes?	Aurora Serverless v2.	aws saa-c03 aurora resilient performant	
+b4b65d0b15a48aad	Basic (with Why)	AWS::SAA-C03	How many copies of the data does Aurora keep, across how many AZs?	6 copies across 3 AZs (writes 4/6, reads 3/6).	aws saa-c03 aurora resilient performant	
+418b31ddec72f526	Basic (with Why)	AWS::SAA-C03	Which Aurora endpoint spreads reads across replicas?	The reader endpoint.	aws saa-c03 aurora resilient performant	
+372f52533fac9b7f	Basic (with Why)	AWS::SAA-C03	Cross-region DR, RPO ~1 s, RTO < 1 min?	Aurora Global Database.	aws saa-c03 aurora resilient performant	
+48309bed1cb5283d	Basic (with Why)	AWS::SAA-C03	How many secondary regions can Aurora Global Database have?	Up to 10 (read-only).	aws saa-c03 aurora resilient performant	
+b297a6b7571570fb	Basic (with Why)	AWS::SAA-C03	Which feature rewinds an Aurora MySQL cluster without restoring a backup?	Backtrack.	aws saa-c03 aurora resilient performant	
+678d74713467987a	Basic (with Why)	AWS::SAA-C03	How do you migrate a SQL Server app to Aurora with little code change?	Babelfish for Aurora PostgreSQL (understands T-SQL).	aws saa-c03 aurora resilient performant	
+200d03fbd28265a4	Basic (with Why)	AWS::SAA-C03	Can you disable Aurora automatic backups?	No (1 to 35 days, always on).	aws saa-c03 aurora resilient performant	
+33be4f30f5870698	Basic (with Why)	AWS::SAA-C03	Which endpoint reserves large replicas for analytics?	A custom endpoint.	aws saa-c03 aurora resilient performant	
+1392fb78f975a663	Cloze	AWS::SAA-C03	Aurora: writes need {{c1::4}} of 6 copies, reads need {{c2::3}} of 6 copies, spread over {{c3::3}} AZs.		aws saa-c03 aurora resilient performant	
+5931bd39898956ff	Basic (with Why)	AWS::SAA-C03	Which ElastiCache engine for a real-time gaming leaderboard?	Valkey or Redis OSS, using sorted sets.	aws saa-c03 elasticache performant	
+8eaeacecfc582efc	Basic (with Why)	AWS::SAA-C03	Lazy loading vs write-through: which one can serve stale data?	Lazy loading.	aws saa-c03 elasticache performant	
+cad898c96fa13c5e	Basic (with Why)	AWS::SAA-C03	Which ElastiCache engine has neither replication nor persistence?	Memcached.	aws saa-c03 elasticache performant	
+f3c3a91dac52576b	Basic (with Why)	AWS::SAA-C03	Does using a cache require changing the application?	Yes, code changes are required.	aws saa-c03 elasticache performant	
+ec8fea9f6c4483ac	Basic (with Why)	AWS::SAA-C03	Which pattern writes to the cache on every database write?	Write-through (no stale data, more writes).	aws saa-c03 elasticache performant	
+61415c9c457449ac	Basic (with Why)	AWS::SAA-C03	Which pattern reads the cache and falls back to the database on a miss?	Lazy loading (cache-aside).	aws saa-c03 elasticache performant	
+ff942ef36f9ec051	Basic (with Why)	AWS::SAA-C03	Which engine offers Multi-AZ with automatic failover?	Valkey / Redis OSS.	aws saa-c03 elasticache performant	
+e36e48eb36737a18	Basic (with Why)	AWS::SAA-C03	You want example.com (no www) to point to an ALB. Which record?	An alias A record. CNAME is not allowed at the apex.	aws saa-c03 route-53 resilient performant	
+b287f6e7242ed599	Basic (with Why)	AWS::SAA-C03	You are moving to a new server next week. What do you do with the TTL now?	Lower it, so the switch propagates quickly.	aws saa-c03 route-53 resilient performant	
+0e87c8439b0a738f	Basic (with Why)	AWS::SAA-C03	Send 10% of users to a new version. Which policy?	Weighted routing.	aws saa-c03 route-53 resilient performant	
+bb5549cc12710d9d	Basic (with Why)	AWS::SAA-C03	Users in Germany must only see the German site, whatever the latency. Which policy?	Geolocation, with a default record for other countries.	aws saa-c03 route-53 resilient performant	
+dd4dc083b5d5ddd6	Basic (with Why)	AWS::SAA-C03	How do you health-check a database in a private subnet?	Create a CloudWatch metric and alarm on it, then a Route 53 health check based on the alarm.	aws saa-c03 route-53 resilient performant	
+001c6a1889964be8	Basic (with Why)	AWS::SAA-C03	When does Route 53 consider an endpoint healthy?	When more than 18% of the health checkers report it healthy.	aws saa-c03 route-53 resilient performant	
+b65e47085cac68d0	Basic (with Why)	AWS::SAA-C03	On-premises servers must resolve records of a private hosted zone. What do you create?	A Route 53 Resolver inbound endpoint (over VPN or Direct Connect).	aws saa-c03 route-53 resilient performant	
+c71a98c6a34ba427	Basic (with Why)	AWS::SAA-C03	Your domain is registered at GoDaddy. Can Route 53 host its DNS?	Yes: public hosted zone + update the NS records at GoDaddy.	aws saa-c03 route-53 resilient performant	
+5f6adc56e5477cdf	Basic (with Why)	AWS::SAA-C03	Which policy for active-passive failover?	Failover (health check required on the primary).	aws saa-c03 route-53 resilient performant	
+243b1a1ab97f7d43	Basic (with Why)	AWS::SAA-C03	Can you alias the public DNS name of an EC2 instance?	No.	aws saa-c03 route-53 resilient performant	
+ad7c97349d8eb1a1	Basic (with Why)	AWS::SAA-C03	Which policy sends users to the region with the lowest latency?	Latency-based routing.	aws saa-c03 route-53 resilient performant	
+f77dc5552d85e5db	Basic (with Why)	AWS::SAA-C03	Why is Multi-value not a load balancer?	It returns up to 8 healthy values and the client picks one; there is no real balancing.	aws saa-c03 route-53 resilient performant	
+7a034b08733b577c	Cloze	AWS::SAA-C03	Alias: A/AAAA, {{c1::apex allowed}}, queries {{c2::free}}; CNAME: {{c3::forbidden}} at the apex.		aws saa-c03 route-53 resilient performant	
+5043dcd94d07f2da	Basic (with Why)	AWS::SAA-C03	Which storage class when access patterns are unknown?	S3 Intelligent-Tiering.	aws saa-c03 s3 secure resilient performant cost	
+707c7c56748b1b38	Basic (with Why)	AWS::SAA-C03	Cheapest class for compliance archives read once or twice a year with 48 hours acceptable?	S3 Glacier Deep Archive with Bulk retrieval.	aws saa-c03 s3 secure resilient performant cost	
+8ad50cbc710c7d32	Basic (with Why)	AWS::SAA-C03	What is required before setting up CRR?	Versioning on source and destination, and an IAM role for S3 replication.	aws saa-c03 s3 secure resilient performant cost	
+b4af6d0cded1b280	Basic (with Why)	AWS::SAA-C03	How do you replicate the objects that existed before replication was enabled?	S3 Batch Replication.	aws saa-c03 s3 secure resilient performant cost	
+cb17ceafc3951747	Basic (with Why)	AWS::SAA-C03	Uploads of 10 GB files are slow from distant countries. Two improvements?	Multipart upload and S3 Transfer Acceleration.	aws saa-c03 s3 secure resilient performant cost	
+74e1941d31702901	Basic (with Why)	AWS::SAA-C03	An app hits throttling errors when reading SSE-KMS objects. Why and how to fix?	KMS request quotas; use S3 Bucket Keys or request a KMS quota increase.	aws saa-c03 s3 secure resilient performant cost	
+60e6a01065d281fb	Basic (with Why)	AWS::SAA-C03	Regulators require that nobody, including root, can delete records for 7 years. What do you configure?	S3 Object Lock in compliance mode with a 7-year retention period.	aws saa-c03 s3 secure resilient performant cost	
+aaea5cb125d7f23f	Basic (with Why)	AWS::SAA-C03	A website in bucket A cannot load fonts from bucket B in the browser. Fix?	Add a CORS configuration on bucket B allowing the origin of bucket A.	aws saa-c03 s3 secure resilient performant cost	
+ff37305796094271	Basic (with Why)	AWS::SAA-C03	How do you let a user download one private object for 15 minutes?	Generate a pre-signed URL with a 15-minute expiry.	aws saa-c03 s3 secure resilient performant cost	
+b6759d59276204d3	Basic (with Why)	AWS::SAA-C03	What is the per-prefix request rate baseline?	3,500 writes and 5,500 reads per second per prefix.	aws saa-c03 s3 secure resilient performant cost	
+b923554b1a1d1566	Basic (with Why)	AWS::SAA-C03	Maximum size of an S3 object?	50 TB (since December 2025; previously 5 TB).	aws saa-c03 s3 secure resilient performant cost	Single PUT up to 5 GB, multipart mandatory above.
+2b92e442e9d26e34	Basic (with Why)	AWS::SAA-C03	Who can enable MFA Delete?	Only the root user, via the CLI (versioning required).	aws saa-c03 s3 secure resilient performant cost	
+fd8c961e2dd5ad84	Basic (with Why)	AWS::SAA-C03	Default encryption of new S3 objects?	SSE-S3 (AES-256).	aws saa-c03 s3 secure resilient performant cost	
+deca2b50ad35fcbe	Basic (with Why)	AWS::SAA-C03	Which SSE method requires HTTPS and sends the key on every request?	SSE-C.	aws saa-c03 s3 secure resilient performant cost	
+65931290a2d52b65	Basic (with Why)	AWS::SAA-C03	Is a delete of a specific version replicated by CRR?	Never, to protect against malicious deletes.	aws saa-c03 s3 secure resilient performant cost	
+30d6b0cd4d2f9129	Basic (with Why)	AWS::SAA-C03	Maximum pre-signed URL duration from the console? From the CLI/SDK?	12 hours; 7 days (604,800 s).	aws saa-c03 s3 secure resilient performant cost	
+2f3f8da5cae387a7	Basic (with Why)	AWS::SAA-C03	Where do you put the server access logs of a bucket?	In a bucket in the same region, never the monitored bucket.	aws saa-c03 s3 secure resilient performant cost	
+fe67b29157d66fad	Basic (with Why)	AWS::SAA-C03	Can Snowball import directly into S3 Glacier?	No: import to S3, then a lifecycle rule to Glacier.	aws saa-c03 s3 secure resilient performant cost	
+6802bf2ed60367e2	Basic (with Why)	AWS::SAA-C03	Which feature parallelises a download by fetching parts of an object?	Byte-range fetches.	aws saa-c03 s3 secure resilient performant cost	
+23cb8805a7df4596	Cloze	AWS::SAA-C03	S3 durability: {{c1::eleven nines}} (99.999999999%) for every class.		aws saa-c03 s3 secure resilient performant cost	
+ba1e10c72ddeb130	Cloze	AWS::SAA-C03	Minimum storage durations: IA = {{c1::30}} days; Glacier IR and Flexible = {{c2::90}} days; Deep Archive = {{c3::180}} days.		aws saa-c03 s3 secure resilient performant cost	
+a4ebb1861c89db94	Cloze	AWS::SAA-C03	Object Lock modes: {{c1::Compliance}} = nobody can delete; {{c2::Governance}} = override with special permissions.		aws saa-c03 s3 secure resilient performant cost	
+dc753569ecaf53ef	Basic (with Why)	AWS::SAA-C03	How do you serve a private S3 bucket worldwide without making it public?	CloudFront with Origin Access Control and a bucket policy that only allows the distribution.	aws saa-c03 cloudfront performant secure cost	
+15e6c523af36c193	Basic (with Why)	AWS::SAA-C03	Your app runs on an ALB in private subnets. How can CloudFront reach it without exposing it to the internet?	A CloudFront VPC origin.	aws saa-c03 cloudfront performant secure cost	
+e609a4a0f39d5317	Basic (with Why)	AWS::SAA-C03	You updated index.html but users still see the old version. Fix?	Create a cache invalidation for /index.html, or use versioned file names.	aws saa-c03 cloudfront performant secure cost	
+d03db1f8baab2d60	Basic (with Why)	AWS::SAA-C03	Content must not be served in a list of countries for licensing reasons. What do you use?	CloudFront geo restriction with a blocklist.	aws saa-c03 cloudfront performant secure cost	
+1f12103466847868	Basic (with Why)	AWS::SAA-C03	Failover between two S3 origins in two regions?	A CloudFront origin group.	aws saa-c03 cloudfront performant secure cost	
+6f3a767410623716	Basic (with Why)	AWS::SAA-C03	Which CloudFront feature restricts premium content to some users?	Signed URLs or signed cookies.	aws saa-c03 cloudfront performant secure cost	
+01d33e55e6f07811	Basic (with Why)	AWS::SAA-C03	CloudFront vs S3 CRR: which updates in near real time?	CRR; CloudFront serves cached content for the TTL.	aws saa-c03 cloudfront performant secure cost	
+93d4f8066d72138c	Basic (with Why)	AWS::SAA-C03	A multiplayer game uses UDP and needs fast failover between regions. Which service?	AWS Global Accelerator.	aws saa-c03 global-accelerator performant resilient	
+6fe3a09a01209cca	Basic (with Why)	AWS::SAA-C03	Why does Global Accelerator fail over faster than DNS?	Its two anycast IPs never change, so clients do not wait for DNS caches to expire.	aws saa-c03 global-accelerator performant resilient	
+b286f5dafb4eda84	Basic (with Why)	AWS::SAA-C03	How many static IPs does Global Accelerator give?	Two anycast IPs.	aws saa-c03 global-accelerator performant resilient	
+cb45bbb6b9aeb8ca	Basic (with Why)	AWS::SAA-C03	Which protocols does Global Accelerator handle?	Any TCP or UDP.	aws saa-c03 global-accelerator performant resilient	
+8e7c8ff8798ee57a	Basic (with Why)	AWS::SAA-C03	Does Global Accelerator cache content?	No, it proxies packets to the application.	aws saa-c03 global-accelerator performant resilient	
+fb0bee3ccf1d173b	Basic (with Why)	AWS::SAA-C03	A Windows app needs a shared drive with AD permissions, highly available. What do you pick?	FSx for Windows File Server in Multi-AZ.	aws saa-c03 fsx-and-s3-files performant	
+ae1c7f51f5936c80	Basic (with Why)	AWS::SAA-C03	An ML training job must read a 200 TB dataset from S3 at very high throughput. Which file system?	FSx for Lustre linked to the S3 bucket.	aws saa-c03 fsx-and-s3-files performant	
+ec8a27fce989dedd	Basic (with Why)	AWS::SAA-C03	Which FSx option is cheapest for a temporary processing job where data loss is acceptable?	FSx for Lustre scratch.	aws saa-c03 fsx-and-s3-files performant	
+2344269266729e6a	Basic (with Why)	AWS::SAA-C03	Which FSx supports NFS, SMB and iSCSI?	FSx for NetApp ONTAP.	aws saa-c03 fsx-and-s3-files performant	
+245d39f0f1b7877a	Basic (with Why)	AWS::SAA-C03	Which FSx for migrating ZFS workloads?	FSx for OpenZFS.	aws saa-c03 fsx-and-s3-files performant	
+4e20b82caf530ddc	Basic (with Why)	AWS::SAA-C03	Which service exposes an existing S3 bucket as an NFS file system?	Amazon S3 Files (April 2026).	aws saa-c03 fsx-and-s3-files performant	
+10a65053949fd66d	Basic (with Why)	AWS::SAA-C03	S3 Files on ECS: which compute modes?	Fargate and ECS Managed Instances, not the EC2 launch type.	aws saa-c03 fsx-and-s3-files performant	
+e1ea236e723e6a58	Basic (with Why)	AWS::SAA-C03	Which Lustre option for long-running processing with sensitive data?	Persistent file system (replicated within the AZ).	aws saa-c03 fsx-and-s3-files performant	
+c880fb8bf5ed9b90	Basic (with Why)	AWS::SAA-C03	On-premises servers need NFS shares whose files end up in S3, with local caching. Which gateway?	S3 File Gateway.	aws saa-c03 storage-gateway performant resilient	
+01b068b49bbbbf9c	Basic (with Why)	AWS::SAA-C03	The company wants to replace physical tapes but keep its backup software. Which gateway?	Tape Gateway.	aws saa-c03 storage-gateway performant resilient	
+fa1b56aa63aaadc8	Basic (with Why)	AWS::SAA-C03	Volume Gateway cached vs stored: where is the full dataset?	Cached: in AWS (recent data cached locally); stored: on premises, with backups to S3.	aws saa-c03 storage-gateway performant resilient	
+64cde3ee464d0f82	Basic (with Why)	AWS::SAA-C03	How do you deploy a gateway without a virtualisation platform?	A hardware appliance bought from AWS.	aws saa-c03 storage-gateway performant resilient	
+ed8a049f37c6b6e4	Basic (with Why)	AWS::SAA-C03	Which gateway presents iSCSI volumes?	Volume Gateway (cached or stored); Tape Gateway also presents an iSCSI virtual tape library.	aws saa-c03 storage-gateway performant resilient	
+1ff957b3ab98fafc	Basic (with Why)	AWS::SAA-C03	Partners upload invoices over SFTP. Which managed service writes them to S3?	AWS Transfer Family.	aws saa-c03 data-transfer performant cost	
+f0cc326809d13374	Basic (with Why)	AWS::SAA-C03	Migrate 50 TB from an on-premises NFS server weekly, keeping POSIX permissions. Which service?	AWS DataSync with an agent on premises.	aws saa-c03 data-transfer performant cost	
+8b9aa7ba48610510	Basic (with Why)	AWS::SAA-C03	Can Snowball import data directly into S3 Glacier?	No: it imports into S3, then a lifecycle rule moves data to Glacier.	aws saa-c03 data-transfer performant cost	
+2a915a2b7744742a	Basic (with Why)	AWS::SAA-C03	Decision rule for switching to Snowball?	When a network transfer would take more than a week.	aws saa-c03 data-transfer performant cost	
+b28733cf055050fb	Basic (with Why)	AWS::SAA-C03	Current status of Snowball Edge for new customers?	Closed since 7 November 2025; AWS recommends DataSync (online) or Data Transfer Terminal (physical).	aws saa-c03 data-transfer performant cost	
+883f8316dc1ebe91	Basic (with Why)	AWS::SAA-C03	Does DataSync need an agent between two AWS services?	No, the agent is only needed from on premises or another cloud.	aws saa-c03 data-transfer performant cost	
+3eab8845bb23f488	Basic (with Why)	AWS::SAA-C03	Which protocols does Transfer Family expose?	FTP, FTPS, SFTP (and AS2).	aws saa-c03 data-transfer performant cost	
+ff28e2e58a7a7deb	Basic (with Why)	AWS::SAA-C03	Which destinations does DataSync support?	S3 (any class), EFS and all FSx types.	aws saa-c03 data-transfer performant cost	
+17477329f18b10a5	Basic (with Why)	AWS::SAA-C03	Messages are processed twice by your workers. What do you check?	That the visibility timeout is shorter than the processing time: raise it or use ChangeMessageVisibility, and make processing idempotent.	aws saa-c03 sqs resilient performant	
+e54f103554a6d408	Basic (with Why)	AWS::SAA-C03	How do you cut the number of empty ReceiveMessage calls?	Enable long polling (up to 20 seconds).	aws saa-c03 sqs resilient performant	
+3b9de49112dec816	Basic (with Why)	AWS::SAA-C03	Orders from the same customer must be processed in order, without duplicates. Which service?	SQS FIFO with the customer ID as message group ID.	aws saa-c03 sqs resilient performant	
+ff7e3342d550e1c0	Basic (with Why)	AWS::SAA-C03	Where do messages go after failing five times?	To a dead-letter queue configured with maxReceiveCount of 5.	aws saa-c03 sqs resilient performant	
+c7c0e97271ec185c	Basic (with Why)	AWS::SAA-C03	Default SQS retention? Maximum?	4 days; 14 days.	aws saa-c03 sqs resilient performant	
+04dbc7561c423d07	Basic (with Why)	AWS::SAA-C03	Maximum size of an SQS message?	1 MiB (since August 2025).	aws saa-c03 sqs resilient performant	
+403192d10b835ef4	Basic (with Why)	AWS::SAA-C03	How do you send a message larger than the limit?	Store the payload in S3 and send a pointer.	aws saa-c03 sqs resilient performant	
+2c14ae788409cc51	Basic (with Why)	AWS::SAA-C03	Does a standard queue guarantee ordering?	No, best-effort ordering and at-least-once delivery.	aws saa-c03 sqs resilient performant	
+2b7ee504cbd7d6a3	Basic (with Why)	AWS::SAA-C03	Which CloudWatch metric to scale SQS consumers?	ApproximateNumberOfMessagesVisible (or backlog per instance).	aws saa-c03 sqs resilient performant	
+cf3da93ac4c8bff3	Basic (with Why)	AWS::SAA-C03	How do you reprocess DLQ messages after a fix?	Redrive to the source queue.	aws saa-c03 sqs resilient performant	
+e51db98d28897693	Basic (with Why)	AWS::SAA-C03	Which suffix for a FIFO queue name?	.fifo	aws saa-c03 sqs resilient performant	
+e34e9a0ceb5c982f	Cloze	AWS::SAA-C03	Default visibility timeout = {{c1::30 seconds}}; long polling = {{c2::1 to 20}} seconds; delay queue = {{c3::15 minutes}} max.		aws saa-c03 sqs resilient performant	
+4832591f97815e36	Basic (with Why)	AWS::SAA-C03	One upload event must trigger three independent processing pipelines. Pattern?	SNS fan-out to three SQS queues.	aws saa-c03 sns resilient performant	
+d0d234ff88142fd8	Basic (with Why)	AWS::SAA-C03	Why go through SNS to send the same S3 event to several queues?	S3 only allows one rule per event type and prefix: send to SNS, which fans out.	aws saa-c03 sns resilient performant	
+142a74cc87d6b688	Basic (with Why)	AWS::SAA-C03	How does an SNS subscriber receive only some messages?	A JSON filter policy on its subscription.	aws saa-c03 sns resilient performant	
+8321078638e6c368	Basic (with Why)	AWS::SAA-C03	Which types of SNS subscribers exist?	SQS, Lambda, Firehose, HTTP(S), email, SMS, mobile push.	aws saa-c03 sns resilient performant	
+47c7d0cb6dd2625c	Basic (with Why)	AWS::SAA-C03	What must you allow for an SNS topic to write to an SQS queue?	The SQS queue's access policy must allow the topic.	aws saa-c03 sns resilient performant	
+8c6d90f14992b3b4	Basic (with Why)	AWS::SAA-C03	Does SNS persist messages?	No, an undelivered message is lost.	aws saa-c03 sns resilient performant	
+796549ce52c7fe60	Basic (with Why)	AWS::SAA-C03	Ordered and deduplicated fan-out?	SNS FIFO topic + SQS FIFO.	aws saa-c03 sns resilient performant	
+840423a3ff4aa1a3	Basic (with Why)	AWS::SAA-C03	Clickstream data must be analysed in real time by two apps and kept for 7 days for replay. Which service?	Kinesis Data Streams.	aws saa-c03 kinesis-and-firehose resilient performant	
+29e25add96d305a8	Basic (with Why)	AWS::SAA-C03	You need to load IoT data into S3 as Parquet, without writing consumers. Which service?	Amazon Data Firehose with format conversion.	aws saa-c03 kinesis-and-firehose resilient performant	
+7430cfe71d1d0ea0	Basic (with Why)	AWS::SAA-C03	Write capacity of one provisioned Kinesis shard?	1 MB/s or 1,000 records per second in, 2 MB/s out.	aws saa-c03 kinesis-and-firehose resilient performant	
+8765da3364170b50	Basic (with Why)	AWS::SAA-C03	Maximum retention of Kinesis Data Streams?	365 days.	aws saa-c03 kinesis-and-firehose resilient performant	
+3e6994b385fedb74	Basic (with Why)	AWS::SAA-C03	Is Kinesis Data Streams real time or near real-time? And Firehose?	Data Streams: real time; Firehose: near real-time (buffering).	aws saa-c03 kinesis-and-firehose resilient performant	
+18cde80e5ae1d140	Basic (with Why)	AWS::SAA-C03	Which service guarantees ordering per partition key?	Kinesis Data Streams (per shard).	aws saa-c03 kinesis-and-firehose resilient performant	
+b36f2b82da363cae	Basic (with Why)	AWS::SAA-C03	Does Firehose allow replaying data?	No: no storage and no replay.	aws saa-c03 kinesis-and-firehose resilient performant	
+f08433a715899cf8	Basic (with Why)	AWS::SAA-C03	Which Kinesis mode needs no shard management?	On-demand (starts at 4 MB/s or 4,000 records/s).	aws saa-c03 kinesis-and-firehose resilient performant	
+5c865289833e6384	Basic (with Why)	AWS::SAA-C03	An on-premises app uses AMQP and must move to AWS with minimal changes. Which service?	Amazon MQ (RabbitMQ or ActiveMQ).	aws saa-c03 amazon-mq resilient	
+7466289dd816131d	Basic (with Why)	AWS::SAA-C03	Is Amazon MQ serverless?	No, it runs on servers and does not scale as SQS/SNS do.	aws saa-c03 amazon-mq resilient	
+38c282d03b2ad7cd	Basic (with Why)	AWS::SAA-C03	How does Amazon MQ achieve high availability?	An active and a standby broker across 2 AZs with shared storage (EFS for ActiveMQ).	aws saa-c03 amazon-mq resilient	
+00163a67d04ab823	Basic (with Why)	AWS::SAA-C03	Which protocols does Amazon MQ speak?	MQTT, AMQP, STOMP, OpenWire, WSS.	aws saa-c03 amazon-mq resilient	
+5ca771fae196c634	Basic (with Why)	AWS::SAA-C03	Run containers without managing servers at all. Which option?	ECS (or EKS) on Fargate.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+9e4a4c30cae1cde9	Basic (with Why)	AWS::SAA-C03	Two services in the same cluster need different S3 permissions. How?	Give each task definition its own ECS task role.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+2f34958cb0860485	Basic (with Why)	AWS::SAA-C03	Fargate tasks in three AZs must share persistent files. What do you mount?	Amazon EFS.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+440150a0f5f69344	Basic (with Why)	AWS::SAA-C03	Tasks are pending on the EC2 launch type because instances are full. Fix?	Use an ECS cluster capacity provider with an ASG so instances are added automatically.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+c992d23d6e56ad8d	Basic (with Why)	AWS::SAA-C03	How do you run a container every night at 2:00?	An EventBridge Scheduler rule that runs an ECS task.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+aec6ab6c0f99bf8a	Basic (with Why)	AWS::SAA-C03	Which LB for ECS with several tasks per instance?	ALB with dynamic port mapping.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+8f3ae43857b79930	Basic (with Why)	AWS::SAA-C03	Permission error when pulling an ECR image: what do you check?	The instance profile or task execution role.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+02fa379b7be34f6c	Basic (with Why)	AWS::SAA-C03	What is AWS's managed container image registry?	Amazon ECR (private or public).	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+0a5f4e8e12556429	Basic (with Why)	AWS::SAA-C03	Which metrics for ECS Service Auto Scaling?	Service average CPU, average memory, or ALB RequestCountPerTarget.	aws saa-c03 ecs-fargate-ecr resilient performant cost	
+fe38ebdfe763c45d	Basic (with Why)	AWS::SAA-C03	The company already runs Kubernetes on premises and wants the same tooling in AWS. Which service?	Amazon EKS.	aws saa-c03 eks resilient performant	
+f4f391e9ca7bedba	Basic (with Why)	AWS::SAA-C03	Which EKS storage option works with Fargate pods?	Amazon EFS through its CSI driver.	aws saa-c03 eks resilient performant	
+bdc827574af14ae6	Basic (with Why)	AWS::SAA-C03	Which EKS node type needs the least operations while keeping EC2 flexibility?	EKS Auto Mode.	aws saa-c03 eks resilient performant	
+3f22ba91a838238d	Basic (with Why)	AWS::SAA-C03	Managed node groups vs self-managed: who manages the ASG?	Managed: EKS; self-managed: you.	aws saa-c03 eks resilient performant	
+7d018e70c0909bee	Basic (with Why)	AWS::SAA-C03	Which storage backends does EKS support?	EBS, EFS, FSx for Lustre, FSx for NetApp ONTAP.	aws saa-c03 eks resilient performant	
+0f35fb01dbf8bb1d	Basic (with Why)	AWS::SAA-C03	A video job takes 40 minutes. Can it run in Lambda?	No (15-minute timeout): ECS on Fargate, AWS Batch, or Step Functions to split the work.	aws saa-c03 lambda performant resilient cost	
+b227966be2d72bbf	Basic (with Why)	AWS::SAA-C03	One Lambda function uses so much concurrency that others are throttled. Fix?	Set reserved concurrency to cap it (and to guarantee critical functions).	aws saa-c03 lambda performant resilient cost	
+ee7fe31741329ccb	Basic (with Why)	AWS::SAA-C03	A Java function has slow cold starts. Two options?	SnapStart (no extra cost) or provisioned concurrency.	aws saa-c03 lambda performant resilient cost	
+6b8960cbc51c41e9	Basic (with Why)	AWS::SAA-C03	A Lambda attached to private subnets cannot reach a public API. Why?	Private subnets need a NAT gateway (or a regional NAT gateway) for outbound internet.	aws saa-c03 lambda performant resilient cost	
+b3f2bb1f7eb3926d	Basic (with Why)	AWS::SAA-C03	Maximum timeout of a Lambda function?	900 seconds (15 minutes), cannot be raised.	aws saa-c03 lambda performant resilient cost	
+8055dc329539bbf4	Basic (with Why)	AWS::SAA-C03	Maximum memory of a Lambda function?	10,240 MB (CPU grows with memory).	aws saa-c03 lambda performant resilient cost	
+59868631cc2921cb	Basic (with Why)	AWS::SAA-C03	Default concurrency limit per region?	1,000, can be raised.	aws saa-c03 lambda performant resilient cost	
+5284a2b40073a80e	Basic (with Why)	AWS::SAA-C03	Synchronous vs asynchronous payload size?	6 MB synchronous; 1 MB asynchronous.	aws saa-c03 lambda performant resilient cost	
+999999292a5250a8	Basic (with Why)	AWS::SAA-C03	Rewrite URLs on every request at the edge with the lowest cost and latency?	CloudFront Functions.	aws saa-c03 lambda performant resilient cost	
+a2e2044f545b4bf2	Basic (with Why)	AWS::SAA-C03	What does the caller of a throttled synchronous Lambda receive?	A 429 error; it must retry.	aws saa-c03 lambda performant resilient cost	
+7893e36e26ba3b91	Basic (with Why)	AWS::SAA-C03	Private and free access for a VPC Lambda that reads DynamoDB?	A DynamoDB gateway VPC endpoint (instead of a NAT).	aws saa-c03 lambda performant resilient cost	
+73f7fca99966996d	Basic (with Why)	AWS::SAA-C03	Where does an asynchronous event go after retries fail?	To a DLQ or an on-failure destination.	aws saa-c03 lambda performant resilient cost	
+e01ed97c1faf2d43	Basic (with Why)	AWS::SAA-C03	For how long does Lambda retry an asynchronous invocation?	Up to 6 hours, with growing intervals.	aws saa-c03 lambda performant resilient cost	
+842f66e8ab519cc1	Cloze	AWS::SAA-C03	Lambda: timeout {{c1::15 minutes}}; memory {{c2::10,240 MB}}; synchronous payload {{c3::6 MB}}.		aws saa-c03 lambda performant resilient cost	
+068cc5267cc6cef5	Basic (with Why)	AWS::SAA-C03	Which DynamoDB mode for an app with unpredictable spikes?	On-demand capacity mode.	aws saa-c03 dynamodb resilient performant cost	
+8bc150104c3f9a6c	Basic (with Why)	AWS::SAA-C03	Read latency on DynamoDB must drop to microseconds without code changes. What do you add?	DAX (DynamoDB Accelerator).	aws saa-c03 dynamodb resilient performant cost	
+f91258fb73ba222c	Basic (with Why)	AWS::SAA-C03	Users in Europe and the US must write to the same table with low latency and zero data loss on a regional outage. What do you configure?	Global tables with multi-region strong consistency.	aws saa-c03 dynamodb resilient performant cost	
+31ff16d310d5c11b	Basic (with Why)	AWS::SAA-C03	Default mode of global tables?	Multi-region eventual consistency (usually 1 to 2 s).	aws saa-c03 dynamodb resilient performant cost	
+3532170707cbfe7d	Basic (with Why)	AWS::SAA-C03	Retention of DynamoDB Streams?	24 hours (Kinesis Data Streams for DynamoDB: up to 1 year).	aws saa-c03 dynamodb resilient performant cost	
+81f8e72865d633a7	Basic (with Why)	AWS::SAA-C03	Maximum DynamoDB PITR window?	35 days, restored into a new table.	aws saa-c03 dynamodb resilient performant cost	
+7c1f92846f84b7c4	Basic (with Why)	AWS::SAA-C03	How do you export a table to S3 without consuming read capacity?	Export to S3 (requires PITR).	aws saa-c03 dynamodb resilient performant cost	
+e7134f430f5e4e81	Basic (with Why)	AWS::SAA-C03	How do you automatically delete expired sessions?	DynamoDB TTL.	aws saa-c03 dynamodb resilient performant cost	
+3cca8eba337c5bae	Basic (with Why)	AWS::SAA-C03	Maximum size of a DynamoDB item?	400 KB.	aws saa-c03 dynamodb resilient performant cost	
+19c91c573eff610c	Basic (with Why)	AWS::SAA-C03	What must be enabled for global tables?	DynamoDB Streams.	aws saa-c03 dynamodb resilient performant cost	
+aa8488700bc0610c	Basic (with Why)	AWS::SAA-C03	Full-text search on DynamoDB data?	Streams -> Lambda -> Amazon OpenSearch Service.	aws saa-c03 dynamodb resilient performant cost	
+bb1b6c01ae773279	Basic (with Why)	AWS::SAA-C03	An API must only be reachable from inside your VPC. Which endpoint type?	Private API Gateway endpoint through an interface VPC endpoint.	aws saa-c03 api-gateway performant secure	
+362fd57a6fad996f	Basic (with Why)	AWS::SAA-C03	Default API Gateway endpoint type and what does it do?	Edge-optimised: requests go through CloudFront edges, the API stays in one region.	aws saa-c03 api-gateway performant secure	
+46ff9c9e40d8b324	Basic (with Why)	AWS::SAA-C03	Authenticate external mobile users on an API?	Cognito user pools (or a Lambda authoriser for third-party tokens).	aws saa-c03 api-gateway performant secure	
+712553af98a67f6f	Basic (with Why)	AWS::SAA-C03	Authenticate internal AWS callers?	IAM authorisation (SigV4).	aws saa-c03 api-gateway performant secure	
+fadfb41f4cc47d6c	Basic (with Why)	AWS::SAA-C03	Where must the certificate of an edge-optimised API Gateway endpoint be? A regional one?	us-east-1; the API's region.	aws saa-c03 api-gateway performant secure	
+d5d37d97fd719a61	Basic (with Why)	AWS::SAA-C03	Can API Gateway write to SQS or Kinesis without Lambda?	Yes, through a direct AWS service integration.	aws saa-c03 api-gateway performant secure	
+1f0dbbc435ff89c4	Basic (with Why)	AWS::SAA-C03	Which API type is cheaper and faster but has fewer features?	HTTP APIs (REST APIs have the most features).	aws saa-c03 api-gateway performant secure	
+602447742968c101	Basic (with Why)	AWS::SAA-C03	What is the difference between Standard and Express workflows?	Standard: up to 1 year, exactly-once; Express: cheaper, high volume, up to 5 min.	aws saa-c03 step-functions resilient	
+4f781afc9877ce9e	Basic (with Why)	AWS::SAA-C03	Which service orchestrates a workflow with a human approval step?	AWS Step Functions.	aws saa-c03 step-functions resilient	
+698896d13dba5910	Basic (with Why)	AWS::SAA-C03	How do you work around Lambda's 15-minute limit with several steps?	Step Functions to split the work (or ECS/Fargate, Batch).	aws saa-c03 step-functions resilient	
+61378abd24e2a032	Basic (with Why)	AWS::SAA-C03	Which elements can a Step Functions workflow contain?	Sequence, parallel, choice, retries, timeouts, error handling, waits, human approval.	aws saa-c03 step-functions resilient	
+12c590778e533414	Basic (with Why)	AWS::SAA-C03	Mobile users must upload directly to their own folder in S3. Which Cognito feature?	Identity pools, with an IAM policy that uses the identity ID in the S3 prefix.	aws saa-c03 cognito secure	
+a2b5b9fae4b29732	Basic (with Why)	AWS::SAA-C03	Which Cognito component provides JWT tokens?	User pools.	aws saa-c03 cognito secure	
+9d322fd9d953e4d5	Basic (with Why)	AWS::SAA-C03	Which Cognito component provides temporary AWS credentials?	Identity pools (via STS and an IAM role).	aws saa-c03 cognito secure	
+d1e77dee2d6704a4	Basic (with Why)	AWS::SAA-C03	One sentence for user pools vs identity pools?	User pools: who are you; identity pools: what can you access in AWS.	aws saa-c03 cognito secure	
+4103e1c5490783da	Basic (with Why)	AWS::SAA-C03	Which federation providers do user pools support?	Google, Facebook, SAML, OIDC.	aws saa-c03 cognito secure	
+4fa1844a2964feaf	Basic (with Why)	AWS::SAA-C03	A team wants to move a MongoDB app to a managed AWS service with minimal change. Which one?	Amazon DocumentDB.	aws saa-c03 specialized-databases performant resilient	
+a221bd7d543f634d	Basic (with Why)	AWS::SAA-C03	Which database for a social network's friend-of-friend recommendations?	Amazon Neptune.	aws saa-c03 specialized-databases performant resilient	
+adbbe6530e33c8b2	Basic (with Why)	AWS::SAA-C03	An app uses Cassandra Query Language. Which serverless service?	Amazon Keyspaces.	aws saa-c03 specialized-databases performant resilient	
+1de830ff75bdd974	Basic (with Why)	AWS::SAA-C03	You need full-text search on product descriptions stored in DynamoDB. Pattern?	DynamoDB Streams to Lambda to Amazon OpenSearch Service.	aws saa-c03 specialized-databases performant resilient	
+695ccccb22444753	Basic (with Why)	AWS::SAA-C03	IoT sensors produce billions of readings per day, queried by time windows. Which database type?	A time series database: Amazon Timestream (Timestream for InfluxDB for new projects).	aws saa-c03 specialized-databases performant resilient	
+418ebedaf6f55a96	Basic (with Why)	AWS::SAA-C03	Sub-millisecond reads for session data with automatic expiry. Two candidates?	ElastiCache (Valkey/Redis OSS) with TTL, or DynamoDB with TTL (DAX for microseconds).	aws saa-c03 specialized-databases performant resilient	
+cd6d6e5153f44507	Basic (with Why)	AWS::SAA-C03	What is the status of Timestream for LiveAnalytics?	Closed to new customers since 20 June 2025; Timestream for InfluxDB recommended.	aws saa-c03 specialized-databases performant resilient	
+14c5ed2b5c01503e	Basic (with Why)	AWS::SAA-C03	Which service offers Neptune Streams?	Amazon Neptune: changes in strict order, no duplicates, via HTTP REST.	aws saa-c03 specialized-databases performant resilient	
+94803a4ffadc93b9	Basic (with Why)	AWS::SAA-C03	Extract fields and tables from scanned insurance claim forms. Which service?	Amazon Textract.	aws saa-c03 ml-services performant	
+a4f8292f14f2c2df	Basic (with Why)	AWS::SAA-C03	Automatically flag inappropriate images uploaded by users. Which service?	Amazon Rekognition content moderation.	aws saa-c03 ml-services performant	
+6465c6446651da99	Basic (with Why)	AWS::SAA-C03	Generate subtitles for training videos, removing personal data. Which service?	Amazon Transcribe with PII redaction.	aws saa-c03 ml-services performant	
+2683b5f6674fc330	Basic (with Why)	AWS::SAA-C03	Measure customer sentiment in thousands of support emails. Which service?	Amazon Comprehend.	aws saa-c03 ml-services performant	
+79611f28c7f19457	Basic (with Why)	AWS::SAA-C03	Build a phone-based customer service bot. Which pair?	Amazon Connect with Amazon Lex.	aws saa-c03 ml-services performant	
+17d9bd62e926dac1	Basic (with Why)	AWS::SAA-C03	Read text aloud with custom pronunciation of acronyms. Which service and feature?	Amazon Polly with pronunciation lexicons (and SSML).	aws saa-c03 ml-services performant	
+733bdf11deb48fa8	Basic (with Why)	AWS::SAA-C03	Clinical text with protected health information: which service?	Amazon Comprehend Medical.	aws saa-c03 ml-services performant	
+9cffe71465c9d45c	Basic (with Why)	AWS::SAA-C03	Natural-language search across intranet documents?	Amazon Kendra.	aws saa-c03 ml-services performant	
+08c49e6dac5e09fc	Basic (with Why)	AWS::SAA-C03	When to use SageMaker AI?	When no pre-trained service fits: a custom model.	aws saa-c03 ml-services performant	
+98d043ad64a4145e	Basic (with Why)	AWS::SAA-C03	Translate a website at scale?	Amazon Translate.	aws saa-c03 ml-services performant	
+2e34229e24ca8d00	Basic (with Why)	AWS::SAA-C03	Serverless SQL on files in S3: which service?	Amazon Athena.	aws saa-c03 athena performant cost	
+c34acd85e0705989	Basic (with Why)	AWS::SAA-C03	Three ways to cut Athena costs?	Columnar formats (Parquet/ORC), compression, partitioning; larger files help too.	aws saa-c03 athena performant cost	
+0a4f97eba81ee069	Basic (with Why)	AWS::SAA-C03	What is Athena billed on?	The amount of data scanned (per TB).	aws saa-c03 athena performant cost	
+886ffafb66167326	Basic (with Why)	AWS::SAA-C03	How does Athena query non-S3 sources (DynamoDB, RDS...)?	Through data source connectors (Lambda functions): federated queries.	aws saa-c03 athena performant cost	
+bb57116e77fed1df	Basic (with Why)	AWS::SAA-C03	Analyse VPC Flow Logs or CloudTrail logs stored in S3?	Athena.	aws saa-c03 athena performant cost	
+8702bd956c1e88f9	Basic (with Why)	AWS::SAA-C03	Recommended file size for Athena?	Fewer, larger files (> 128 MB).	aws saa-c03 athena performant cost	
+46bae2a88f937137	Basic (with Why)	AWS::SAA-C03	Business analysts run complex joins on 50 TB every day. Athena or Redshift?	Redshift, built for heavy, repeated OLAP queries.	aws saa-c03 redshift performant	
+2504a4ea41529d64	Basic (with Why)	AWS::SAA-C03	How do you query S3 data from Redshift without loading it?	Redshift Spectrum.	aws saa-c03 redshift performant	
+2c7b0ba4c7b087f4	Basic (with Why)	AWS::SAA-C03	Restoring a Redshift snapshot: what is created?	A new cluster.	aws saa-c03 redshift performant	
+0b1ad1e94d113822	Basic (with Why)	AWS::SAA-C03	How do you efficiently load S3 data into Redshift?	The COPY command with an IAM role (ideally enhanced VPC routing).	aws saa-c03 redshift performant	
+f9e55ee8515bcf77	Basic (with Why)	AWS::SAA-C03	Frequency of Redshift automated snapshots?	Every 8 hours, every 5 GB, or on a schedule.	aws saa-c03 redshift performant	
+4d54159406b70d56	Basic (with Why)	AWS::SAA-C03	How do you do cross-region DR on Redshift?	Automatic snapshot copy to another region.	aws saa-c03 redshift performant	
+cb7e659738a8da1f	Basic (with Why)	AWS::SAA-C03	Is Redshift OLTP or OLAP?	OLAP (analytics), not OLTP.	aws saa-c03 redshift performant	
+39ad8e2622ed6e25	Basic (with Why)	AWS::SAA-C03	CSV files arrive in S3 and must be converted to Parquet automatically. Pattern?	S3 event to Lambda or EventBridge, which starts a Glue ETL job writing Parquet.	aws saa-c03 glue-and-lake-formation performant secure	
+8f6cb298f21b4412	Basic (with Why)	AWS::SAA-C03	Analysts in several tools must only see some columns of a sensitive table in the data lake. Which service?	AWS Lake Formation fine-grained permissions.	aws saa-c03 glue-and-lake-formation performant secure	
+5016994732f655f1	Basic (with Why)	AWS::SAA-C03	Which Glue component discovers schemas?	Crawlers, which feed the Glue Data Catalog.	aws saa-c03 glue-and-lake-formation performant secure	
+9a1dd46d3ebd9b26	Basic (with Why)	AWS::SAA-C03	What does a Glue job bookmark do?	Avoids reprocessing old data.	aws saa-c03 glue-and-lake-formation performant secure	
+d95fcf9321401e16	Basic (with Why)	AWS::SAA-C03	Which Glue tool cleans/normalises data with pre-built transformations?	Glue DataBrew.	aws saa-c03 glue-and-lake-formation performant secure	
+2ba877ba316a860a	Basic (with Why)	AWS::SAA-C03	Which catalog do Athena, Spectrum and EMR use?	The Glue Data Catalog.	aws saa-c03 glue-and-lake-formation performant secure	
+349b93eed53e7eff	Basic (with Why)	AWS::SAA-C03	The company wants managed Apache Kafka. Which service?	Amazon MSK (or MSK Serverless).	aws saa-c03 streaming-analytics performant resilient	
+18e99135790f30ea	Basic (with Why)	AWS::SAA-C03	Can Managed Service for Apache Flink read from Firehose?	No: it reads Kinesis Data Streams or MSK.	aws saa-c03 streaming-analytics performant resilient	
+304f590286b332ac	Basic (with Why)	AWS::SAA-C03	Former name of Managed Service for Apache Flink?	Kinesis Data Analytics for Apache Flink.	aws saa-c03 streaming-analytics performant resilient	
+dec130ec8666fedb	Basic (with Why)	AWS::SAA-C03	Which consumers does MSK have?	Flink, Glue streaming ETL, Lambda, apps on EC2/ECS/EKS.	aws saa-c03 streaming-analytics performant resilient	
+7b758c8e8b110475	Basic (with Why)	AWS::SAA-C03	Across how many AZs does MSK create brokers?	Up to 3 AZs, in your VPC.	aws saa-c03 streaming-analytics performant resilient	
+6c67e86babf9eb03	Basic (with Why)	AWS::SAA-C03	Which EMR nodes are best suited to Spot?	Task nodes (they hold no data).	aws saa-c03 opensearch-emr-and-quick performant	
+43383906b7b3bfbf	Basic (with Why)	AWS::SAA-C03	Are Amazon Quick users IAM users?	No, users and groups exist only in Quick.	aws saa-c03 opensearch-emr-and-quick performant	
+28dffcf67b2a8324	Basic (with Why)	AWS::SAA-C03	Which service for search on any field, including partial matches?	Amazon OpenSearch Service.	aws saa-c03 opensearch-emr-and-quick performant	
+01e80cc50d5c2f98	Basic (with Why)	AWS::SAA-C03	How do you feed OpenSearch from CloudWatch Logs in real time? In near real-time?	Subscription filter to Lambda (real time) or to Firehose (near real-time).	aws saa-c03 opensearch-emr-and-quick performant	
+702f177c041fd6d2	Basic (with Why)	AWS::SAA-C03	What is Amazon Quick's in-memory engine?	SPICE.	aws saa-c03 opensearch-emr-and-quick performant	
+25903ab0e7e81aac	Basic (with Why)	AWS::SAA-C03	What is QuickSight's new name?	Amazon Quick (the BI part is called Quick Sight).	aws saa-c03 opensearch-emr-and-quick performant	
+d1befee313a59f61	Basic (with Why)	AWS::SAA-C03	Which EMR nodes are long-running and hold HDFS storage?	Core nodes (and primary for coordination).	aws saa-c03 opensearch-emr-and-quick performant	
+0c3360df6a1a7b56	Basic (with Why)	AWS::SAA-C03	Which Quick edition adds column-level security?	Enterprise edition.	aws saa-c03 opensearch-emr-and-quick performant	
+0684affe0a3ac8da	Basic (with Why)	AWS::SAA-C03	How do you get memory utilisation of EC2 instances in CloudWatch?	Install the CloudWatch unified agent with an IAM role allowing it to publish metrics.	aws saa-c03 cloudwatch resilient performant	
+a96eeceaee329025	Basic (with Why)	AWS::SAA-C03	Logs from 30 accounts must be centralised in near real time. How?	Cross-account CloudWatch Logs subscription filters to a Kinesis Data Streams or Firehose destination in a central account.	aws saa-c03 cloudwatch resilient performant	
+651e0bbdfdece83c	Basic (with Why)	AWS::SAA-C03	Alert only when CPU is high AND the error rate is high. Feature?	A CloudWatch composite alarm.	aws saa-c03 cloudwatch resilient performant	
+0e937bf83c3a499c	Basic (with Why)	AWS::SAA-C03	Which IPs send the most rejected traffic in VPC Flow Logs?	CloudWatch Contributor Insights.	aws saa-c03 cloudwatch resilient performant	
+652ebac8bd42636d	Basic (with Why)	AWS::SAA-C03	Count ERROR lines in a log and alarm on them?	A metric filter + an alarm.	aws saa-c03 cloudwatch resilient performant	
+b187fbdec8f92049	Basic (with Why)	AWS::SAA-C03	Which states can a CloudWatch alarm have?	OK, INSUFFICIENT_DATA, ALARM.	aws saa-c03 cloudwatch resilient performant	
+335fe3507a8c0adc	Basic (with Why)	AWS::SAA-C03	What does EC2 instance recovery do?	On a failed system status check, moves the instance to new hardware with the same IPs, metadata and placement group.	aws saa-c03 cloudwatch resilient performant	
+2a3964c28c1d1a17	Basic (with Why)	AWS::SAA-C03	Which command tests an alarm's notifications?	aws cloudwatch set-alarm-state.	aws saa-c03 cloudwatch resilient performant	
+88d09faee71b4fd5	Basic (with Why)	AWS::SAA-C03	Is exporting logs to S3 real time?	No: CreateExportTask can take up to 12 hours.	aws saa-c03 cloudwatch resilient performant	
+48baa91de0b54324	Basic (with Why)	AWS::SAA-C03	Which tool queries logs with a dedicated language?	CloudWatch Logs Insights (not real time).	aws saa-c03 cloudwatch resilient performant	
+932f0f97b9e6e25a	Basic (with Why)	AWS::SAA-C03	Notify the security team when the root user signs in. How?	An EventBridge rule on the root sign-in event, with an SNS target.	aws saa-c03 eventbridge resilient	
+c4b71c0c3791fd69	Basic (with Why)	AWS::SAA-C03	How do you run a Lambda every hour?	A scheduled EventBridge rule (cron/rate) or EventBridge Scheduler.	aws saa-c03 eventbridge resilient	
+346ca2c25b50cab2	Basic (with Why)	AWS::SAA-C03	Replay past events to debug?	EventBridge archive and replay.	aws saa-c03 eventbridge resilient	
+104a138b244a5b48	Basic (with Why)	AWS::SAA-C03	Former name of EventBridge?	CloudWatch Events.	aws saa-c03 eventbridge resilient	
+b12f41ed35a6d70c	Basic (with Why)	AWS::SAA-C03	Which kind of permission for a Lambda/SNS/SQS target? And ECS/Kinesis?	Resource-based policy on the target; IAM role for ECS, Kinesis, ASG actions.	aws saa-c03 eventbridge resilient	
+e9e9c100726dddd5	Basic (with Why)	AWS::SAA-C03	Alert when someone deletes a DynamoDB table?	EventBridge on the API call recorded by CloudTrail, with an SNS target.	aws saa-c03 eventbridge resilient	
+b77358e12896dd18	Basic (with Why)	AWS::SAA-C03	Which types of event buses exist?	Default (AWS), partner (SaaS), custom (your apps).	aws saa-c03 eventbridge resilient	
+6525b54cd8068774	Basic (with Why)	AWS::SAA-C03	An S3 bucket was deleted last month. How do you find who did it?	CloudTrail event history (90 days) or the trail logs in S3, queried with Athena.	aws saa-c03 cloudtrail secure	
+36b014bd2ba7a26a	Basic (with Why)	AWS::SAA-C03	Are S3 object-level API calls logged by default?	No. They are data events and must be enabled on a trail.	aws saa-c03 cloudtrail secure	
+7aacf030416569ac	Basic (with Why)	AWS::SAA-C03	How long does CloudTrail event history keep management events?	90 days.	aws saa-c03 cloudtrail secure	
+6bb47ce5a0d5442d	Basic (with Why)	AWS::SAA-C03	Which events are logged by default?	Management events.	aws saa-c03 cloudtrail secure	
+af5dc2b05f66b47e	Basic (with Why)	AWS::SAA-C03	What are CloudTrail Insights for?	Detecting unusual activity compared with a baseline (IAM bursts, hitting limits...).	aws saa-c03 cloudtrail secure	
+14269402877740ba	Basic (with Why)	AWS::SAA-C03	How do you cover all accounts of an organisation?	An organisation trail.	aws saa-c03 cloudtrail secure	
+1373fd0482edeed8	Basic (with Why)	AWS::SAA-C03	Which tool for long-term SQL queries on events?	CloudTrail Lake.	aws saa-c03 cloudtrail secure	
+af67869351efdd72	Basic (with Why)	AWS::SAA-C03	Be alerted whenever a security group allows 0.0.0.0/0 on port 22, and fix it automatically. How?	An AWS Config rule (restricted-ssh) with SSM Automation remediation, and EventBridge notifications.	aws saa-c03 config secure	
+20277faef19005a3	Basic (with Why)	AWS::SAA-C03	Can a Config rule prevent the creation of a non-compliant resource?	No, it only flags it; to block, use SCPs or IAM.	aws saa-c03 config secure	
+0b651114e78bf75d	Basic (with Why)	AWS::SAA-C03	Which tool shows how an ALB's configuration changed over time?	AWS Config.	aws saa-c03 config secure	
+a0ccf01f02f92295	Basic (with Why)	AWS::SAA-C03	How do you remediate a Config non-compliance automatically?	An SSM Automation document (managed or custom).	aws saa-c03 config secure	
+13f303e9f66c0abd	Basic (with Why)	AWS::SAA-C03	Which rule checks certificate expiry?	acm-certificate-expiration-check.	aws saa-c03 config secure	
+f761fa649fe0d0b4	Basic (with Why)	AWS::SAA-C03	How is Config billed?	Per configuration item recorded and per rule evaluation.	aws saa-c03 config secure	
+b27529ebdef45d90	Basic (with Why)	AWS::SAA-C03	Forbid every account in the Sandbox OU, admins included, from using regions outside Europe. Tool?	An SCP on the Sandbox OU with a condition on aws:RequestedRegion.	aws saa-c03 organizations-and-scp secure cost	
+1da6e66bec779c14	Basic (with Why)	AWS::SAA-C03	Does an SCP restrict the root user of a member account?	Yes. It does not restrict the management account.	aws saa-c03 organizations-and-scp secure cost	
+6e4a5168b9b27d4e	Basic (with Why)	AWS::SAA-C03	Does an SCP grant permissions?	No: it sets a maximum; IAM must also allow.	aws saa-c03 organizations-and-scp secure cost	
+7ed9a0767a9b3c1f	Basic (with Why)	AWS::SAA-C03	Effective permissions with several SCPs in the hierarchy?	The intersection of the SCPs from the root to the account; an explicit deny wins.	aws saa-c03 organizations-and-scp secure cost	
+bd1b6f34fb16b307	Basic (with Why)	AWS::SAA-C03	What do RCPs do?	They set the maximum permissions on resources (S3, KMS, SQS, Secrets Manager, STS) of member accounts.	aws saa-c03 organizations-and-scp secure cost	
+c67a2ef6de16ac59	Basic (with Why)	AWS::SAA-C03	Why a multi-account strategy?	An account is the strongest isolation boundary (security, quotas, blast radius, billing).	aws saa-c03 organizations-and-scp secure cost	
+d45437854249641b	Basic (with Why)	AWS::SAA-C03	What does consolidated billing bring?	One payment method and volume discounts, RIs and Savings Plans shared.	aws saa-c03 organizations-and-scp secure cost	
+9534947dc9c46d21	Basic (with Why)	AWS::SAA-C03	A bucket must only accept requests from accounts of your organisation. Condition key?	aws:PrincipalOrgID in the bucket policy.	aws saa-c03 advanced-iam secure	
+9439922bf7fc1843	Basic (with Why)	AWS::SAA-C03	Developers must create roles for their Lambda functions without being able to exceed their own rights. Feature?	IAM permission boundaries.	aws saa-c03 advanced-iam secure	
+9bd6a6b2641d5eb2	Basic (with Why)	AWS::SAA-C03	Which IAM action targets the bucket ARN rather than the object ARN?	s3:ListBucket.	aws saa-c03 advanced-iam secure	
+b098e6cfa61b6481	Basic (with Why)	AWS::SAA-C03	A user in A scans DynamoDB in A and writes to a bucket in B, keeping access to A. What?	A bucket policy in B naming account A (resource-based), not an assumed role.	aws saa-c03 advanced-iam secure	
+23de8ce01387c00a	Basic (with Why)	AWS::SAA-C03	Does a permission boundary apply to a group?	No, only to a user or role.	aws saa-c03 advanced-iam secure	
+1fa4dab26f169c2e	Basic (with Why)	AWS::SAA-C03	Effective permissions with boundary + SCP?	The intersection of the identity policy, the boundary and the SCPs.	aws saa-c03 advanced-iam secure	
+0d74c544a30847c2	Basic (with Why)	AWS::SAA-C03	Which condition requires MFA for a sensitive action?	aws:MultiFactorAuthPresent.	aws saa-c03 advanced-iam secure	
+f479fc33e6b511ae	Basic (with Why)	AWS::SAA-C03	Which condition restricts the API caller IP?	aws:SourceIp.	aws saa-c03 advanced-iam secure	
+220d2f4726ccd5ec	Basic (with Why)	AWS::SAA-C03	First step of IAM request evaluation?	Look for an explicit deny in any applicable policy: if there is one, deny.	aws saa-c03 advanced-iam secure	
+6590aab166639e7a	Basic (with Why)	AWS::SAA-C03	Employees sign in with Entra ID and need access to 40 AWS accounts. Recommended service?	IAM Identity Center with Entra ID as identity source and permission sets.	aws saa-c03 identity-center-and-directory-service secure	
+f7e7ad2270812067	Basic (with Why)	AWS::SAA-C03	AWS apps must authenticate users against the existing on-premises AD, with no directory copy in AWS. Option?	AD Connector.	aws saa-c03 identity-center-and-directory-service secure	
+556b969483ac4f27	Basic (with Why)	AWS::SAA-C03	Which Directory Service option allows a trust with the on-premises AD?	AWS Managed Microsoft AD.	aws saa-c03 identity-center-and-directory-service secure	
+e22dd402e4e3995a	Basic (with Why)	AWS::SAA-C03	What is a permission set?	A collection of IAM policies assigned to users/groups per account; Identity Center creates the matching roles.	aws saa-c03 identity-center-and-directory-service secure	
+3d783a2e05758103	Basic (with Why)	AWS::SAA-C03	Former name of IAM Identity Center?	AWS Single Sign-On.	aws saa-c03 identity-center-and-directory-service secure	
+40a8635890be46fe	Basic (with Why)	AWS::SAA-C03	Which Directory Service option is Samba-based?	Simple AD (no trust with on-premises AD).	aws saa-c03 identity-center-and-directory-service secure	
+bcd7e57ea7c93aa6	Basic (with Why)	AWS::SAA-C03	Which Control Tower control type uses AWS Config?	Detective controls (preventive ones use SCPs, proactive ones use CloudFormation hooks).	aws saa-c03 control-tower secure	
+ba59520aad02a5a4	Basic (with Why)	AWS::SAA-C03	Which accounts does the Control Tower Security OU create?	Log Archive and Audit.	aws saa-c03 control-tower secure	
+ef683d5998efd270	Basic (with Why)	AWS::SAA-C03	Which component creates new compliant accounts?	Account Factory.	aws saa-c03 control-tower secure	
+3d89a8fe21017108	Basic (with Why)	AWS::SAA-C03	Which control type blocks a non-compliant resource before it is deployed?	Proactive controls (CloudFormation hooks).	aws saa-c03 control-tower secure	
+197aa8befa64ec44	Basic (with Why)	AWS::SAA-C03	What does Control Tower detect and remediate?	Configuration drift.	aws saa-c03 control-tower secure	
+eb82e32b45db8be5	Basic (with Why)	AWS::SAA-C03	You copy an encrypted EBS snapshot from eu-west-3 to us-east-1. What happens to encryption?	The copy is re-encrypted with a KMS key in us-east-1, since keys are regional.	aws saa-c03 kms secure	
+7f8df41dcdc09bfe	Basic (with Why)	AWS::SAA-C03	What must you do to let another account launch an encrypted AMI?	Add a launch permission, share the KMS key through its key policy, and give the target role DescribeKey, Decrypt, ReEncrypt, CreateGrant.	aws saa-c03 kms secure	
+9019183069bb8aea	Basic (with Why)	AWS::SAA-C03	Why use multi-region KMS keys with DynamoDB global tables?	Client-side encrypted attributes can be decrypted in any region with the replica key, without cross-region calls.	aws saa-c03 kms secure	
+3a947c519cae7d89	Basic (with Why)	AWS::SAA-C03	Compliance requires keys in single-tenant hardware that AWS cannot access. Which service?	AWS CloudHSM.	aws saa-c03 kms secure	
+8e45ca8d383965b4	Basic (with Why)	AWS::SAA-C03	Automatic rotation of customer managed keys: default period and range?	365 days by default, configurable 90 to 2,560 days.	aws saa-c03 kms secure	
+c6277cf6712aaa98	Basic (with Why)	AWS::SAA-C03	Which keys cannot be rotated automatically?	Asymmetric, HMAC, imported key material, custom key store (CloudHSM).	aws saa-c03 kms secure	
+eedd339d8a4e9871	Basic (with Why)	AWS::SAA-C03	What happens without a key policy?	Nobody can use the key (unlike S3).	aws saa-c03 kms secure	
+f13f5382861f6a40	Basic (with Why)	AWS::SAA-C03	What does the default key policy contain?	Full access for the account (root), which lets you grant use through IAM.	aws saa-c03 kms secure	
+95d9e8effd63429c	Basic (with Why)	AWS::SAA-C03	Are multi-region keys global keys?	No: each replica is managed independently with its own policy.	aws saa-c03 kms secure	
+520640490965d293	Basic (with Why)	AWS::SAA-C03	Which ID prefix for a multi-region key?	mrk-.	aws saa-c03 kms secure	
+f737a16ced3d45e5	Basic (with Why)	AWS::SAA-C03	An asymmetric KMS key: what advantage outside AWS?	The public key can be downloaded for clients that cannot call KMS.	aws saa-c03 kms secure	
+501bc6f93f265b21	Basic (with Why)	AWS::SAA-C03	What is the point of a custom key store?	Using keys held in your CloudHSM HSMs with services such as EBS, S3, RDS.	aws saa-c03 kms secure	
+d6b514ac67cd72bf	Basic (with Why)	AWS::SAA-C03	RDS passwords must rotate every 30 days automatically. Which service?	AWS Secrets Manager.	aws saa-c03 secrets-manager-and-parameter-store secure	
+a0852ab310d8dae6	Basic (with Why)	AWS::SAA-C03	Size limit of a standard SSM parameter?	4 KB (advanced parameters go up to 8 KB).	aws saa-c03 secrets-manager-and-parameter-store secure	
+d96e84801cc67e1f	Basic (with Why)	AWS::SAA-C03	How many parameters in the standard tier?	10,000 per account and region (advanced: 100,000).	aws saa-c03 secrets-manager-and-parameter-store secure	
+c7a7e49839b091ac	Basic (with Why)	AWS::SAA-C03	Which Parameter Store tier for parameter policies (TTL, notifications)?	Advanced.	aws saa-c03 secrets-manager-and-parameter-store secure	
+6460c5328356c19b	Basic (with Why)	AWS::SAA-C03	Which service for multi-region/DR with secret replicas?	Secrets Manager multi-region secrets.	aws saa-c03 secrets-manager-and-parameter-store secure	
+1c085f7f0fcabed5	Basic (with Why)	AWS::SAA-C03	How do you read all parameters under a hierarchical path?	GetParametersByPath.	aws saa-c03 secrets-manager-and-parameter-store secure	
+35fc5378135500b9	Basic (with Why)	AWS::SAA-C03	How do you reference a Secrets Manager secret from Parameter Store?	With the path /aws/reference/secretsmanager/...	aws saa-c03 secrets-manager-and-parameter-store secure	
+dede5eaac01435f9	Basic (with Why)	AWS::SAA-C03	Which region must hold the ACM certificate for a CloudFront distribution or an edge-optimised API?	us-east-1.	aws saa-c03 acm secure	
+9ebc8ad2d775c577	Basic (with Why)	AWS::SAA-C03	Which ACM validation to prefer with Route 53?	DNS validation (a CNAME record).	aws saa-c03 acm secure	
+8d4ee7e9e1088f49	Basic (with Why)	AWS::SAA-C03	When does ACM renew a public certificate?	Automatically, 60 days before expiry.	aws saa-c03 acm secure	
+c0b1ae442652a6db	Basic (with Why)	AWS::SAA-C03	Is an imported certificate renewed automatically?	No; monitor via EventBridge or the Config rule acm-certificate-expiration-check.	aws saa-c03 acm secure	
+406fb8833bd1ac6c	Basic (with Why)	AWS::SAA-C03	Can you install a public ACM certificate on an EC2 instance?	No, it cannot be extracted.	aws saa-c03 acm secure	
+628e0e8821c1d1a9	Basic (with Why)	AWS::SAA-C03	Which services integrate with ACM?	ELB, CloudFront, API Gateway, among others.	aws saa-c03 acm secure	
+a961f85f7421383e	Basic (with Why)	AWS::SAA-C03	Block SQL injection on an API Gateway REST API. Which service?	AWS WAF.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+de6ea2268099733f	Basic (with Why)	AWS::SAA-C03	You need 24/7 DDoS experts and protection against attack-related scaling costs. Which service?	AWS Shield Advanced.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+39712c9c3384f0de	Basic (with Why)	AWS::SAA-C03	Can WAF protect an NLB?	No, WAF is L7 (ALB, API Gateway, CloudFront...).	aws saa-c03 waf-shield-firewall-manager secure resilient	
+e524d45631c69b49	Basic (with Why)	AWS::SAA-C03	Which attacks does Shield Standard protect against?	Layers 3 and 4 (SYN/UDP floods, reflection), free and automatic.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+2500389ebce85f58	Basic (with Why)	AWS::SAA-C03	Which service manages WAF/Shield/SG rules across all accounts of an organisation?	AWS Firewall Manager.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+0f9610b20c8ea9e3	Basic (with Why)	AWS::SAA-C03	Which WAF rule type mitigates an application-layer DDoS?	Rate-based rules.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+a0d6dd41ba01f762	Basic (with Why)	AWS::SAA-C03	Fixed IP plus WAF for an app: how?	Global Accelerator (static IPs) in front of an ALB with WAF.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+362e5d0cc58a3621	Basic (with Why)	AWS::SAA-C03	An app is behind CloudFront and an ALB: how do you block one IP?	WAF on CloudFront with an IP set; NACLs do not help.	aws saa-c03 waf-shield-firewall-manager secure resilient	
+e8b1460b83bd018c	Basic (with Why)	AWS::SAA-C03	Which service detects crypto-mining activity in your account?	Amazon GuardDuty.	aws saa-c03 detection-and-compliance secure	
+3775f43f787d2cf9	Basic (with Why)	AWS::SAA-C03	Scan ECR images and Lambda functions for known CVEs. Which service?	Amazon Inspector.	aws saa-c03 detection-and-compliance secure	
+5da09af66f2218f2	Basic (with Why)	AWS::SAA-C03	Find personal data (PII) in S3 buckets?	Amazon Macie.	aws saa-c03 detection-and-compliance secure	
+6f4c44e1f15ed941	Basic (with Why)	AWS::SAA-C03	Central view of security findings from several services and accounts?	AWS Security Hub.	aws saa-c03 detection-and-compliance secure	
+e2ba2c7cbc5482c3	Basic (with Why)	AWS::SAA-C03	Investigate the root cause of a finding with a behaviour graph?	Amazon Detective.	aws saa-c03 detection-and-compliance secure	
+4e512a87caee2cab	Basic (with Why)	AWS::SAA-C03	Where to download compliance reports (ISO, SOC, PCI)?	AWS Artifact.	aws saa-c03 detection-and-compliance secure	
+7fdb9a5762ce847a	Basic (with Why)	AWS::SAA-C03	Which data sources feed GuardDuty?	CloudTrail (management and S3 data events), VPC Flow Logs, DNS logs (+ options EKS, RDS, EBS, Lambda, runtime).	aws saa-c03 detection-and-compliance secure	
+946163ffb9c18770	Basic (with Why)	AWS::SAA-C03	How does Inspector scan EC2?	Through the SSM agent: packages and network reachability.	aws saa-c03 detection-and-compliance secure	
+464e87bb3e3d5502	Basic (with Why)	AWS::SAA-C03	How many usable IPs in a /24 subnet in AWS?	251: AWS reserves 5 of the 256.	aws saa-c03 vpc secure resilient cost	
+7a126dbcbf485cbd	Basic (with Why)	AWS::SAA-C03	What makes a subnet public?	A route 0.0.0.0/0 to an Internet Gateway (and public IPs on instances).	aws saa-c03 vpc secure resilient cost	
+6d99ba357ac5eeb8	Basic (with Why)	AWS::SAA-C03	Is the VPC regional or tied to an AZ?	Regional; subnets are tied to an AZ.	aws saa-c03 vpc secure resilient cost	
+602f7b614a6581ec	Basic (with Why)	AWS::SAA-C03	A subnet must host 29 IPs: what size?	/26 (64 IPs): a /27 only gives 27 usable.	aws saa-c03 vpc secure resilient cost	
+b867072e60987ee4	Basic (with Why)	AWS::SAA-C03	IPv6 instances must reach the internet but not be reachable from it. What do you use?	An egress-only internet gateway.	aws saa-c03 vpc secure resilient cost	
+ef7a2d7eeeee5c8f	Basic (with Why)	AWS::SAA-C03	An instance cannot launch in a dual-stack subnet: cause?	IPv4 space is exhausted: add an IPv4 CIDR.	aws saa-c03 vpc secure resilient cost	
+74705513b3c8dbda	Basic (with Why)	AWS::SAA-C03	Can you disable IPv4 in a VPC?	No; you can only add IPv6 (dual-stack).	aws saa-c03 vpc secure resilient cost	
+36152542058f92ee	Basic (with Why)	AWS::SAA-C03	Is inter-AZ traffic over private IPs free?	No, charged each way; traffic within the same AZ over private IPs is free.	aws saa-c03 vpc secure resilient cost	
+2b475e8bdcf9a871	Basic (with Why)	AWS::SAA-C03	How many VPCs per region by default? CIDR range?	5 (soft limit); between /28 and /16.	aws saa-c03 vpc secure resilient cost	
+e8c0cbb681bac595	Basic (with Why)	AWS::SAA-C03	Classic cost optimisation for S3/DynamoDB from a VPC?	A free gateway endpoint instead of a NAT gateway.	aws saa-c03 vpc secure resilient cost	
+183c90044f3d303a	Basic (with Why)	AWS::SAA-C03	Which RFC 1918 private ranges?	10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16.	aws saa-c03 vpc secure resilient cost	
+2b936061cb3a3205	Basic (with Why)	AWS::SAA-C03	CIDR of the default VPC?	172.31.0.0/16.	aws saa-c03 vpc secure resilient cost	
+505c9ff31205db0b	Cloze	AWS::SAA-C03	IPs reserved by AWS in every subnet: {{c1::5}} (network, VPC router, DNS, future use, broadcast).		aws saa-c03 vpc secure resilient cost	
+4f31017bb7c99af1	Basic (with Why)	AWS::SAA-C03	Private instances in three AZs need outbound internet that survives an AZ failure. Two designs?	One zonal NAT gateway per AZ with per-AZ routes, or a single regional NAT gateway.	aws saa-c03 nat resilient cost secure	
+b0751e7de44295f3	Basic (with Why)	AWS::SAA-C03	Can a NAT gateway have a security group?	No, only NACLs.	aws saa-c03 nat resilient cost secure	
+6782b0526e24abd3	Basic (with Why)	AWS::SAA-C03	Which mandatory setting on a NAT instance?	Disable the source/destination check.	aws saa-c03 nat resilient cost secure	
+1319703d237f2f76	Basic (with Why)	AWS::SAA-C03	A zonal NAT gateway's AZ fails: automatic failover?	No, no cross-AZ failover: one per AZ.	aws saa-c03 nat resilient cost secure	
+1d2ec492b8ba60a9	Basic (with Why)	AWS::SAA-C03	Does a zonal NAT gateway need an IGW?	Yes (except private NAT).	aws saa-c03 nat resilient cost secure	
+7e1967d1cb9a2398	Basic (with Why)	AWS::SAA-C03	How many regional NAT gateways per VPC?	Up to 5.	aws saa-c03 nat resilient cost secure	
+4204cd8bd649622a	Basic (with Why)	AWS::SAA-C03	When did the regional NAT appear?	November 2025.	aws saa-c03 nat resilient cost secure	
+7c98155f804b2c6a	Basic (with Why)	AWS::SAA-C03	You must block one malicious IP from reaching a subnet. Security group or NACL?	NACL, with a deny rule. Security groups only allow.	aws saa-c03 security-groups-and-nacl secure	
+cc27db0f17e896b5	Basic (with Why)	AWS::SAA-C03	The web subnet can reach the database but replies never come back. Likely cause?	The NACLs do not allow ephemeral ports (1024 to 65535) for return traffic.	aws saa-c03 security-groups-and-nacl secure	
+bb69e730790d4db9	Basic (with Why)	AWS::SAA-C03	SG: stateful or stateless? NACL?	SG stateful; NACL stateless.	aws saa-c03 security-groups-and-nacl secure	
+9bfc1ae12a5f801f	Basic (with Why)	AWS::SAA-C03	How are NACL rules evaluated?	In ascending numeric order; the first match wins.	aws saa-c03 security-groups-and-nacl secure	
+4a4bc900c9eca8b3	Basic (with Why)	AWS::SAA-C03	Default NACL: what does it do? Modify it?	Allows all traffic in/out; do not modify it, create custom NACLs.	aws saa-c03 security-groups-and-nacl secure	
+1cbf0eb260c8b181	Basic (with Why)	AWS::SAA-C03	Can a security group contain deny rules?	No, allow rules only.	aws saa-c03 security-groups-and-nacl secure	
+9519257b77fd5066	Basic (with Why)	AWS::SAA-C03	Level of application of an SG vs a NACL?	SG: instance/ENI; NACL: subnet (every instance in the subnet).	aws saa-c03 security-groups-and-nacl secure	
+601f36ded15f6727	Basic (with Why)	AWS::SAA-C03	Cheapest private way for instances in a private subnet to reach S3?	A gateway VPC endpoint for S3.	aws saa-c03 vpc-endpoints secure cost	
+553ec98cb824e071	Basic (with Why)	AWS::SAA-C03	Which services support a gateway endpoint?	S3 and DynamoDB only.	aws saa-c03 vpc-endpoints secure cost	
+0295901978db6f68	Basic (with Why)	AWS::SAA-C03	Private access to S3 from on premises over Direct Connect: which endpoint type?	An interface endpoint (the gateway endpoint is not reachable from on premises).	aws saa-c03 vpc-endpoints secure cost	
+e253b13b6bcf6966	Basic (with Why)	AWS::SAA-C03	How do you expose your own service to thousands of VPCs without peering?	AWS PrivateLink (endpoint service behind an NLB or GWLB).	aws saa-c03 vpc-endpoints secure cost	
+eb59cb06b7798a44	Basic (with Why)	AWS::SAA-C03	How do you restrict an endpoint to a single bucket?	An endpoint policy.	aws saa-c03 vpc-endpoints secure cost	
+dd37186175d4d648	Basic (with Why)	AWS::SAA-C03	Which condition key in a bucket policy requires access through a given endpoint?	aws:SourceVpce.	aws saa-c03 vpc-endpoints secure cost	
+ebc35389bea4b161	Basic (with Why)	AWS::SAA-C03	VPC A peers with B, B peers with C. Can A talk to C?	No, peering is not transitive: A-C peering or a Transit Gateway.	aws saa-c03 vpc-connectivity secure resilient performant	
+0e8e5efe4f65da9a	Basic (with Why)	AWS::SAA-C03	You need a private connection to AWS next week, and Direct Connect in three months. Plan?	Site-to-Site VPN now, Direct Connect later, keeping the VPN as backup.	aws saa-c03 vpc-connectivity secure resilient performant	
+8cf1dfdb16a27e83	Basic (with Why)	AWS::SAA-C03	How do you encrypt traffic over Direct Connect?	Run an IPsec Site-to-Site VPN over it (or MACsec on dedicated connections).	aws saa-c03 vpc-connectivity secure resilient performant	
+512d12d1eed30cad	Basic (with Why)	AWS::SAA-C03	Connect 200 VPCs across accounts and on premises with transitive routing. Service?	AWS Transit Gateway, shared with RAM.	aws saa-c03 vpc-connectivity secure resilient performant	
+c50c21b1628826de	Basic (with Why)	AWS::SAA-C03	AWS-side component of a Site-to-Site VPN? Customer side?	Virtual private gateway (VGW); customer gateway (CGW).	aws saa-c03 vpc-connectivity secure resilient performant	
+84337cd828037e03	Basic (with Why)	AWS::SAA-C03	How do you aggregate the bandwidth of several VPN tunnels?	ECMP on a VPN to a Transit Gateway.	aws saa-c03 vpc-connectivity secure resilient performant	
+fc2d5cf5ff8e112c	Basic (with Why)	AWS::SAA-C03	One Direct Connect to VPCs in several regions?	A Direct Connect gateway.	aws saa-c03 vpc-connectivity secure resilient performant	
+ac2ab35e2ddc7ff6	Basic (with Why)	AWS::SAA-C03	Which service supports IP multicast?	Transit Gateway.	aws saa-c03 vpc-connectivity secure resilient performant	
+5a85596691414790	Basic (with Why)	AWS::SAA-C03	What are the two Direct Connect VIFs?	Private VIF (VPCs) and public VIF (public AWS services such as S3).	aws saa-c03 vpc-connectivity secure resilient performant	
+adbf332f16f06cd0	Basic (with Why)	AWS::SAA-C03	Which Direct Connect resiliency type for maximum?	Separate connections on separate devices in more than one location.	aws saa-c03 vpc-connectivity secure resilient performant	
+f8b7be4ea5174cab	Basic (with Why)	AWS::SAA-C03	Which service connects several on-premises sites through a VGW in hub-and-spoke?	AWS VPN CloudHub.	aws saa-c03 vpc-connectivity secure resilient performant	
+9f305164e9080c3e	Basic (with Why)	AWS::SAA-C03	Which service gives individual users OpenVPN access?	AWS Client VPN.	aws saa-c03 vpc-connectivity secure resilient performant	
+f26777a999cf2f75	Basic (with Why)	AWS::SAA-C03	Flow Logs show inbound ACCEPT and outbound REJECT. What is wrong?	The NACL outbound rules (security groups are stateful).	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+98aa730eddf4969c	Basic (with Why)	AWS::SAA-C03	Allow outbound traffic only to *.mycorp.com domains for a whole VPC. Service?	AWS Network Firewall with a stateful domain list rule group.	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+3098700e7a4d37a9	Basic (with Why)	AWS::SAA-C03	Which service copies ENI traffic to security appliances?	VPC Traffic Mirroring.	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+4d6b2d80c9054efd	Basic (with Why)	AWS::SAA-C03	Where to publish Flow Logs to query them with SQL?	In S3, then Athena.	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+d9309c080c5e9e09	Basic (with Why)	AWS::SAA-C03	Which IAM permissions to publish Flow Logs to CloudWatch Logs?	An IAM role with logs:CreateLogGroup, CreateLogStream and PutLogEvents.	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+877b01fbf0b94de5	Basic (with Why)	AWS::SAA-C03	Which service manages Network Firewall rules across all accounts?	AWS Firewall Manager.	aws saa-c03 vpc-flow-logs-and-network-firewall secure	
+be65ffcf37b4677e	Basic (with Why)	AWS::SAA-C03	What is the difference between RTO and RPO?	RTO is the acceptable downtime. RPO is the acceptable data loss, measured in time.	aws saa-c03 dr-and-multi-region resilient	
+4c9c40fd2a03ab5b	Basic (with Why)	AWS::SAA-C03	Recover on-premises servers into AWS with an RPO of seconds. Which service?	AWS Elastic Disaster Recovery (DRS).	aws saa-c03 dr-and-multi-region resilient	
+491f8866aa8a06dd	Basic (with Why)	AWS::SAA-C03	What must you remember about quotas in a standby region?	Quotas are per region, so raise them in the standby region before you need to fail over.	aws saa-c03 dr-and-multi-region resilient	
+faf0de9acf561185	Basic (with Why)	AWS::SAA-C03	When should you go multi-region?	When RTO/RPO, latency or regulation require it; otherwise multi-AZ is enough.	aws saa-c03 dr-and-multi-region resilient	
+c4e02b2be7834b93	Basic (with Why)	AWS::SAA-C03	Why is DNS failover never instant?	It depends on TTLs and caches.	aws saa-c03 dr-and-multi-region resilient	
+e066bfd5c0d00151	Basic (with Why)	AWS::SAA-C03	Which service fails over in under a minute regardless of DNS caches?	Global Accelerator (2 anycast IPs).	aws saa-c03 dr-and-multi-region resilient	
+ebc73d284f8ebcc0	Cloze	AWS::SAA-C03	DR from cheapest to most expensive: {{c1::Backup and restore}} -> {{c2::Pilot light}} -> {{c3::Warm standby}} -> {{c4::Multi-site}}.		aws saa-c03 dr-and-multi-region resilient	
+65ac654dd8972d85	Basic (with Why)	AWS::SAA-C03	Backups must be immutable, even for the root user. Which feature?	AWS Backup Vault Lock.	aws saa-c03 aws-backup resilient secure	
+b907c5eea050f2bc	Basic (with Why)	AWS::SAA-C03	How do you deploy backup plans across all accounts?	Organizations backup policies.	aws saa-c03 aws-backup resilient secure	
+a309c5086946a3df	Basic (with Why)	AWS::SAA-C03	Which parameters does a backup plan define?	Frequency, window, transition to cold storage and retention.	aws saa-c03 aws-backup resilient secure	
+887ba79939f668a5	Basic (with Why)	AWS::SAA-C03	Does AWS Backup support cross-region and cross-account copies?	Yes.	aws saa-c03 aws-backup resilient secure	
+08999662b5aba63f	Basic (with Why)	AWS::SAA-C03	Which backup service centralises EBS, RDS, DynamoDB, EFS, FSx?	AWS Backup.	aws saa-c03 aws-backup resilient secure	
+3d2494d3127ad143	Basic (with Why)	AWS::SAA-C03	Migrate Oracle on premises to Aurora PostgreSQL with minimal downtime. Which tools?	SCT for the schema, DMS with full load + CDC for the data.	aws saa-c03 dms-and-migration resilient performant	
+1c36727285ee8adb	Basic (with Why)	AWS::SAA-C03	Do you need SCT to move on-premises PostgreSQL to RDS PostgreSQL?	No, the engine is the same. DMS (or native tools) is enough.	aws saa-c03 dms-and-migration resilient performant	
+73f41e04d75587c4	Basic (with Why)	AWS::SAA-C03	What does CDC do in DMS?	Continuously replicates changes while the source stays active.	aws saa-c03 dms-and-migration resilient performant	
+fde3a622beb759cb	Basic (with Why)	AWS::SAA-C03	How do you migrate an external MySQL to Aurora MySQL via S3?	Percona XtraBackup backup to S3, then create the Aurora MySQL cluster from S3.	aws saa-c03 dms-and-migration resilient performant	
+a5f187416dd94340	Basic (with Why)	AWS::SAA-C03	How do you migrate an external PostgreSQL to Aurora PostgreSQL?	Backup to S3 then import with the aws_s3 extension.	aws saa-c03 dms-and-migration resilient performant	
+4d0e036c6c2e13ca	Basic (with Why)	AWS::SAA-C03	Two options to migrate RDS MySQL to Aurora?	Restore a snapshot as an Aurora cluster (downtime) or create an Aurora read replica then promote it.	aws saa-c03 dms-and-migration resilient performant	
+fad761fed76aa427	Basic (with Why)	AWS::SAA-C03	What does DMS run on?	A replication instance (or DMS Serverless).	aws saa-c03 dms-and-migration resilient performant	
+a8d079e0339cb0d9	Basic (with Why)	AWS::SAA-C03	What does Multi-AZ DMS do?	Keeps a synchronous standby replica in another AZ.	aws saa-c03 dms-and-migration resilient performant	
+04a43541390f2bfe	Basic (with Why)	AWS::SAA-C03	Rehost 300 VMs to EC2 with minimal downtime. Which service?	AWS Application Migration Service (MGN).	aws saa-c03 migration-and-tools resilient cost	
+c19569d9d3145f82	Basic (with Why)	AWS::SAA-C03	Which tool maps dependencies between on-premises servers before a migration?	AWS Application Discovery Service with the agent-based discovery.	aws saa-c03 migration-and-tools resilient cost	
+ef6dd3ade0567544	Basic (with Why)	AWS::SAA-C03	What does Replatform mean?	Lift, tinker and shift: e.g. database to RDS, app to Elastic Beanstalk.	aws saa-c03 migration-and-tools resilient cost	
+edd7f2125fa5cefe	Basic (with Why)	AWS::SAA-C03	What does Relocate mean?	Move without changes at hypervisor level (VMware Cloud on AWS).	aws saa-c03 migration-and-tools resilient cost	
+a93ffd704540792a	Basic (with Why)	AWS::SAA-C03	What do Repurchase and Refactor mean?	Repurchase: move to a SaaS; Refactor: re-architect to cloud-native.	aws saa-c03 migration-and-tools resilient cost	
+a111d3fa38050645	Basic (with Why)	AWS::SAA-C03	Which service extends a vSphere data centre to AWS?	VMware Cloud on AWS.	aws saa-c03 migration-and-tools resilient cost	
+b7a55518b7f2a19e	Basic (with Why)	AWS::SAA-C03	Which tool imports existing VMs into EC2?	VM Import/Export.	aws saa-c03 migration-and-tools resilient cost	
+7ba1e257e9136745	Basic (with Why)	AWS::SAA-C03	What are the 7 migration strategies?	Retire, Retain, Relocate, Rehost, Replatform, Repurchase, Refactor.	aws saa-c03 migration-and-tools resilient cost	
+5b8fa26d8313c259	Basic (with Why)	AWS::SAA-C03	Which service deploys code on EC2/ASG/ELB, managing capacity and scaling, while you keep control of the resources?	AWS Elastic Beanstalk.	aws saa-c03 elastic-beanstalk performant cost	
+7a2921580d60e0f6	Basic (with Why)	AWS::SAA-C03	Which Beanstalk tier processes SQS messages?	The worker tier (scales on queue depth).	aws saa-c03 elastic-beanstalk performant cost	
+474ab3f442b993ba	Basic (with Why)	AWS::SAA-C03	Does Elastic Beanstalk cost anything?	No: you only pay for the resources it creates.	aws saa-c03 elastic-beanstalk performant cost	
+b5961d94e73efc1a	Basic (with Why)	AWS::SAA-C03	Which Beanstalk mode for production?	High availability with load balancer (single instance for dev).	aws saa-c03 elastic-beanstalk performant cost	
+b3455645bc9a365e	Basic (with Why)	AWS::SAA-C03	Which Beanstalk platforms?	Go, Java, .NET, Node.js, PHP, Python, Ruby, Packer, Docker.	aws saa-c03 elastic-beanstalk performant cost	
+61877f8fdb492b12	Basic (with Why)	AWS::SAA-C03	Developers must deploy stacks without having direct permissions on resources. How?	A CloudFormation service role, with users only allowed iam:PassRole.	aws saa-c03 cloudformation cost resilient	
+4352b064a412a769	Basic (with Why)	AWS::SAA-C03	Which service deploys stacks across accounts and regions?	CloudFormation StackSets.	aws saa-c03 cloudformation cost resilient	
+660f0d704f980f4f	Basic (with Why)	AWS::SAA-C03	Which tool visualises a CloudFormation template?	Infrastructure Composer.	aws saa-c03 cloudformation cost resilient	
+2ece0c869d6265cf	Basic (with Why)	AWS::SAA-C03	Why does CloudFormation help control costs?	Resources tagged per stack, estimates from templates, scheduled deletion/recreation of environments.	aws saa-c03 cloudformation cost resilient	
+36270346d92561d4	Basic (with Why)	AWS::SAA-C03	Is the CDK in the scope of the exam?	No, but it synthesises CloudFormation templates.	aws saa-c03 cloudformation cost resilient	
+6647eea327544dc9	Basic (with Why)	AWS::SAA-C03	Patch 500 instances every Sunday at 2:00 without SSH. Which features?	Systems Manager Patch Manager with a Maintenance Window.	aws saa-c03 systems-manager secure performant	
+f59fd17a65ce0f81	Basic (with Why)	AWS::SAA-C03	Which tool gives a shell with no key, no bastion, no port 22, with session logs?	Systems Manager Session Manager.	aws saa-c03 systems-manager secure performant	
+6353c1d4fc80fd6d	Basic (with Why)	AWS::SAA-C03	Run a command on many instances without SSH?	Systems Manager Run Command.	aws saa-c03 systems-manager secure performant	
+e72b520975c3da21	Basic (with Why)	AWS::SAA-C03	What do instances need to be managed by Systems Manager?	The SSM agent and an IAM role (instance profile) allowing Systems Manager.	aws saa-c03 systems-manager secure performant	
+40ee418ef7e3f820	Basic (with Why)	AWS::SAA-C03	Which tool runs runbooks (restart, create an AMI, snapshot EBS)?	Systems Manager Automation.	aws saa-c03 systems-manager secure performant	
+7786c13b5c6a1fe3	Basic (with Why)	AWS::SAA-C03	Detect unexpected spend without setting thresholds?	AWS Cost Anomaly Detection.	aws saa-c03 cost-management cost	
+dd4192d9ad59edeb	Basic (with Why)	AWS::SAA-C03	Which tool tells you that an instance is over-provisioned?	AWS Compute Optimizer (Trusted Advisor and Cost Explorer also give hints).	aws saa-c03 cost-management cost	
+647f9bdfbe84d94b	Basic (with Why)	AWS::SAA-C03	Alert when forecast costs exceed a budget?	AWS Budgets.	aws saa-c03 cost-management cost	
+d1b9d4446c02ab7f	Basic (with Why)	AWS::SAA-C03	Which report gives the most detailed billing data, delivered to S3?	The Cost and Usage Report (Data Exports).	aws saa-c03 cost-management cost	
+fb57899770fa5524	Basic (with Why)	AWS::SAA-C03	Stop dev instances outside business hours?	Instance Scheduler on AWS.	aws saa-c03 cost-management cost	
+4f7fcbb0ebeef4f9	Basic (with Why)	AWS::SAA-C03	Which tool recommends Savings Plans?	Cost Explorer.	aws saa-c03 cost-management cost	
+0a9ea89f80ede152	Basic (with Why)	AWS::SAA-C03	How do you split costs by project or team?	Cost allocation tags activated in billing.	aws saa-c03 cost-management cost	
+daebad4d2e0fb55d	Basic (with Why)	AWS::SAA-C03	A job runs 3 hours in a container image with 50 GB of scratch data. Lambda or Batch?	AWS Batch.	aws saa-c03 other-services performant cost	
+e69115aa1999aa4b	Basic (with Why)	AWS::SAA-C03	Who is responsible for the physical security of AWS Outposts?	The customer.	aws saa-c03 other-services performant cost	
+864f10872111ab71	Basic (with Why)	AWS::SAA-C03	Which service shares subnets or Transit Gateways with other accounts?	AWS Resource Access Manager (RAM).	aws saa-c03 other-services performant cost	
+461c6ca37e8cded4	Basic (with Why)	AWS::SAA-C03	Transfer data between Salesforce and S3 on a schedule?	Amazon AppFlow.	aws saa-c03 other-services performant cost	
+8e3fe785b6f613ca	Basic (with Why)	AWS::SAA-C03	Which service replaces Pinpoint for email?	Amazon SES (SMS/voice/push: AWS End User Messaging; engagement: Amazon Connect).	aws saa-c03 other-services performant cost	
+a2e0960132c670f8	Basic (with Why)	AWS::SAA-C03	When does Pinpoint reach end of support?	30 October 2026.	aws saa-c03 other-services performant cost	
+ffcc7d766689e40b	Basic (with Why)	AWS::SAA-C03	Which service offers approved CloudFormation products for self-service?	AWS Service Catalog.	aws saa-c03 other-services performant cost	
+b15e44a2912bd68c	Basic (with Why)	AWS::SAA-C03	Which service tracks Microsoft/Oracle licences across AWS and on premises?	AWS License Manager.	aws saa-c03 other-services performant cost	
+f1746403046bdb6f	Basic (with Why)	AWS::SAA-C03	Which email service supports DKIM, SPF and dedicated IPs?	Amazon SES.	aws saa-c03 other-services performant cost	
+acbf80b500031a9a	Basic (with Why)	AWS::SAA-C03	Name the six Well-Architected pillars.	Operational excellence, security, reliability, performance efficiency, cost optimisation, sustainability.	aws saa-c03 well-architected-and-trusted-advisor cost resilient secure performant	
+382ffa07b10b15cf	Basic (with Why)	AWS::SAA-C03	Is the Well-Architected Tool paid?	No, it is free.	aws saa-c03 well-architected-and-trusted-advisor cost resilient secure performant	
+4e21bbd72338431b	Basic (with Why)	AWS::SAA-C03	Which service analyses the account with no install and recommends on cost, performance, security, fault tolerance, limits?	AWS Trusted Advisor.	aws saa-c03 well-architected-and-trusted-advisor cost resilient secure performant	
+584417261719f8aa	Basic (with Why)	AWS::SAA-C03	Which support level for the full set of Trusted Advisor checks?	Business or Enterprise Support.	aws saa-c03 well-architected-and-trusted-advisor cost resilient secure performant	
+a0b2f7afc9800641	Basic (with Why)	AWS::SAA-C03	Where to find reference architectures?	AWS Architecture Center and AWS Solutions Library.	aws saa-c03 well-architected-and-trusted-advisor cost resilient secure performant	
+ce7b8a4f2abc11ed	Basic (with Why)	AWS::SAA-C03	Users lose their cart when an instance is replaced. Best long-term fix?	Store sessions in ElastiCache (or DynamoDB) and keep the app stateless, instead of sticky sessions.	aws saa-c03 reference-architectures resilient performant cost	
+9b67c4c1fa852e46	Basic (with Why)	AWS::SAA-C03	WordPress on several instances must share uploads. Which storage?	Amazon EFS.	aws saa-c03 reference-architectures resilient performant cost	
+b0052c94f2cad0b8	Basic (with Why)	AWS::SAA-C03	Where does the DLQ go when SNS triggers Lambda?	On the Lambda function (asynchronous invocation), not on SNS.	aws saa-c03 reference-architectures resilient performant cost	
+aa1056e0c1246bca	Basic (with Why)	AWS::SAA-C03	Your app is behind CloudFront and an ALB. How do you block one country and one IP?	CloudFront geo restriction for the country, WAF on CloudFront with an IP set for the IP.	aws saa-c03 reference-architectures resilient performant cost	
+8bf0d4567203f466	Basic (with Why)	AWS::SAA-C03	Which network interface for tightly coupled MPI workloads on Linux?	Elastic Fabric Adapter (EFA), in a cluster placement group.	aws saa-c03 reference-architectures resilient performant cost	
+f3d99ca83c83838b	Basic (with Why)	AWS::SAA-C03	Which setup for a single EC2 instance that survives the loss of an AZ?	ASG min=max=desired=1 across 2 AZs with user data that attaches the Elastic IP.	aws saa-c03 reference-architectures resilient performant cost	
+986b92f2a0560e35	Basic (with Why)	AWS::SAA-C03	Block an IP when an EC2 app is behind an ALB without WAF?	A NACL deny on the ALB's subnet.	aws saa-c03 reference-architectures resilient performant cost	
+f7300057638d04c6	Basic (with Why)	AWS::SAA-C03	A failing SQS FIFO message with Lambda: consequence?	It blocks its message group until success or DLQ.	aws saa-c03 reference-architectures resilient performant cost	
+68a6260d4cabf3fe	Basic (with Why)	AWS::SAA-C03	Regional API cache without touching the backend?	API Gateway caching.	aws saa-c03 reference-architectures resilient performant cost	
+4b6328aaa53a0198	Basic (with Why)	AWS::SAA-C03	How do you launch an RDS database quickly with schema and data?	Restore from a snapshot.	aws saa-c03 reference-architectures resilient performant cost	
+a95ac368b08f5990	Basic (with Why)	AWS::SAA-C03	Steady-state workload of a database: which purchasing option?	Standard Reserved Instances (or Savings Plans).	aws saa-c03 comparatif ec2-purchasing-options cost	
+ab712c0c1a59d178	Basic (with Why)	AWS::SAA-C03	Standard RI vs Convertible RI: difference?	Convertible can change type, OS, family (smaller discount: up to 66% vs 72%).	aws saa-c03 comparatif ec2-purchasing-options cost	
+c87169a8b709c2c1	Basic (with Why)	AWS::SAA-C03	Maximum discount for Spot?	Up to 90%.	aws saa-c03 comparatif ec2-purchasing-options cost	
+58f238c8e4444610	Basic (with Why)	AWS::SAA-C03	Most expensive purchasing option?	Dedicated Hosts.	aws saa-c03 comparatif ec2-purchasing-options cost	
+c2258bff98f67dd9	Basic (with Why)	AWS::SAA-C03	What discount does a Capacity Reservation give?	None: it only guarantees capacity.	aws saa-c03 comparatif ec2-purchasing-options cost	
+8f6bda249e505c88	Basic (with Why)	AWS::SAA-C03	Persistent disk for a single EC2 instance: which storage?	EBS.	aws saa-c03 comparatif ebs-vs-efs-vs-s3 performant cost	
+a363e3b3706050dc	Basic (with Why)	AWS::SAA-C03	Data already in S3 to be read as files by EC2/ECS/EKS/Lambda?	S3 Files.	aws saa-c03 comparatif ebs-vs-efs-vs-s3 performant cost	
+c16a8e093de2f5e3	Basic (with Why)	AWS::SAA-C03	Object storage for a data lake or static files?	S3.	aws saa-c03 comparatif ebs-vs-efs-vs-s3 performant cost	
+3848a04c47fa0ac1	Basic (with Why)	AWS::SAA-C03	Highest local IOPS, data can be lost?	Instance store.	aws saa-c03 comparatif ebs-vs-efs-vs-s3 performant cost	
+22915a45aa3af08e	Basic (with Why)	AWS::SAA-C03	Volume for sequential, high-throughput log processing at low cost?	st1.	aws saa-c03 comparatif ebs-volume-types performant cost	
+e6b8d53b362f7633	Basic (with Why)	AWS::SAA-C03	Cheapest volume for cold data?	sc1.	aws saa-c03 comparatif ebs-volume-types performant cost	
+ead498312e2bb328	Basic (with Why)	AWS::SAA-C03	gp2 vs gp3: which ties IOPS to size?	gp2 (3 IOPS/GiB); gp3 sets IOPS and throughput independently of size.	aws saa-c03 comparatif ebs-volume-types performant cost	
+55eae36fb711ceb4	Basic (with Why)	AWS::SAA-C03	Durability of io2 Block Express?	99.999%.	aws saa-c03 comparatif ebs-volume-types performant cost	
+8a990e94849c6f93	Basic (with Why)	AWS::SAA-C03	Routing by URL path and host header: ALB or NLB?	ALB.	aws saa-c03 comparatif alb-vs-nlb-vs-gwlb resilient performant	
+cb36cc50da6d0031	Basic (with Why)	AWS::SAA-C03	Need UDP and a static IP per AZ?	NLB.	aws saa-c03 comparatif alb-vs-nlb-vs-gwlb resilient performant	
+9456400a57cd6c67	Basic (with Why)	AWS::SAA-C03	Traffic to be inspected transparently by third-party virtual firewalls?	GWLB.	aws saa-c03 comparatif alb-vs-nlb-vs-gwlb resilient performant	
+29a85c87d7352d90	Basic (with Why)	AWS::SAA-C03	Which LB supports only one certificate?	The CLB (legacy).	aws saa-c03 comparatif alb-vs-nlb-vs-gwlb resilient performant	
+cfb57aa4296d521d	Basic (with Why)	AWS::SAA-C03	Survive the loss of an AZ with automatic failover: read replica or Multi-AZ?	Multi-AZ.	aws saa-c03 comparatif read-replica-vs-multi-az resilient performant	
+ee97ef70c5db556a	Basic (with Why)	AWS::SAA-C03	Relieve prod of reporting queries: read replica or Multi-AZ?	Read replica.	aws saa-c03 comparatif read-replica-vs-multi-az resilient performant	
+02312356dee4b5f7	Basic (with Why)	AWS::SAA-C03	Which replication can be cross-region: Multi-AZ instance or read replica?	Read replica (the Multi-AZ standby stays in the region).	aws saa-c03 comparatif read-replica-vs-multi-az resilient performant	
+fec372119ece9e85	Basic (with Why)	AWS::SAA-C03	example.com to a CloudFront distribution: CNAME or alias?	Alias (CNAME is forbidden at the apex).	aws saa-c03 comparatif cname-vs-alias performant	
+00945695cc4d14a6	Basic (with Why)	AWS::SAA-C03	blog.example.com to an external SaaS: CNAME or alias?	CNAME (the target is not an AWS resource).	aws saa-c03 comparatif cname-vs-alias performant	
+c44dc60e0a9c71a9	Basic (with Why)	AWS::SAA-C03	Cost difference per query between alias and CNAME?	Alias: free; CNAME: charged.	aws saa-c03 comparatif cname-vs-alias performant	
+70fba6fe9d0602d1	Basic (with Why)	AWS::SAA-C03	Which DNS record type is an alias?	A or AAAA.	aws saa-c03 comparatif cname-vs-alias performant	
+112fec0b9ebbec0a	Basic (with Why)	AWS::SAA-C03	Policy to route to the fastest region?	Latency-based.	aws saa-c03 comparatif route53-routing-policies resilient performant	
+901bc2744fc607b8	Basic (with Why)	AWS::SAA-C03	Policy to shift traffic gradually to a new version?	Weighted.	aws saa-c03 comparatif route53-routing-policies resilient performant	
+b5882fa61353fe3e	Basic (with Why)	AWS::SAA-C03	Policy for a site reserved for users of a given country?	Geolocation (with a default record).	aws saa-c03 comparatif route53-routing-policies resilient performant	
+eb3539a0e9728431	Basic (with Why)	AWS::SAA-C03	Policy for active-passive with a health check?	Failover.	aws saa-c03 comparatif route53-routing-policies resilient performant	
+1d0bfe5364640168	Basic (with Why)	AWS::SAA-C03	Policy to grow or shrink a region's reach with a bias?	Geoproximity.	aws saa-c03 comparatif route53-routing-policies resilient performant	
+aa6b06e16af261f8	Basic (with Why)	AWS::SAA-C03	S3 class for re-creatable thumbnails kept 60 days?	One Zone-IA (with expiration after 60 days).	aws saa-c03 comparatif s3-storage-classes cost	
+230413878de85acb	Basic (with Why)	AWS::SAA-C03	Which class for archives read once a quarter with millisecond access?	Glacier Instant Retrieval.	aws saa-c03 comparatif s3-storage-classes cost	
+c784d00afc1d8ee1	Basic (with Why)	AWS::SAA-C03	Availability of One Zone-IA?	99.5% (a single AZ).	aws saa-c03 comparatif s3-storage-classes cost	
+116ec1d6cefd4aee	Basic (with Why)	AWS::SAA-C03	Which class for very low-latency ML co-located with compute?	S3 Express One Zone (directory bucket).	aws saa-c03 comparatif s3-storage-classes cost	
+691327d82c60bbdc	Basic (with Why)	AWS::SAA-C03	Glacier Flexible Bulk retrieval: delay and cost?	5 to 12 h, free.	aws saa-c03 comparatif s3-storage-classes cost	
+95feae3fa6b45763	Basic (with Why)	AWS::SAA-C03	Distribute images worldwide with caching: CloudFront or Global Accelerator?	CloudFront.	aws saa-c03 comparatif cloudfront-vs-global-accelerator performant resilient	
+94c6233c54cf3872	Basic (with Why)	AWS::SAA-C03	TCP/UDP app with static IPs: which one?	Global Accelerator.	aws saa-c03 comparatif cloudfront-vs-global-accelerator performant resilient	
+58adb0ac70736326	Basic (with Why)	AWS::SAA-C03	Which service caches?	CloudFront only.	aws saa-c03 comparatif cloudfront-vs-global-accelerator performant resilient	
+0a918abbb613a2d0	Basic (with Why)	AWS::SAA-C03	Which FSx for HPC reading S3?	FSx for Lustre.	aws saa-c03 comparatif fsx-types performant	
+6ffe45fe1b7013ac	Basic (with Why)	AWS::SAA-C03	Which FSx integrates with Active Directory over SMB?	FSx for Windows File Server.	aws saa-c03 comparatif fsx-types performant	
+71bb1f40015c7281	Basic (with Why)	AWS::SAA-C03	Primary data stays local with backups to S3: cached or stored volumes?	Stored volumes.	aws saa-c03 comparatif storage-gateway-types performant	
+7565ad34f6d35de6	Basic (with Why)	AWS::SAA-C03	Work buffer between a web tier and a video-encoding tier?	SQS.	aws saa-c03 comparatif sqs-vs-sns-vs-kinesis resilient performant	
+c115f2ae8918fea9	Basic (with Why)	AWS::SAA-C03	Broadcast a notification to many subscribers: SQS or SNS?	SNS.	aws saa-c03 comparatif sqs-vs-sns-vs-kinesis resilient performant	
+1a433d25a4aa68ab	Basic (with Why)	AWS::SAA-C03	Which service keeps data for 365 days and allows replay?	Kinesis Data Streams.	aws saa-c03 comparatif sqs-vs-sns-vs-kinesis resilient performant	
+8871d3bf804e4c09	Basic (with Why)	AWS::SAA-C03	Which service loses a message if it is not delivered?	SNS (no persistence).	aws saa-c03 comparatif sqs-vs-sns-vs-kinesis resilient performant	
+d68f17db419f126f	Basic (with Why)	AWS::SAA-C03	Load streaming data into S3 without writing code: which one?	Amazon Data Firehose.	aws saa-c03 comparatif kinesis-streams-vs-firehose performant	
+c3cbfb23448dc18a	Basic (with Why)	AWS::SAA-C03	Which one is near real-time because of buffering?	Firehose.	aws saa-c03 comparatif kinesis-streams-vs-firehose performant	
+f952c015d86ea8e6	Basic (with Why)	AWS::SAA-C03	Managed Kafka or Kinesis for an app already using the Kafka API?	Amazon MSK.	aws saa-c03 comparatif kinesis-vs-msk performant	
+680d65edee06d0be	Basic (with Why)	AWS::SAA-C03	Maximum retention for Kinesis? For MSK?	365 days; as long as the storage you pay for.	aws saa-c03 comparatif kinesis-vs-msk performant	
+9e8bee14126fa2fa	Basic (with Why)	AWS::SAA-C03	Can you reduce the number of MSK partitions?	No, you can only add partitions.	aws saa-c03 comparatif kinesis-vs-msk performant	
+162ca4d402ac4501	Basic (with Why)	AWS::SAA-C03	Containers with no servers to manage at all?	Fargate.	aws saa-c03 comparatif ecs-ec2-vs-fargate cost performant	
+8da70328e768ba3c	Basic (with Why)	AWS::SAA-C03	Need GPUs or specific daemons on the hosts?	ECS EC2 launch type.	aws saa-c03 comparatif ecs-ec2-vs-fargate cost performant	
+746ecbb2ee3e0320	Basic (with Why)	AWS::SAA-C03	EC2 patched by AWS for ECS?	ECS Managed Instances.	aws saa-c03 comparatif ecs-ec2-vs-fargate cost performant	
+9277c105c65435b9	Basic (with Why)	AWS::SAA-C03	A 3-hour job with 50 GB of scratch: Lambda or Batch?	Batch.	aws saa-c03 comparatif lambda-vs-batch performant cost	
+8dbe9075a90751a8	Basic (with Why)	AWS::SAA-C03	What is Lambda's duration limit?	15 minutes.	aws saa-c03 comparatif lambda-vs-batch performant cost	
+fdb5fcebc3ff6978	Basic (with Why)	AWS::SAA-C03	Does Batch run on pure serverless?	No: it relies on EC2 (managed by AWS) or Fargate.	aws saa-c03 comparatif lambda-vs-batch performant cost	
+3ae331bf52f120ce	Basic (with Why)	AWS::SAA-C03	Get JWT tokens after sign-in: user pool or identity pool?	User pool.	aws saa-c03 comparatif cognito-user-vs-identity-pools secure	
+216307abc9579936	Basic (with Why)	AWS::SAA-C03	Give an app user temporary AWS credentials: which one?	Identity pool.	aws saa-c03 comparatif cognito-user-vs-identity-pools secure	
+319fbac62e310a9a	Basic (with Why)	AWS::SAA-C03	Integrate authentication with API Gateway or ALB: which one?	Cognito user pools.	aws saa-c03 comparatif cognito-user-vs-identity-pools secure	
+917c21693bf97025	Basic (with Why)	AWS::SAA-C03	Occasional queries on S3 logs with no infrastructure: which one?	Athena.	aws saa-c03 comparatif athena-vs-redshift performant cost	
+a8dd332492fa7dc8	Basic (with Why)	AWS::SAA-C03	Repeated complex joins on tens of TB: which one?	Redshift.	aws saa-c03 comparatif athena-vs-redshift performant cost	
+9766cbef64d02c61	Basic (with Why)	AWS::SAA-C03	Who deleted this resource? CloudWatch, CloudTrail or Config?	CloudTrail.	aws saa-c03 comparatif cloudwatch-vs-cloudtrail-vs-config secure resilient	
+e470a86192e84d3e	Basic (with Why)	AWS::SAA-C03	Is my configuration compliant? CloudWatch, CloudTrail or Config?	Config.	aws saa-c03 comparatif cloudwatch-vs-cloudtrail-vs-config secure resilient	
+fdc72e17e721e268	Basic (with Why)	AWS::SAA-C03	Is my application healthy and performing?	CloudWatch.	aws saa-c03 comparatif cloudwatch-vs-cloudtrail-vs-config secure resilient	
+ca697be0f20baff4	Basic (with Why)	AWS::SAA-C03	Which option for a simple standalone directory, no trust?	Simple AD.	aws saa-c03 comparatif directory-service-options secure	
+152b67ca2e0a9ba5	Basic (with Why)	AWS::SAA-C03	SSL/TLS acceleration or Oracle TDE: which one?	CloudHSM.	aws saa-c03 comparatif kms-vs-cloudhsm secure	
+f6e6a2f0e10e64cd	Basic (with Why)	AWS::SAA-C03	Which one offers a free tier?	KMS.	aws saa-c03 comparatif kms-vs-cloudhsm secure	
+f10267f0553333e7	Basic (with Why)	AWS::SAA-C03	Automatic rotation of RDS passwords: Secrets Manager or Parameter Store?	Secrets Manager.	aws saa-c03 comparatif secrets-manager-vs-parameter-store secure	
+b26bffb23a9476ed	Basic (with Why)	AWS::SAA-C03	Cheap configuration storage: which one?	Parameter Store.	aws saa-c03 comparatif secrets-manager-vs-parameter-store secure	
+d6e88da546917c90	Basic (with Why)	AWS::SAA-C03	Protect against XSS: WAF or Shield?	WAF.	aws saa-c03 comparatif waf-vs-shield secure	
+81340d000269e391	Basic (with Why)	AWS::SAA-C03	What does the free Shield cover?	L3 and L4 DDoS attacks.	aws saa-c03 comparatif waf-vs-shield secure	
+704e3729fb9c0e51	Basic (with Why)	AWS::SAA-C03	Apply WAF rules on all accounts: what?	Firewall Manager.	aws saa-c03 comparatif waf-vs-shield secure	
+d9c5a0aa6e359b41	Basic (with Why)	AWS::SAA-C03	Which NAT can act as a bastion?	The NAT instance.	aws saa-c03 comparatif nat-gateway-vs-instance resilient cost	
+6276809bd1755319	Basic (with Why)	AWS::SAA-C03	Which NAT needs no public subnet?	The regional NAT gateway.	aws saa-c03 comparatif nat-gateway-vs-instance resilient cost	
+3a88f88ae8b2bcba	Basic (with Why)	AWS::SAA-C03	Which NAT supports security groups?	The NAT instance (NAT gateways: NACLs only).	aws saa-c03 comparatif nat-gateway-vs-instance resilient cost	
+c1a4cdbffc480ed6	Basic (with Why)	AWS::SAA-C03	Which NAT supports private NAT?	The zonal NAT gateway.	aws saa-c03 comparatif nat-gateway-vs-instance resilient cost	
+ea47659b109ec17e	Basic (with Why)	AWS::SAA-C03	Deny rule on a specific IP: SG or NACL?	NACL.	aws saa-c03 comparatif security-group-vs-nacl secure	
+2223e89dca76de71	Basic (with Why)	AWS::SAA-C03	Which filter is stateful?	The security group.	aws saa-c03 comparatif security-group-vs-nacl secure	
+80b6249cf7f5da89	Basic (with Why)	AWS::SAA-C03	Which one is evaluated in rule-number order?	The NACL.	aws saa-c03 comparatif security-group-vs-nacl secure	
+0a2bc48b2bf6f3a2	Basic (with Why)	AWS::SAA-C03	Which endpoint is free?	The gateway endpoint (S3 and DynamoDB).	aws saa-c03 comparatif interface-vs-gateway-endpoint secure cost	
+427c6befae2d8820	Basic (with Why)	AWS::SAA-C03	Which endpoint is an ENI with a security group?	The interface endpoint.	aws saa-c03 comparatif interface-vs-gateway-endpoint secure cost	
+5fed7f414428e731	Basic (with Why)	AWS::SAA-C03	Which endpoint to reach S3 privately from on premises?	An interface endpoint.	aws saa-c03 comparatif interface-vs-gateway-endpoint secure cost	
+1bc4aae5ab0d277b	Basic (with Why)	AWS::SAA-C03	Which connection is encrypted by default?	The Site-to-Site VPN.	aws saa-c03 comparatif vpn-vs-direct-connect secure performant resilient	
+35b8ddfce49c5300	Basic (with Why)	AWS::SAA-C03	Which connection often has a lead time of more than a month?	Direct Connect.	aws saa-c03 comparatif vpn-vs-direct-connect secure performant resilient	
+c85a3187cbf06eab	Basic (with Why)	AWS::SAA-C03	A cheap backup for a Direct Connect?	A Site-to-Site VPN.	aws saa-c03 comparatif vpn-vs-direct-connect secure performant resilient	
+03306ad0ae34a753	Basic (with Why)	AWS::SAA-C03	Replicate only the database, app servers off: which strategy?	Pilot light.	aws saa-c03 comparatif dr-strategies resilient	
+005dfbead4fbb6c0	Basic (with Why)	AWS::SAA-C03	Full copy at reduced scale: which strategy?	Warm standby.	aws saa-c03 comparatif dr-strategies resilient	
+b81386ee49ea0b9a	Basic (with Why)	AWS::SAA-C03	Two full-scale active sites: which strategy?	Multi-site (active-active).	aws saa-c03 comparatif dr-strategies resilient	
+e982f7c1669e4783	Basic (with Why)	AWS::SAA-C03	RTO/RPO in hours at minimal cost: which strategy?	Backup and restore.	aws saa-c03 comparatif dr-strategies resilient	
+19a4d4367b1655fd	Basic (with Why)	AWS::SAA-C03	'Least operational overhead': which kind of solution?	Managed or serverless (Fargate, Lambda, DynamoDB, Aurora Serverless...).	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+55ff691eca90a833	Basic (with Why)	AWS::SAA-C03	'Decouple, absorb spikes': which services?	SQS, SNS, EventBridge.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+0f570bd538060d0a	Basic (with Why)	AWS::SAA-C03	'Real-time streaming, replay': which service?	Kinesis Data Streams.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+3c19c25da0bedbfe	Basic (with Why)	AWS::SAA-C03	'Static IP, UDP, fast regional failover': which services?	Global Accelerator or NLB.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+c74d69059e2930bf	Basic (with Why)	AWS::SAA-C03	'Who did what'? 'Is it compliant'? 'Is it healthy'?	CloudTrail? Config? CloudWatch.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+94280179a21b8654	Basic (with Why)	AWS::SAA-C03	'On premises to AWS, private and consistent': which service?	Direct Connect (VPN as backup or for encryption).	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+49fb28168f44dc80	Basic (with Why)	AWS::SAA-C03	What is the format of the SAA-C03 exam?	65 questions in 130 minutes; 50 scored, 15 unscored; multiple choice (one answer) and multiple response.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+a79f5c85362ef6b2	Basic (with Why)	AWS::SAA-C03	What score is needed to pass?	720 on a scale of 100 to 1,000 (compensatory model, no penalty for wrong answers).	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+c2188956ec17b440	Basic (with Why)	AWS::SAA-C03	Weights of the 4 exam domains?	Secure 30%, Resilient 26%, High-performing 24%, Cost-optimised 20%.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+f403b0cc3865613f	Basic (with Why)	AWS::SAA-C03	When can you retake the exam after a failure?	After 14 days.	aws saa-c03 comparatif exam-keywords resilient performant secure cost	
+9a5f65bc303feb89	Basic (with Why)	AWS::SAA-C03	Maximum size of a gp3 volume today?	64 TiB, with up to 80,000 IOPS and 2,000 MiB/s (September 2025).	aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
+1b4df90b5a6ae58a	Basic (with Why)	AWS::SAA-C03	What happens to standalone Glacier (vaults)?	Closed to new customers (15 December 2025); the S3 Glacier classes remain valid.	aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
+ccfa4c304ecefe2f	Basic (with Why)	AWS::SAA-C03	Which service did exam guide 1.1 (October 2026) remove from the in-scope services?	Elastic Transcoder.	aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
+360cc5150717e7ea	Basic (with Why)	AWS::SAA-C03	Which S3 feature has been closed to new customers since 7 November 2025?	S3 Object Lambda.	aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
+82cb5bc5133c9017	Cloze	AWS::SAA-C03	Closed to new customers in November 2025: {{c1::Snowball Edge}} and {{c2::S3 Object Lambda}}.		aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
+b5dfebdc73484a51	Cloze	AWS::SAA-C03	October 2026: end of support for {{c1::Amazon Pinpoint}}; email moves to {{c2::SES}}.		aws saa-c03 comparatif recent-changes-2025-2026 resilient performant secure cost	
